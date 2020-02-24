@@ -1,2 +1,2 @@
-learning_parameter:learning_service:learning_tf:learning_topic:test_pkg
+learning_launch:learning_parameter:learning_service:learning_tf:learning_topic:test_pkg
 -DCATKIN_DEVEL_PREFIX=/home/zailu/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/zailu/catkin_ws/install -G Unix Makefiles
