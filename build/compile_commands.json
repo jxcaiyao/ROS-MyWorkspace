@@ -88,5 +88,15 @@
   "directory": "/home/zailu/catkin_ws/build/learning_topic",
   "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_topic\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/person_publisher.dir/src/person_publisher.cpp.o -c /home/zailu/catkin_ws/src/learning_topic/src/person_publisher.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_topic/src/person_publisher.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_anno_ikfast_manipulator_plugin",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_anno_ikfast_manipulator_plugin\\\" -Dprobot_anno_manipulator_moveit_ikfast_plugin_EXPORTS -I/opt/ros/melodic/include -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/home/zailu/catkin_ws/src/probot_anno/probot_anno_ikfast_manipulator_plugin/include  -fPIC   -std=c++11 -o CMakeFiles/probot_anno_manipulator_moveit_ikfast_plugin.dir/src/probot_anno_manipulator_ikfast_moveit_plugin.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_anno_ikfast_manipulator_plugin/src/probot_anno_manipulator_ikfast_moveit_plugin.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_anno_ikfast_manipulator_plugin/src/probot_anno_manipulator_ikfast_moveit_plugin.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3    -std=c++11 -o CMakeFiles/control_example.dir/src/control_example.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example.cpp"
 }
 ]

@@ -1,0 +1,2 @@
+set(probot_msgs_MESSAGE_FILES "/home/zailu/catkin_ws/src/probot_anno/probot_msgs/msg/JogJoint.msg;/home/zailu/catkin_ws/src/probot_anno/probot_msgs/msg/JogPose.msg;/home/zailu/catkin_ws/src/probot_anno/probot_msgs/msg/IOStatus.msg;/home/zailu/catkin_ws/src/probot_anno/probot_msgs/msg/SetOutputIO.msg;/home/zailu/catkin_ws/src/probot_anno/probot_msgs/msg/ControllerCtrl.msg")
+set(probot_msgs_SERVICE_FILES "/home/zailu/catkin_ws/src/probot_anno/probot_msgs/srv/HeartbeatSrv.srv")

@@ -132,11 +132,16 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/zailu/catkin_ws/build/gtest/cmake_install.cmake")
   include("/home/zailu/catkin_ws/build/learning_launch/cmake_install.cmake")
+  include("/home/zailu/catkin_ws/build/probot_anno/probot_msgs/cmake_install.cmake")
   include("/home/zailu/catkin_ws/build/learning_parameter/cmake_install.cmake")
   include("/home/zailu/catkin_ws/build/test_pkg/cmake_install.cmake")
   include("/home/zailu/catkin_ws/build/learning_service/cmake_install.cmake")
   include("/home/zailu/catkin_ws/build/learning_tf/cmake_install.cmake")
   include("/home/zailu/catkin_ws/build/learning_topic/cmake_install.cmake")
+  include("/home/zailu/catkin_ws/build/probot_anno/probot_anno_ikfast_manipulator_plugin/cmake_install.cmake")
+  include("/home/zailu/catkin_ws/build/probot_anno/probot_gazebo/cmake_install.cmake")
+  include("/home/zailu/catkin_ws/build/probot_anno/probot_description/cmake_install.cmake")
+  include("/home/zailu/catkin_ws/build/probot_anno/probot_anno_moveit_config/cmake_install.cmake")
 
 endif()
 
