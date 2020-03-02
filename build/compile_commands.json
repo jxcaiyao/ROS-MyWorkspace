@@ -1,102 +1,112 @@
 [
 {
   "directory": "/home/zailu/catkin_ws/build/gtest/googlemock",
-  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgmock_main_EXPORTS -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/__/googletest/src/gtest-all.cc.o -c /usr/src/googletest/googletest/src/gtest-all.cc",
+  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgmock_main_EXPORTS -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -g -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/__/googletest/src/gtest-all.cc.o -c /usr/src/googletest/googletest/src/gtest-all.cc",
   "file": "/usr/src/googletest/googletest/src/gtest-all.cc"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/gtest/googlemock",
-  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgmock_main_EXPORTS -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock-all.cc.o -c /usr/src/googletest/googlemock/src/gmock-all.cc",
+  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgmock_main_EXPORTS -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -g -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock-all.cc.o -c /usr/src/googletest/googlemock/src/gmock-all.cc",
   "file": "/usr/src/googletest/googlemock/src/gmock-all.cc"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/gtest/googlemock",
-  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgmock_main_EXPORTS -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /usr/src/googletest/googlemock/src/gmock_main.cc",
+  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgmock_main_EXPORTS -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -g -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /usr/src/googletest/googlemock/src/gmock_main.cc",
   "file": "/usr/src/googletest/googlemock/src/gmock_main.cc"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/gtest/googlemock",
-  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgmock_EXPORTS -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/__/googletest/src/gtest-all.cc.o -c /usr/src/googletest/googletest/src/gtest-all.cc",
+  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgmock_EXPORTS -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -g -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/__/googletest/src/gtest-all.cc.o -c /usr/src/googletest/googletest/src/gtest-all.cc",
   "file": "/usr/src/googletest/googletest/src/gtest-all.cc"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/gtest/googlemock",
-  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgmock_EXPORTS -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /usr/src/googletest/googlemock/src/gmock-all.cc",
+  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgmock_EXPORTS -I/usr/src/googletest/googlemock/include -I/usr/src/googletest/googlemock -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -g -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /usr/src/googletest/googlemock/src/gmock-all.cc",
   "file": "/usr/src/googletest/googlemock/src/gmock-all.cc"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/gtest/googlemock/gtest",
-  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgtest_main_EXPORTS -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /usr/src/googletest/googletest/src/gtest_main.cc",
+  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgtest_main_EXPORTS -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -g -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /usr/src/googletest/googletest/src/gtest_main.cc",
   "file": "/usr/src/googletest/googletest/src/gtest_main.cc"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/gtest/googlemock/gtest",
-  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgtest_EXPORTS -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /usr/src/googletest/googletest/src/gtest-all.cc",
+  "command": "/usr/bin/c++  -DGTEST_CREATE_SHARED_LIBRARY=1 -Dgtest_EXPORTS -I/usr/src/googletest/googletest/include -I/usr/src/googletest/googletest  -g -fPIC    -Wall -Wshadow -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /usr/src/googletest/googletest/src/gtest-all.cc",
   "file": "/usr/src/googletest/googletest/src/gtest-all.cc"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_parameter",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_parameter\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/parameter_config.dir/src/parameter_config.cpp.o -c /home/zailu/catkin_ws/src/learning_parameter/src/parameter_config.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_parameter\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/parameter_config.dir/src/parameter_config.cpp.o -c /home/zailu/catkin_ws/src/learning_parameter/src/parameter_config.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_parameter/src/parameter_config.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_service",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_service\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/person_client.dir/src/person_client.cpp.o -c /home/zailu/catkin_ws/src/learning_service/src/person_client.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_service\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/person_client.dir/src/person_client.cpp.o -c /home/zailu/catkin_ws/src/learning_service/src/person_client.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_service/src/person_client.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_service",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_service\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/turtle_spawn.dir/src/turtle_spawn.cpp.o -c /home/zailu/catkin_ws/src/learning_service/src/turtle_spawn.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_service\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/turtle_spawn.dir/src/turtle_spawn.cpp.o -c /home/zailu/catkin_ws/src/learning_service/src/turtle_spawn.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_service/src/turtle_spawn.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_service",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_service\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/person_server.dir/src/person_server.cpp.o -c /home/zailu/catkin_ws/src/learning_service/src/person_server.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_service\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/person_server.dir/src/person_server.cpp.o -c /home/zailu/catkin_ws/src/learning_service/src/person_server.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_service/src/person_server.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_service",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_service\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/turtle_command_server.dir/src/turtle_command_server.cpp.o -c /home/zailu/catkin_ws/src/learning_service/src/turtle_command_server.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_service\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/turtle_command_server.dir/src/turtle_command_server.cpp.o -c /home/zailu/catkin_ws/src/learning_service/src/turtle_command_server.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_service/src/turtle_command_server.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_tf",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_tf\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/turtle_tf_listener.dir/src/turtle_tf_listener.cpp.o -c /home/zailu/catkin_ws/src/learning_tf/src/turtle_tf_listener.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_tf\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/turtle_tf_listener.dir/src/turtle_tf_listener.cpp.o -c /home/zailu/catkin_ws/src/learning_tf/src/turtle_tf_listener.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_tf/src/turtle_tf_listener.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_tf",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_tf\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/turtle_tf_broadcaster.dir/src/turtle_tf_broadcaster.cpp.o -c /home/zailu/catkin_ws/src/learning_tf/src/turtle_tf_broadcaster.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_tf\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/turtle_tf_broadcaster.dir/src/turtle_tf_broadcaster.cpp.o -c /home/zailu/catkin_ws/src/learning_tf/src/turtle_tf_broadcaster.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_tf/src/turtle_tf_broadcaster.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_topic",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_topic\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/person_subscriber.dir/src/person_subscriber.cpp.o -c /home/zailu/catkin_ws/src/learning_topic/src/person_subscriber.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_topic\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/person_subscriber.dir/src/person_subscriber.cpp.o -c /home/zailu/catkin_ws/src/learning_topic/src/person_subscriber.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_topic/src/person_subscriber.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_topic",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_topic\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o -c /home/zailu/catkin_ws/src/learning_topic/src/velocity_publisher.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_topic\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/velocity_publisher.dir/src/velocity_publisher.cpp.o -c /home/zailu/catkin_ws/src/learning_topic/src/velocity_publisher.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_topic/src/velocity_publisher.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_topic",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_topic\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/pose_subscriber.dir/src/pose_subscriber.cpp.o -c /home/zailu/catkin_ws/src/learning_topic/src/pose_subscriber.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_topic\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/pose_subscriber.dir/src/pose_subscriber.cpp.o -c /home/zailu/catkin_ws/src/learning_topic/src/pose_subscriber.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_topic/src/pose_subscriber.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_topic",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_topic\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp    -o CMakeFiles/person_publisher.dir/src/person_publisher.cpp.o -c /home/zailu/catkin_ws/src/learning_topic/src/person_publisher.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_topic\\\" -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/person_publisher.dir/src/person_publisher.cpp.o -c /home/zailu/catkin_ws/src/learning_topic/src/person_publisher.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_topic/src/person_publisher.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_anno_ikfast_manipulator_plugin",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_anno_ikfast_manipulator_plugin\\\" -Dprobot_anno_manipulator_moveit_ikfast_plugin_EXPORTS -I/opt/ros/melodic/include -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/home/zailu/catkin_ws/src/probot_anno/probot_anno_ikfast_manipulator_plugin/include  -fPIC   -std=c++11 -o CMakeFiles/probot_anno_manipulator_moveit_ikfast_plugin.dir/src/probot_anno_manipulator_ikfast_moveit_plugin.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_anno_ikfast_manipulator_plugin/src/probot_anno_manipulator_ikfast_moveit_plugin.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_anno_ikfast_manipulator_plugin\\\" -Dprobot_anno_manipulator_moveit_ikfast_plugin_EXPORTS -I/opt/ros/melodic/include -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/home/zailu/catkin_ws/src/probot_anno/probot_anno_ikfast_manipulator_plugin/include  -g -fPIC   -std=c++11 -o CMakeFiles/probot_anno_manipulator_moveit_ikfast_plugin.dir/src/probot_anno_manipulator_ikfast_moveit_plugin.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_anno_ikfast_manipulator_plugin/src/probot_anno_manipulator_ikfast_moveit_plugin.cpp",
   "file": "/home/zailu/catkin_ws/src/probot_anno/probot_anno_ikfast_manipulator_plugin/src/probot_anno_manipulator_ikfast_moveit_plugin.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3    -std=c++11 -o CMakeFiles/control_example.dir/src/control_example.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example.cpp",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/control_example.dir/src/control_example.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example.cpp",
   "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/control_example_copy.dir/src/control_example_copy.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example_copy.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example_copy.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_1.dir/src/experiment_1.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_1.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_1.cpp"
 }
 ]

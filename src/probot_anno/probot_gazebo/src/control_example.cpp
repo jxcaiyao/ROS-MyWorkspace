@@ -10,9 +10,9 @@
 #include <ros/ros.h>
 #include <iostream>
 #include <time.h>
-#include "vector"
-#include "std_msgs/Float32.h"
-#include "std_msgs/Float64MultiArray.h"
+#include <vector>
+#include <std_msgs/Float32.h>
+#include <std_msgs/Float64MultiArray.h>
 #include "controller_manager_msgs/SwitchController.h"
 #include "controller_manager_msgs/ListControllers.h"
 #include "ikfast.h"
@@ -46,9 +46,12 @@ int main(int argc, char **argv) {
     //当x=1时，末端处于初始位姿，对应的仿真机器人欧拉角姿态为（1.57, 0, 0）
     geometry_msgs::Pose target_pose;
     target_pose.position.x = 0.2;
-    target_pose.position.y = 0;
-    target_pose.position.z = 0.3;
-    target_pose.orientation.x = 1.0;
+    target_pose.position.y = 0.2;
+    target_pose.position.z = 0.2007-0.0225;
+    target_pose.orientation.x = 1;
+    target_pose.orientation.y = 0;
+    target_pose.orientation.z = 0;
+    target_pose.orientation.w = 0;
 
     //pose1为vector<geometry_msgs::Pose>类型变量，装入上述位姿信息
     std::vector<geometry_msgs::Pose> pose1;
@@ -111,4 +114,4 @@ int main(int argc, char **argv) {
     //发送出去，若成功，机械臂状态会改变
     pos_pub.publish(init_pos);
     ROS_INFO_STREAM("published");
-}
+};

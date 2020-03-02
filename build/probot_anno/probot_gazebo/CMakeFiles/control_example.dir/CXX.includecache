@@ -24,11 +24,11 @@ iostream
 time.h
 -
 vector
-/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/vector
+-
 std_msgs/Float32.h
-/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/std_msgs/Float32.h
+-
 std_msgs/Float64MultiArray.h
-/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/std_msgs/Float64MultiArray.h
+-
 controller_manager_msgs/SwitchController.h
 /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/controller_manager_msgs/SwitchController.h
 controller_manager_msgs/ListControllers.h

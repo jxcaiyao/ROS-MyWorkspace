@@ -80,6 +80,17 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -112,17 +123,6 @@ list_install_components:
 list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -168,21 +168,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule:
-	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule
-.PHONY : probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule
-
-# Convenience name for target.
-moveit_ros_manipulation_gencfg: probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule
-
-.PHONY : moveit_ros_manipulation_gencfg
-
-# fast build rule for target.
-moveit_ros_manipulation_gencfg/fast:
-	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/build.make probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/build
-.PHONY : moveit_ros_manipulation_gencfg/fast
-
-# Convenience name for target.
 probot_anno/probot_gazebo/CMakeFiles/moveit_ros_planning_gencfg.dir/rule:
 	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 probot_anno/probot_gazebo/CMakeFiles/moveit_ros_planning_gencfg.dir/rule
 .PHONY : probot_anno/probot_gazebo/CMakeFiles/moveit_ros_planning_gencfg.dir/rule
@@ -212,6 +197,51 @@ control_example/fast:
 	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/control_example.dir/build.make probot_anno/probot_gazebo/CMakeFiles/control_example.dir/build
 .PHONY : control_example/fast
 
+# Convenience name for target.
+probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/rule:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/rule
+.PHONY : probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/rule
+
+# Convenience name for target.
+control_example_copy: probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/rule
+
+.PHONY : control_example_copy
+
+# fast build rule for target.
+control_example_copy/fast:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/build.make probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/build
+.PHONY : control_example_copy/fast
+
+# Convenience name for target.
+probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule
+.PHONY : probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule
+
+# Convenience name for target.
+moveit_ros_manipulation_gencfg: probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/rule
+
+.PHONY : moveit_ros_manipulation_gencfg
+
+# fast build rule for target.
+moveit_ros_manipulation_gencfg/fast:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/build.make probot_anno/probot_gazebo/CMakeFiles/moveit_ros_manipulation_gencfg.dir/build
+.PHONY : moveit_ros_manipulation_gencfg/fast
+
+# Convenience name for target.
+probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/rule:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/rule
+.PHONY : probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/rule
+
+# Convenience name for target.
+experiment_1: probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/rule
+
+.PHONY : experiment_1
+
+# fast build rule for target.
+experiment_1/fast:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/build
+.PHONY : experiment_1/fast
+
 src/control_example.o: src/control_example.cpp.o
 
 .PHONY : src/control_example.o
@@ -239,6 +269,60 @@ src/control_example.cpp.s:
 	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/control_example.dir/build.make probot_anno/probot_gazebo/CMakeFiles/control_example.dir/src/control_example.cpp.s
 .PHONY : src/control_example.cpp.s
 
+src/control_example_copy.o: src/control_example_copy.cpp.o
+
+.PHONY : src/control_example_copy.o
+
+# target to build an object file
+src/control_example_copy.cpp.o:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/build.make probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/src/control_example_copy.cpp.o
+.PHONY : src/control_example_copy.cpp.o
+
+src/control_example_copy.i: src/control_example_copy.cpp.i
+
+.PHONY : src/control_example_copy.i
+
+# target to preprocess a source file
+src/control_example_copy.cpp.i:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/build.make probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/src/control_example_copy.cpp.i
+.PHONY : src/control_example_copy.cpp.i
+
+src/control_example_copy.s: src/control_example_copy.cpp.s
+
+.PHONY : src/control_example_copy.s
+
+# target to generate assembly for a file
+src/control_example_copy.cpp.s:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/build.make probot_anno/probot_gazebo/CMakeFiles/control_example_copy.dir/src/control_example_copy.cpp.s
+.PHONY : src/control_example_copy.cpp.s
+
+src/experiment_1.o: src/experiment_1.cpp.o
+
+.PHONY : src/experiment_1.o
+
+# target to build an object file
+src/experiment_1.cpp.o:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/src/experiment_1.cpp.o
+.PHONY : src/experiment_1.cpp.o
+
+src/experiment_1.i: src/experiment_1.cpp.i
+
+.PHONY : src/experiment_1.i
+
+# target to preprocess a source file
+src/experiment_1.cpp.i:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/src/experiment_1.cpp.i
+.PHONY : src/experiment_1.cpp.i
+
+src/experiment_1.s: src/experiment_1.cpp.s
+
+.PHONY : src/experiment_1.s
+
+# target to generate assembly for a file
+src/experiment_1.cpp.s:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/src/experiment_1.cpp.s
+.PHONY : src/experiment_1.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -247,17 +331,25 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install"
-	@echo "... moveit_ros_manipulation_gencfg"
+	@echo "... edit_cache"
 	@echo "... moveit_ros_planning_gencfg"
 	@echo "... install/local"
 	@echo "... test"
 	@echo "... list_install_components"
 	@echo "... control_example"
-	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... control_example_copy"
+	@echo "... moveit_ros_manipulation_gencfg"
+	@echo "... experiment_1"
 	@echo "... src/control_example.o"
 	@echo "... src/control_example.i"
 	@echo "... src/control_example.s"
+	@echo "... src/control_example_copy.o"
+	@echo "... src/control_example_copy.i"
+	@echo "... src/control_example_copy.s"
+	@echo "... src/experiment_1.o"
+	@echo "... src/experiment_1.i"
+	@echo "... src/experiment_1.s"
 .PHONY : help
 
 

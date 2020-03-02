@@ -162,8 +162,12 @@ include_directories(
 add_executable(control_example src/control_example.cpp)
 target_link_libraries(control_example ${catkin_LIBRARIES})
 
-#add_executable(jacob src/jacob.cpp)
-#target_link_libraries(jacob ${catkin_LIBRARIES})
+add_executable(control_example_copy src/control_example_copy.cpp)
+target_link_libraries(control_example_copy ${catkin_LIBRARIES})
+
+add_executable(experiment_1 src/experiment_1.cpp)
+target_link_libraries(experiment_1 ${catkin_LIBRARIES})
+
 #############
 ## Install ##
 #############
