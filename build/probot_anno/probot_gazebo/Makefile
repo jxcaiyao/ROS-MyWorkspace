@@ -168,6 +168,36 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/rule:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/rule
+.PHONY : probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/rule
+
+# Convenience name for target.
+experiment_4: probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/rule
+
+.PHONY : experiment_4
+
+# fast build rule for target.
+experiment_4/fast:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/build
+.PHONY : experiment_4/fast
+
+# Convenience name for target.
+probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/rule:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/rule
+.PHONY : probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/rule
+
+# Convenience name for target.
+experiment_3: probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/rule
+
+.PHONY : experiment_3
+
+# fast build rule for target.
+experiment_3/fast:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/build
+.PHONY : experiment_3/fast
+
+# Convenience name for target.
 probot_anno/probot_gazebo/CMakeFiles/moveit_ros_planning_gencfg.dir/rule:
 	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 probot_anno/probot_gazebo/CMakeFiles/moveit_ros_planning_gencfg.dir/rule
 .PHONY : probot_anno/probot_gazebo/CMakeFiles/moveit_ros_planning_gencfg.dir/rule
@@ -241,6 +271,21 @@ experiment_1: probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/rule
 experiment_1/fast:
 	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/build
 .PHONY : experiment_1/fast
+
+# Convenience name for target.
+probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/rule:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/rule
+.PHONY : probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/rule
+
+# Convenience name for target.
+experiment_2: probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/rule
+
+.PHONY : experiment_2
+
+# fast build rule for target.
+experiment_2/fast:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/build
+.PHONY : experiment_2/fast
 
 src/control_example.o: src/control_example.cpp.o
 
@@ -323,6 +368,87 @@ src/experiment_1.cpp.s:
 	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_1.dir/src/experiment_1.cpp.s
 .PHONY : src/experiment_1.cpp.s
 
+src/experiment_2.o: src/experiment_2.cpp.o
+
+.PHONY : src/experiment_2.o
+
+# target to build an object file
+src/experiment_2.cpp.o:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/src/experiment_2.cpp.o
+.PHONY : src/experiment_2.cpp.o
+
+src/experiment_2.i: src/experiment_2.cpp.i
+
+.PHONY : src/experiment_2.i
+
+# target to preprocess a source file
+src/experiment_2.cpp.i:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/src/experiment_2.cpp.i
+.PHONY : src/experiment_2.cpp.i
+
+src/experiment_2.s: src/experiment_2.cpp.s
+
+.PHONY : src/experiment_2.s
+
+# target to generate assembly for a file
+src/experiment_2.cpp.s:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_2.dir/src/experiment_2.cpp.s
+.PHONY : src/experiment_2.cpp.s
+
+src/experiment_3.o: src/experiment_3.cpp.o
+
+.PHONY : src/experiment_3.o
+
+# target to build an object file
+src/experiment_3.cpp.o:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/src/experiment_3.cpp.o
+.PHONY : src/experiment_3.cpp.o
+
+src/experiment_3.i: src/experiment_3.cpp.i
+
+.PHONY : src/experiment_3.i
+
+# target to preprocess a source file
+src/experiment_3.cpp.i:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/src/experiment_3.cpp.i
+.PHONY : src/experiment_3.cpp.i
+
+src/experiment_3.s: src/experiment_3.cpp.s
+
+.PHONY : src/experiment_3.s
+
+# target to generate assembly for a file
+src/experiment_3.cpp.s:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/src/experiment_3.cpp.s
+.PHONY : src/experiment_3.cpp.s
+
+src/experiment_4.o: src/experiment_4.cpp.o
+
+.PHONY : src/experiment_4.o
+
+# target to build an object file
+src/experiment_4.cpp.o:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/src/experiment_4.cpp.o
+.PHONY : src/experiment_4.cpp.o
+
+src/experiment_4.i: src/experiment_4.cpp.i
+
+.PHONY : src/experiment_4.i
+
+# target to preprocess a source file
+src/experiment_4.cpp.i:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/src/experiment_4.cpp.i
+.PHONY : src/experiment_4.cpp.i
+
+src/experiment_4.s: src/experiment_4.cpp.s
+
+.PHONY : src/experiment_4.s
+
+# target to generate assembly for a file
+src/experiment_4.cpp.s:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_4.dir/src/experiment_4.cpp.s
+.PHONY : src/experiment_4.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -332,15 +458,18 @@ help:
 	@echo "... install/strip"
 	@echo "... install"
 	@echo "... edit_cache"
-	@echo "... moveit_ros_planning_gencfg"
 	@echo "... install/local"
 	@echo "... test"
+	@echo "... experiment_4"
+	@echo "... experiment_3"
+	@echo "... moveit_ros_planning_gencfg"
 	@echo "... list_install_components"
 	@echo "... control_example"
 	@echo "... rebuild_cache"
 	@echo "... control_example_copy"
 	@echo "... moveit_ros_manipulation_gencfg"
 	@echo "... experiment_1"
+	@echo "... experiment_2"
 	@echo "... src/control_example.o"
 	@echo "... src/control_example.i"
 	@echo "... src/control_example.s"
@@ -350,6 +479,15 @@ help:
 	@echo "... src/experiment_1.o"
 	@echo "... src/experiment_1.i"
 	@echo "... src/experiment_1.s"
+	@echo "... src/experiment_2.o"
+	@echo "... src/experiment_2.i"
+	@echo "... src/experiment_2.s"
+	@echo "... src/experiment_3.o"
+	@echo "... src/experiment_3.i"
+	@echo "... src/experiment_3.s"
+	@echo "... src/experiment_4.o"
+	@echo "... src/experiment_4.i"
+	@echo "... src/experiment_4.s"
 .PHONY : help
 
 
