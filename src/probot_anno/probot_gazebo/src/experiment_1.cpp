@@ -13,19 +13,49 @@
 
 using namespace ikfast_kinematics_plugin;
 
-std::vector<std::vector<geometry_msgs::Pose>> Init_Pose(void){
-    int N = 3;
-    double req_pose_scalar[][6]={
-        {0.2,   0.2,    0.2007, 1.57,   -1.57,  0},
-        {0.15,  0.2,    0.2007, 0,      0,      0},
-        {0.3,   0,      0.122,  1.57,   0,      0},
+class experiment_1{
+private:
+    const static int N1 = 3;
+    const static int N2 = 3;
+    const double req_pose_scalar[N1][6]={
+        {   0.2,    0.2,    0.2007, 1.57,   -1.57,  0       },
+        {   0.15,   0.2,    0.2007, 0,      0,      0       },
+        {   0.3,    0,      0.122,  1.57,   0,      0       },
         // {0.2,   0,      0.3,    1.57,   0,      0},
     };
+    const double req_joint_scalar[N2][6]={
+        {   0.927, -0.687,  -0.396, 0,      1.083,  0.927   },
+        {   0.322, -0.855,  -0.021, 0,      0.877,  0.833   },
+        {   -0.322,-0.636,  -0.011, 0,      0.647,  -0.322  },
+    };
+
+public:
+
+    std::vector<std::vector<double>> Init_Joint(void);
+    std::vector<std::vector<geometry_msgs::Pose>> Init_Pose(void);
+};
+
+std::vector<std::vector<double>> experiment_1::Init_Joint(void){
+    std::vector<double> req_joint;
+    std::vector<std::vector<double>> req_joint_vec;
+
+    for(int i=0; i<N2; i++){
+        for(int j=0; j<6; j++){
+            req_joint.push_back(req_joint_scalar[i][j]);
+        }
+        req_joint_vec.push_back(req_joint);
+        req_joint.clear();
+    }
+
+    return req_joint_vec;
+}
+
+std::vector<std::vector<geometry_msgs::Pose>> experiment_1::Init_Pose(void){
 
     geometry_msgs::Pose req_pose;
     std::vector<geometry_msgs::Pose> req_pose_vec;
     std::vector<std::vector<geometry_msgs::Pose>> req_pose_vec_vec;
-    for(int i=0; i<N; i++){
+    for(int i=0; i<N1; i++){
         req_pose.position.x = req_pose_scalar[i][0];
         req_pose.position.y = req_pose_scalar[i][1];
         req_pose.position.z = req_pose_scalar[i][2] - 0.022;
@@ -40,6 +70,33 @@ std::vector<std::vector<geometry_msgs::Pose>> Init_Pose(void){
     }
     
     return req_pose_vec_vec;
+}
+
+std_msgs::Float64MultiArray Vec2Msg(std::vector<double> vec){
+    std_msgs::Float64MultiArray init_pos;
+    init_pos.data.push_back(0);
+    init_pos.data.push_back(0);
+    init_pos.data.push_back(0);
+    init_pos.data.push_back(0);
+    init_pos.data.push_back(0);
+    init_pos.data.push_back(0);
+    // sleep(1);
+
+    for(int i=0; i<6; i++){
+        init_pos.data.at(i) = vec[i];
+    }
+    
+    return init_pos;
+}
+
+double DegLimit(double fnum){
+    while(fnum < -3.1415926535){
+        fnum += 3.1415926535*2;
+    }
+    while(fnum > 3.1415926535){
+        fnum -= 3.1415926535*2;
+    }
+    return fnum;
 }
 
 int main(int argc, char** argv){
@@ -58,13 +115,9 @@ int main(int argc, char** argv){
     
     ret=ik.IKFastKinematicsPlugin::initialize("robot_description","manipulator","base_link","link_6",0.001);
 
-    // geometry_msgs::Pose target_pose;
-    // target_pose.position.x = 0.2;
-    // target_pose.position.y = 0.1;
-    // target_pose.position.z = 0.2007 - 0.0225;
-    // target_pose.orientation=tf::createQuaternionMsgFromRollPitchYaw(0,0,0);
+    experiment_1 exp1;
 
-    std::vector<std::vector<geometry_msgs::Pose>> req_pose_vec = Init_Pose();
+    std::vector<std::vector<geometry_msgs::Pose>> req_pose_vec = exp1.Init_Pose();
 
     std::vector<double> seed1;
     seed1.push_back(0.0);
@@ -78,40 +131,83 @@ int main(int argc, char** argv){
 
     kinematics::KinematicsResult kinematic_result;
 
-    for(int i=0; i<req_pose_vec.size() && ros::ok(); i=(i+1)%req_pose_vec.size()){
+    std::vector<std::vector<double>> req_joint_vec;
+    req_joint_vec = exp1.Init_Joint();
 
-        ret=ik.getPositionIK(req_pose_vec.at(i), seed1, sol_rad, kinematic_result, kinematics::KinematicsQueryOptions());
+    std::vector<geometry_msgs::Pose> sol_pose;
 
-        if(ret){
-            std::cout << sol_rad.size() << " IK solved successfully." << endl;
-            for(int q=0; q < sol_rad.size(); q++){
-                for(int i=0; i<6; i++){
-                    cout << sol_rad[q][i] << " ";
+    std::vector<std::string> link_names;
+    link_names.push_back("link_6");
+
+    while(ros::ok()){
+        std::cout << std::endl;
+        std::cout << " Inverse kinematics" << std::endl;
+        for(int i=0; i<req_pose_vec.size() && ros::ok(); i++){
+
+            ret=ik.getPositionIK(req_pose_vec.at(i), seed1, sol_rad, kinematic_result, kinematics::KinematicsQueryOptions());
+
+            if(ret){
+                std::cout << sol_rad.size() << " IK solved successfully." << endl;
+                for(int q=0; q < sol_rad.size(); q++){
+                    for(int i=0; i<6; i++){
+                        cout << sol_rad[q][i] << ",";
+                    }
+                    cout << endl;
                 }
-                cout << endl;
+            }else{
+                ROS_INFO_STREAM("No Solution!");
             }
-        }else{
-            ROS_INFO_STREAM("No Solution!");
+
+            for(int i=0; i<sol_rad.size(); i++){
+                std_msgs::Float64MultiArray init_pos = Vec2Msg(sol_rad.at(i));
+
+                pos_pub.publish(init_pos);
+                ROS_INFO_STREAM("published");
+
+                sleep(10);
+            }
+
+            sol_rad.clear();
+
+            // sleep(10);
         }
 
-        std_msgs::Float64MultiArray init_pos;
-        init_pos.data.push_back(0);
-        init_pos.data.push_back(0);
-        init_pos.data.push_back(0);
-        init_pos.data.push_back(0);
-        init_pos.data.push_back(0);
-        init_pos.data.push_back(0);
-        // sleep(1);
+        std::cout << std::endl;
+        std::cout << " Forward kinematics" << std::endl;
 
-        for(int i=0; i<6; i++){
-            init_pos.data.at(i) = sol_rad[0][i];
+        for(int i=0; i<req_joint_vec.size() && ros::ok(); i++){
+            std_msgs::Float64MultiArray init_pos = Vec2Msg(req_joint_vec.at(i));
+            pos_pub.publish(init_pos);
+
+            ret = ik.getPositionFK(link_names,req_joint_vec.at(i), sol_pose);
+            if(ret){
+                std::cout << " FK solved successfully." << endl;
+                for(int q=0; q < sol_pose.size(); q++){
+                    tf::Quaternion quat;
+                    tf::quaternionMsgToTF(sol_pose[q].orientation, quat);
+                    double roll, pitch, yaw;
+                    tf::Matrix3x3(quat).getRPY(roll,pitch,yaw);
+                    sol_pose[q].position.z += 0.022;
+                    // roll -= 1.570796;
+                    roll  = DegLimit(roll-1.570796);
+                    pitch = DegLimit(pitch);
+                    yaw   = DegLimit(yaw);
+                    cout << sol_pose[q].position.x << ",";
+                    cout << sol_pose[q].position.y << ",";
+                    cout << sol_pose[q].position.z << ",";
+                    cout << roll    << ",";
+                    cout << pitch   << ",";
+                    cout << yaw     << endl;
+                }
+            }else{
+                ROS_INFO_STREAM("FK_Solve no solution!");
+            }
+
+            sol_pose.clear();
+
+            sleep(10);
         }
-
-        pos_pub.publish(init_pos);
-        ROS_INFO_STREAM("published");
-
-        sol_rad.clear();
-
-        sleep(10);
     }
+
+    return 0;
 }
