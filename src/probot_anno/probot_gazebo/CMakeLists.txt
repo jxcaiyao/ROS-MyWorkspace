@@ -168,14 +168,14 @@ target_link_libraries(control_example_copy ${catkin_LIBRARIES})
 add_executable(experiment_1 src/experiment_1.cpp)
 target_link_libraries(experiment_1 ${catkin_LIBRARIES})
 
-add_executable(experiment_2 src/experiment_2.cpp)
-target_link_libraries(experiment_2 ${catkin_LIBRARIES})
+add_executable(experiment_2_pos src/experiment_2_pos.cpp)
+target_link_libraries(experiment_2_pos ${catkin_LIBRARIES})
 
 add_executable(experiment_3 src/experiment_3.cpp)
 target_link_libraries(experiment_3 ${catkin_LIBRARIES})
 
-add_executable(experiment_4 src/experiment_4.cpp)
-target_link_libraries(experiment_4 ${catkin_LIBRARIES})
+add_executable(experiment_4_pos src/experiment_4_pos.cpp)
+target_link_libraries(experiment_4_pos ${catkin_LIBRARIES})
 
 #############
 ## Install ##

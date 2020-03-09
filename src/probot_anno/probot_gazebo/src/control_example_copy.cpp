@@ -22,7 +22,8 @@ int main(int argc, char** argv){
 
     ROS_INFO_STREAM("start");
 
-    ros::Publisher pos_pub = node_handle.advertise<std_msgs::Float64MultiArray>("/probot_anno/arm_pos_controller/command", 100);
+    ros::Publisher pos_pub = node_handle.advertise<std_msgs::Float64MultiArray>
+                             ("/probot_anno/arm_pos_controller/command", 100);
 
     IKFastKinematicsPlugin ik;
     
