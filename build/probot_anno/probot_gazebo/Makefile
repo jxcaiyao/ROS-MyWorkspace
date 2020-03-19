@@ -56,18 +56,6 @@ CMAKE_BINARY_DIR = /home/zailu/catkin_ws/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -113,6 +101,18 @@ test:
 test/fast: test
 
 .PHONY : test/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -196,6 +196,21 @@ experiment_3: probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/rule
 experiment_3/fast:
 	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_3.dir/build
 .PHONY : experiment_3/fast
+
+# Convenience name for target.
+probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/rule:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/rule
+.PHONY : probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/rule
+
+# Convenience name for target.
+experiment_2_vel: probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/rule
+
+.PHONY : experiment_2_vel
+
+# fast build rule for target.
+experiment_2_vel/fast:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/build
+.PHONY : experiment_2_vel/fast
 
 # Convenience name for target.
 probot_anno/probot_gazebo/CMakeFiles/moveit_ros_planning_gencfg.dir/rule:
@@ -395,6 +410,33 @@ src/experiment_2_pos.cpp.s:
 	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_2_pos.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_2_pos.dir/src/experiment_2_pos.cpp.s
 .PHONY : src/experiment_2_pos.cpp.s
 
+src/experiment_2_vel.o: src/experiment_2_vel.cpp.o
+
+.PHONY : src/experiment_2_vel.o
+
+# target to build an object file
+src/experiment_2_vel.cpp.o:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/src/experiment_2_vel.cpp.o
+.PHONY : src/experiment_2_vel.cpp.o
+
+src/experiment_2_vel.i: src/experiment_2_vel.cpp.i
+
+.PHONY : src/experiment_2_vel.i
+
+# target to preprocess a source file
+src/experiment_2_vel.cpp.i:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/src/experiment_2_vel.cpp.i
+.PHONY : src/experiment_2_vel.cpp.i
+
+src/experiment_2_vel.s: src/experiment_2_vel.cpp.s
+
+.PHONY : src/experiment_2_vel.s
+
+# target to generate assembly for a file
+src/experiment_2_vel.cpp.s:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/src/experiment_2_vel.cpp.s
+.PHONY : src/experiment_2_vel.cpp.s
+
 src/experiment_3.o: src/experiment_3.cpp.o
 
 .PHONY : src/experiment_3.o
@@ -455,13 +497,14 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/strip"
 	@echo "... install"
 	@echo "... edit_cache"
 	@echo "... install/local"
 	@echo "... test"
 	@echo "... experiment_4_pos"
 	@echo "... experiment_3"
+	@echo "... install/strip"
+	@echo "... experiment_2_vel"
 	@echo "... moveit_ros_planning_gencfg"
 	@echo "... experiment_2_pos"
 	@echo "... list_install_components"
@@ -482,6 +525,9 @@ help:
 	@echo "... src/experiment_2_pos.o"
 	@echo "... src/experiment_2_pos.i"
 	@echo "... src/experiment_2_pos.s"
+	@echo "... src/experiment_2_vel.o"
+	@echo "... src/experiment_2_vel.i"
+	@echo "... src/experiment_2_vel.s"
 	@echo "... src/experiment_3.o"
 	@echo "... src/experiment_3.i"
 	@echo "... src/experiment_3.s"

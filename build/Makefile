@@ -2118,6 +2118,19 @@ experiment_3/fast:
 .PHONY : experiment_3/fast
 
 #=============================================================================
+# Target rules for targets named experiment_2_vel
+
+# Build rule for target.
+experiment_2_vel: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 experiment_2_vel
+.PHONY : experiment_2_vel
+
+# fast build rule for target.
+experiment_2_vel/fast:
+	$(MAKE) -f probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/build.make probot_anno/probot_gazebo/CMakeFiles/experiment_2_vel.dir/build
+.PHONY : experiment_2_vel/fast
+
+#=============================================================================
 # Target rules for targets named moveit_ros_planning_gencfg
 
 # Build rule for target.
@@ -2371,6 +2384,7 @@ help:
 	@echo "... shape_msgs_generate_messages_cpp"
 	@echo "... experiment_4_pos"
 	@echo "... experiment_3"
+	@echo "... experiment_2_vel"
 	@echo "... moveit_ros_planning_gencfg"
 	@echo "... experiment_2_pos"
 	@echo "... control_example"

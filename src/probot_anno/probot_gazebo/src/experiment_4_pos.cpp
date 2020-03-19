@@ -37,8 +37,7 @@ std_msgs::Float64MultiArray vec_2_msg(std::vector<double> vec){
     return init_pos;
 }
 
-std::vector<double> nearest_sol_rad(
-                                    std::vector<std::vector<double>> sol_rad,
+std::vector<double> nearest_sol_rad(std::vector<std::vector<double>> sol_rad,
                                     std::vector<double> last_sol_rad ){
     std::vector<double> rad_dist;
     for(int i=0; i<sol_rad.size(); i++){
@@ -62,17 +61,19 @@ int main(int argc, char** argv){
 
     bool ret;
 
-    ros::init(argc,argv,"control_example_copy");
+    ros::init(argc,argv,"experiment_4_pos");
 
     ros::NodeHandle node_handle;
 
     ROS_INFO_STREAM("start");
 
-    ros::Publisher pos_pub = node_handle.advertise<std_msgs::Float64MultiArray>("/probot_anno/arm_pos_controller/command", 100);
+    ros::Publisher pos_pub = node_handle.advertise<std_msgs::Float64MultiArray>(
+                             "/probot_anno/arm_pos_controller/command", 100);
 
     IKFastKinematicsPlugin ik;
     
-    ret=ik.IKFastKinematicsPlugin::initialize("robot_description","manipulator","base_link","link_6",0.001);
+    ret=ik.IKFastKinematicsPlugin::initialize
+        ("robot_description","manipulator","base_link","link_6",0.001);
 
     geometry_msgs::Pose req_pose;
     req_pose.position.x = 0.2289;
@@ -100,11 +101,13 @@ int main(int argc, char** argv){
     std::vector<double> last_sol_rad;
 
     kinematics::KinematicsResult kinematic_result;
-    ik.getPositionIK(req_pose_vec, seed1, sol_rad, kinematic_result, kinematics::KinematicsQueryOptions());
+    ik.getPositionIK(req_pose_vec, seed1, sol_rad, 
+                     kinematic_result, kinematics::KinematicsQueryOptions());
     last_sol_rad = sol_rad.at(0);
     while(ros::ok()){
 
-        ret=ik.getPositionIK(req_pose_vec, seed1, sol_rad, kinematic_result, kinematics::KinematicsQueryOptions());
+        ret=ik.getPositionIK(req_pose_vec, seed1, sol_rad, 
+                             kinematic_result, kinematics::KinematicsQueryOptions());
 
         theta += rot_vel * intval;
         if(theta > 1.4*3.1415927 || theta < 0.4*-3.1415927){

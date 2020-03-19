@@ -88,17 +88,20 @@ int main(int argc, char** argv){
 
     bool ret;
 
-    ros::init(argc,argv,"control_example_copy");
+    ros::init(argc,argv,"experiment_2_pos");
 
     ros::NodeHandle node_handle;
 
     ROS_INFO_STREAM("start");
 
-    ros::Publisher pos_pub = node_handle.advertise<std_msgs::Float64MultiArray>("/probot_anno/arm_pos_controller/command", 100);
+    ros::Publisher pos_pub = node_handle.advertise<std_msgs::Float64MultiArray>(
+                             "/probot_anno/arm_pos_controller/command", 100);
 
     IKFastKinematicsPlugin ik;
     
-    ret=ik.IKFastKinematicsPlugin::initialize("robot_description","manipulator","base_link","link_6",0.001);
+    ret=ik.IKFastKinematicsPlugin::initialize(
+        "robot_description","manipulator","base_link","link_6",0.001);
+
 
     geometry_msgs::Pose req_pose;
     req_pose.position.x = 0.2289;
@@ -133,7 +136,8 @@ int main(int argc, char** argv){
     std::vector<double> last_sol_rad;
 
     kinematics::KinematicsResult kinematic_result;
-    ik.getPositionIK(req_pose_vec, seed1, sol_rad, kinematic_result, kinematics::KinematicsQueryOptions());
+    ik.getPositionIK(req_pose_vec, seed1, sol_rad, 
+                     kinematic_result, kinematics::KinematicsQueryOptions());
     last_sol_rad = sol_rad.at(0);
     sleep(2);
     struct timeval begin, end;
