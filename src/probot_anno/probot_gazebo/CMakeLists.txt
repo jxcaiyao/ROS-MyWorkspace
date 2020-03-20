@@ -180,6 +180,9 @@ target_link_libraries(experiment_3 ${catkin_LIBRARIES})
 add_executable(experiment_4_pos src/experiment_4_pos.cpp)
 target_link_libraries(experiment_4_pos ${catkin_LIBRARIES})
 
+add_executable(experiment_4_vel src/experiment_4_vel.cpp)
+target_link_libraries(experiment_4_vel ${catkin_LIBRARIES})
+
 #############
 ## Install ##
 #############
