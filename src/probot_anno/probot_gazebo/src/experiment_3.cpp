@@ -7,81 +7,133 @@
     第四个点：[0.3, -0.1, 0.122, 1.57, -1.57, 0]
 */
 
+/*
+    各点关节角：
+    {   0,          0,          0,          0,          0,          0,          },
+    {   0.795586,   -0.772868,  0.205274,   1.08736,    2.51044,    -0.842893,  },
+    {   0.387677,   -1.07535,   -0.199738,  0.40437,    2.86772,    -0.114908,  },
+    {   -0.38737,   -1.29274,   -0.065646,  -0.394642,  2.94427,    0.0811437,  },
+*/
+/*
+    fixed_t = [4,2,2]
+
+    0.000000,	0.000000,	0.000000,	0.048560,	-0.011244,	0.000553,	
+    0.795586,	0.160200,	-0.142800,	-0.026561,	-0.001948,	0.002705,	
+    0.387677,	-0.575700,	-0.132550,	0.093566,	0.051494,	-0.020809,	
+
+    0.000000,	0.000000,	0.000000,	-0.061361,	0.018745,	-0.001606,	
+    -0.772868,	-0.202200,	0.035400,	0.022598,	-0.022573,	0.004397,	
+    -1.075350,	-0.160000,	-0.019000,	-0.003237,	0.029553,	-0.008386,	
+
+    0.000000,	0.000000,	0.000000,	0.057087,	-0.021676,	0.002052,	
+    0.205274,	-0.182900,	-0.082850,	0.035860,	-0.000376,	0.000354,	
+    -0.199738,	-0.067700,	0.151600,	0.041765,	-0.079711,	0.018886,	
+
+    0.000000,	0.000000,	0.000000,	0.168125,	-0.059984,	0.005550,	
+    1.087360,	-0.181800,	-0.188900,	0.216463,	-0.126009,	0.022521,	
+    0.404370,	-0.570500,	-0.112700,	0.026035,	0.094049,	-0.028759,	
+
+    0.000000,	0.000000,	0.000000,	0.174944,	-0.048613,	0.003671,	
+    2.510440,	0.651100,	-0.218150,	-0.136275,	0.099550,	-0.017966,	
+    2.867720,	-0.108500,	-0.083900,	0.384288,	-0.243191,	0.045184,	
+
+    0.000000,	0.000000,	0.000000,	-0.142277,	0.050741,	-0.004616,	
+    -0.842893,	0.251800,	0.209500,	-0.098719,	0.009314,	0.000847,	
+    -0.114908,	0.271000,	-0.091500,	-0.024185,	0.018577,	-0.002615,	
+*/
+
 #include <string>
 #include <vector>
 #include <iostream>
-#include <time.h>
 #include <ros/ros.h>
+#include <tf/transform_datatypes.h>
+#include <time.h>
 #include <std_msgs/Float32.h>
 #include <std_msgs/Float64MultiArray.h>
-#include <tf/transform_datatypes.h>
-#include "controller_manager_msgs/SwitchController.h"
-#include "controller_manager_msgs/ListControllers.h"
-#include "ikfast.h"
-#include "probot_anno_manipulator_ikfast_moveit_plugin.cpp"
+#include <moveit/robot_model_loader/robot_model_loader.h>
+#include <moveit/robot_model/robot_model.h>
+#include <moveit/robot_state/robot_state.h>
 
-using namespace ikfast_kinematics_plugin;
+std::vector<double> joint_angle;
 
-class experiment_1{
-private:
-    const static int N1 = 3;
-    const static int N2 = 3;
-    const double req_pose_scalar[N1][6]={
-        {   0.2,    0.2,    0.2007, 1.57,   -1.57,  0       },
-        {   0.15,   0.2,    0.2007, 0,      0,      0       },
-        {   0.3,    0,      0.122,  1.57,   0,      0       },
-        // {0.2,   0,      0.3,    1.57,   0,      0},
-    };
-    const double req_joint_scalar[N2][6]={
-        {   0.927, -0.687,  -0.396, 0,      1.083,  0.927   },
-        {   0.322, -0.855,  -0.021, 0,      0.877,  0.833   },
-        {   -0.322,-0.636,  -0.011, 0,      0.647,  -0.322  },
-    };
+const static std::vector<double> fixed_time = {0,4,6,8};
+const static double coff[6][3][6] = {
+    {  {0.000000,	0.000000,	0.000000,	0.048560,	-0.011244,	0.000553,},	
+       {0.795586,	0.160200,	-0.142800,	-0.026561,	-0.001948,	0.002705,},	
+       {0.387677,	-0.575700,	-0.132550,	0.093566,	0.051494,	-0.020809,},    },
 
-public:
+    {  {0.000000,	0.000000,	0.000000,	-0.061361,	0.018745,	-0.001606,},	
+       {-0.772868,	-0.202200,	0.035400,	0.022598,	-0.022573,	0.004397,},	
+       {-1.075350,	-0.160000,	-0.019000,	-0.003237,	0.029553,	-0.008386,},    },	
 
-    std::vector<std::vector<double>> Init_Joint(void);
-    std::vector<std::vector<geometry_msgs::Pose>> Init_Pose(void);
+    {  {0.000000,	0.000000,	0.000000,	0.057087,	-0.021676,	0.002052,},	
+       {0.205274,	-0.182900,	-0.082850,	0.035860,	-0.000376,	0.000354,},	
+       {-0.199738,	-0.067700,	0.151600,	0.041765,	-0.079711,	0.018886,},     },	
+
+    {  {0.000000,	0.000000,	0.000000,	0.168125,	-0.059984,	0.005550,},	
+       {1.087360,	-0.181800,	-0.188900,	0.216463,	-0.126009,	0.022521,},	
+       {0.404370,	-0.570500,	-0.112700,	0.026035,	0.094049,	-0.028759,},    },	
+
+    {  {0.000000,	0.000000,	0.000000,	0.174944,	-0.048613,	0.003671,},	
+       {2.510440,	0.651100,	-0.218150,	-0.136275,	0.099550,	-0.017966,},	
+       {2.867720,	-0.108500,	-0.083900,	0.384288,	-0.243191,	0.045184,},     },	
+
+    {  {0.000000,	0.000000,	0.000000,	-0.142277,	0.050741,	-0.004616,},	
+       {-0.842893,	0.251800,	0.209500,	-0.098719,	0.009314,	0.000847,},	
+       {-0.114908,	0.271000,	-0.091500,	-0.024185,	0.018577,	-0.002615,},    },	
 };
 
-std::vector<std::vector<double>> experiment_1::Init_Joint(void){
-    std::vector<double> req_joint;
-    std::vector<std::vector<double>> req_joint_vec;
+void joint_callback(const sensor_msgs::JointState::ConstPtr& joint_state)
+{
+    joint_angle = joint_state->position;
+}
 
-    for(int i=0; i<N2; i++){
-        for(int j=0; j<6; j++){
-            req_joint.push_back(req_joint_scalar[i][j]);
+Eigen::VectorXd vel_at_time(double time){
+    Eigen::VectorXd vel_vec(6);
+    vel_vec = vel_vec.Zero(6);
+    int j;   
+
+    if(time < 0 || time > fixed_time.back()){
+        return vel_vec.setZero(6);
+    }
+    j = 0;
+    if(time > 4){
+        if(time > 6){
+            time -= 6;
+            j = 2;
+        }else{
+            time -= 4;
+            j = 1;
         }
-        req_joint_vec.push_back(req_joint);
-        req_joint.clear();
     }
 
-    return req_joint_vec;
-}
-
-std::vector<std::vector<geometry_msgs::Pose>> experiment_1::Init_Pose(void){
-
-    geometry_msgs::Pose req_pose;
-    std::vector<geometry_msgs::Pose> req_pose_vec;
-    std::vector<std::vector<geometry_msgs::Pose>> req_pose_vec_vec;
-    for(int i=0; i<N1; i++){
-        req_pose.position.x = req_pose_scalar[i][0];
-        req_pose.position.y = req_pose_scalar[i][1];
-        req_pose.position.z = req_pose_scalar[i][2] - 0.022;
-        req_pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(
-            req_pose_scalar[i][3] + 1.570796,
-            req_pose_scalar[i][4],
-            req_pose_scalar[i][5]
-        );
-        req_pose_vec.push_back(req_pose);
-        req_pose_vec_vec.push_back(req_pose_vec);
-        req_pose_vec.clear();
+    Eigen::Matrix<double,6,6> ddt;
+    ddt = ddt.Zero();
+    for(int i=0; i<5; i++){
+        ddt(i,i+1) = i+1;
     }
+
+    Eigen::Matrix<double,1,6> t1; 
+    t1 = t1.Zero();   
+    for(int i=0; i<6; i++){
+        t1(0,i) = pow(time,i);
+    }
+
+    Eigen::Matrix<double,6,1> co;
+    co = co.Zero();
     
-    return req_pose_vec_vec;
+    //计算每个关节速度
+    for(int i=0; i<6; i++){
+        for(int k=0; k<6; k++){
+            co(k,0) = coff[i][j][k];
+        }
+        vel_vec(i) = t1 * ddt * co;
+    }
+
+    return vel_vec;
 }
 
-std_msgs::Float64MultiArray Vec2Msg(std::vector<double> vec){
+std_msgs::Float64MultiArray rot_2_msg(Eigen::VectorXd vec){
     std_msgs::Float64MultiArray init_pos;
     init_pos.data.push_back(0);
     init_pos.data.push_back(0);
@@ -92,83 +144,109 @@ std_msgs::Float64MultiArray Vec2Msg(std::vector<double> vec){
     // sleep(1);
 
     for(int i=0; i<6; i++){
-        init_pos.data.at(i) = vec[i];
+        init_pos.data.at(i) = vec(i,0);
     }
     
     return init_pos;
 }
 
-double DegLimit(double fnum){
-    while(fnum < -3.1415926535){
-        fnum += 3.1415926535*2;
-    }
-    while(fnum > 3.1415926535){
-        fnum -= 3.1415926535*2;
-    }
-    return fnum;
-}
-
-int main(int argc, char** argv){
-
+int main(int argc, char** argv)
+{
     bool ret;
 
-    ros::init(argc,argv,"control_example_copy");
+    ros::init(argc, argv, "experiment_3");
+    ros::AsyncSpinner spinner(1);
+    spinner.start();
 
+    //定义publisher和subscriber
     ros::NodeHandle node_handle;
-
     ROS_INFO_STREAM("start");
-
-    ros::Publisher pos_pub = node_handle.advertise<std_msgs::Float64MultiArray>("/probot_anno/arm_pos_controller/command", 100);
-
-    IKFastKinematicsPlugin ik;
+    ros::Publisher vel_pub = node_handle.advertise<std_msgs::Float64MultiArray>(
+                             "/probot_anno/arm_vel_controller/command", 100);
+    ros::Subscriber joint_sub = node_handle.subscribe(
+                             "/probot_anno/joint_states", 100, joint_callback);
     
-    ret=ik.IKFastKinematicsPlugin::initialize("robot_description","manipulator","base_link","link_6",0.001);
+    //加载机械臂模型，便于后续计算雅可比矩阵
+    robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
+    robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+    ROS_INFO("Model frame: %s", kinematic_model->getModelFrame().c_str());
+    robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
+    kinematic_state->setToDefaultValues();
+    const robot_state::JointModelGroup* joint_model_group = 
+                                kinematic_model->getJointModelGroup("manipulator");
+    const std::vector<std::string>& joint_names = joint_model_group->getVariableNames();
 
-    experiment_1 exp1;
+    //初始化模型角度
+    joint_angle.push_back(0.0);
+    joint_angle.push_back(0.0);
+    joint_angle.push_back(0.0);
+    joint_angle.push_back(0.0);
+    joint_angle.push_back(0.0);
+    joint_angle.push_back(0.0);
+    kinematic_state->setJointGroupPositions(joint_model_group,joint_angle);
 
-    std::vector<std::vector<geometry_msgs::Pose>> req_pose_vec = exp1.Init_Pose();
-
-    std::vector<double> seed1;
-    seed1.push_back(0.0);
-    seed1.push_back(0.0);
-    seed1.push_back(0.0);
-    seed1.push_back(0.0);
-    seed1.push_back(0.0);
-    seed1.push_back(0.0);
-
-    std::vector<std::vector<double>> sol_rad;
-
-    kinematics::KinematicsResult kinematic_result;
-
-    std::cout << std::endl;
-    std::cout << " Inverse kinematics" << std::endl;
-    for(int i=0; i<req_pose_vec.size() && ros::ok(); i++){
-
-        ret=ik.getPositionIK(req_pose_vec.at(i), seed1, sol_rad, kinematic_result, kinematics::KinematicsQueryOptions());
-
-        if(ret){
-            std::cout << sol_rad.size() << " IK solved successfully." << endl;
-            for(int q=0; q < sol_rad.size(); q++){
-                for(int i=0; i<6; i++){
-                    cout << sol_rad[q][i] << ",";
-                }
-                cout << endl;
-            }
-        }else{
-            ROS_INFO_STREAM("No Solution!");
-        }
-
-        for(int i=0; i<sol_rad.size(); i++){
-            std_msgs::Float64MultiArray init_pos = Vec2Msg(sol_rad.at(i));
-
-            pos_pub.publish(init_pos);
-            ROS_INFO_STREAM("published");
-
-            sleep(10);
-        }
-
-        sol_rad.clear();
+    //输出模型角度
+    std::vector<double> joint_values;
+    kinematic_state->copyJointGroupPositions(joint_model_group, joint_values);
+    for (std::size_t i = 0; i < joint_names.size(); ++i)
+    {
+        ROS_INFO("Joint %s: %f", joint_names[i].c_str(), joint_values[i]);
     }
 
+    //输出尖端Pose
+    const Eigen::Isometry3d& end_effector_state = kinematic_state->getGlobalLinkTransform("link_6");
+    ROS_INFO_STREAM("Translation: \n" << end_effector_state.translation() << "\n");
+    ROS_INFO_STREAM("Rotation: \n" << end_effector_state.rotation() << "\n");
+
+    double vel = 0.0;
+    double intval = 0.01;
+    double past_time = 0;
+    ros::Rate loop_rate(1/intval);
+
+    Eigen::Matrix<double,6,1> rot_vec;
+    rot_vec = rot_vec.Zero();
+
+    std_msgs::Float64MultiArray vel_tar_msg = rot_2_msg(rot_vec);
+
+    sleep(2);
+
+    ROS_INFO("begin:\n");
+    ros::Time begin, end;
+    begin = ros::Time::now();
+    while(ros::ok()){        
+        end = ros::Time::now();
+        past_time = end.toSec() - begin.toSec();
+        
+        // std::cout << past_time << std::endl;
+
+        rot_vec = vel_at_time(past_time);
+        // std::cout << rot_vec << "\n\n";
+        vel_tar_msg = rot_2_msg(rot_vec);
+        vel_pub.publish(vel_tar_msg);
+
+        loop_rate.sleep();
+        ros::spinOnce();
+
+        kinematic_state->setJointGroupPositions(joint_model_group,joint_angle);
+
+        for(int i=0; i<4; i++){
+            if(fabs(past_time - fixed_time.at(i)) < 1e-2){
+                ROS_INFO_STREAM("Pose at time:" << past_time << "\n");
+                const Eigen::Isometry3d& end_effector_state = kinematic_state->getGlobalLinkTransform("link_6");
+                ROS_INFO_STREAM("Translation: \n" << end_effector_state.translation() << "\n");
+                ROS_INFO_STREAM("Rotation: \n" << end_effector_state.rotation() << "\n");
+                break;
+            }
+        }
+
+        if(past_time > fixed_time.back() + 0.5){
+            break;
+        }
+    }
+    vel_tar_msg = rot_2_msg(rot_vec.Zero());
+    vel_pub.publish(vel_tar_msg);
+
+    ROS_INFO("Program end");
+    ros::shutdown();
     return 0;
 }
