@@ -138,12 +138,12 @@ int main(int argc, char** argv)
 
     //计算关节角速度
     Eigen::VectorXd vel_hat(6);
-    vel_hat(0,0) = 0.0;
+    vel_hat(0,0) = 1.0;
     vel_hat(1,0) = 0.0;
-    vel_hat(2,0) = 0.0;
-    vel_hat(3,0) = 1.0;
-    vel_hat(4,0) = 0.2;
-    vel_hat(5,0) = 0.5;
+    vel_hat(2,0) = -1.0;
+    vel_hat(3,0) = 0.0;
+    vel_hat(4,0) = 0.0;
+    vel_hat(5,0) = 0.0;
     vel_hat = vel_hat.normalized();
 
     Eigen::VectorXd rot_vec(6);

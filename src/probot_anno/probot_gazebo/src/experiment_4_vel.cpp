@@ -170,8 +170,8 @@ int main(int argc, char** argv)
         for(int i=0; i<6; i++){
             std::cout << rot_vec(i,0) << "\t" << joint_angle.at(i) << std::endl;
         }
-        // const Eigen::Isometry3d& end_effector_state = kinematic_state->getGlobalLinkTransform("link_6");
-        // ROS_INFO_STREAM("Translation: \n" << end_effector_state.translation() << "\n");
+        const Eigen::Isometry3d& end_effector_state = kinematic_state->getGlobalLinkTransform("link_6");
+        ROS_INFO_STREAM("Translation: \n" << end_effector_state.translation() << "\n");
         // ROS_INFO_STREAM("Rotation: \n" << end_effector_state.rotation() << "\n");
 
         kinematic_state->setJointGroupPositions(joint_model_group,joint_angle);

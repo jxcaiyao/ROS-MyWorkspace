@@ -239,7 +239,7 @@ int main(int argc, char** argv)
             }
         }
 
-        if(past_time > fixed_time.back() + 0.5){
+        if(past_time > fixed_time.back()){
             break;
         }
     }
