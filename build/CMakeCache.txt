@@ -356,6 +356,30 @@ catkin_DIR:PATH=/opt/ros/melodic/share/catkin/cmake
 //The directory containing a CMake configuration file for class_loader.
 class_loader_DIR:PATH=/opt/ros/melodic/share/class_loader/cmake
 
+//Value Computed by CMake
+course_agv_control_BINARY_DIR:STATIC=/home/zailu/catkin_ws/build/c5/course_agv_control
+
+//Value Computed by CMake
+course_agv_control_SOURCE_DIR:STATIC=/home/zailu/catkin_ws/src/c5/course_agv_control
+
+//Value Computed by CMake
+course_agv_description_BINARY_DIR:STATIC=/home/zailu/catkin_ws/build/c5/course_agv_description
+
+//Value Computed by CMake
+course_agv_description_SOURCE_DIR:STATIC=/home/zailu/catkin_ws/src/c5/course_agv_description
+
+//Value Computed by CMake
+course_agv_gazebo_BINARY_DIR:STATIC=/home/zailu/catkin_ws/build/c5/course_agv_gazebo
+
+//Value Computed by CMake
+course_agv_gazebo_SOURCE_DIR:STATIC=/home/zailu/catkin_ws/src/c5/course_agv_gazebo
+
+//Value Computed by CMake
+course_agv_nav_BINARY_DIR:STATIC=/home/zailu/catkin_ws/build/c5/course_agv_nav
+
+//Value Computed by CMake
+course_agv_nav_SOURCE_DIR:STATIC=/home/zailu/catkin_ws/src/c5/course_agv_nav
+
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/melodic/share/cpp_common/cmake
 
@@ -807,7 +831,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=15
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=19
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

@@ -5,6 +5,10 @@
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
+subdirs("c5/course_agv_control")
+subdirs("c5/course_agv_description")
+subdirs("c5/course_agv_gazebo")
+subdirs("c5/course_agv_nav")
 subdirs("learning_launch")
 subdirs("probot_anno/probot_msgs")
 subdirs("learning_parameter")
