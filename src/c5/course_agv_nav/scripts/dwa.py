@@ -199,8 +199,6 @@ def calc_obstacle_cost(trajectory, ob, config):
 
     cost = math.exp(-r.min())
 
-
-    
     return cost  # OK
 
 

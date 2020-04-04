@@ -107,20 +107,60 @@ void icp::process(sensor_msgs::LaserScan input)
 	double time_0 = (double)ros::Time::now().toSec();
 
     // init some variables
+    double cols;
+    NeighBor neigh;
+    double mean_dist = 0;
+    double last_dist = 0;
+    MatrixXd src_pc_rearr;
+    MatrixXd tar_pc_rearr;
+    
     Eigen::Matrix3d Transform_acc = Eigen::MatrixXd::Identity(3,3);
+    src_pc = this->rosmsgToEigen(input);
+
+    // TODO: preprocess src_pc
 
     // main LOOP
     for(int i=0; i<max_iter; i++)
     {	
-    	// TODO: please code by yourself
+    	// please code by yourself
+        neigh = findNearest(Transform_acc * src_pc,tar_pc);
+        if(neigh.distances.size() == 0){
+            cout << "no solution!" << endl;
+            break;
+        }
+
+        cols = neigh.src_indices.size();
+        src_pc_rearr = MatrixXd::Zero(2,cols);
+        tar_pc_rearr = MatrixXd::Zero(2,cols);
+        for(int j=0; j<cols; j++){
+            src_pc_rearr.block<2,1>(0,j) = src_pc.block<2,1>(0,neigh.src_indices[j]);
+            tar_pc_rearr.block<2,1>(0,j) = tar_pc.block<2,1>(0,neigh.tar_indices[j]);
+        }
+        // cout << "here1" << endl;
+        Transform_acc = getTransform(src_pc_rearr, tar_pc_rearr);
+
+        // cout << "here2" << endl;
+        mean_dist = std::accumulate(neigh.distances.begin(), neigh.distances.end(), 0.0) / neigh.distances.size();
+        if(abs(mean_dist - last_dist) < this->tolerance){
+            // cout << "cols: " << src_pc_rearr.cols() << endl;
+            // cout << "mean_dist:  " << mean_dist << endl;
+            cout << "iter times:  " << i+1 << endl;
+            break;
+        }
+        last_dist = mean_dist;
+        // cout << "here3" << endl;
     }
+    cout << "cols: " << src_pc_rearr.cols() << endl;
+    cout << "mean_dist:  " << mean_dist << endl;
+    cout << "T:" << endl;
+    cout << Transform_acc << endl;
 
     tar_pc = this->rosmsgToEigen(input);
 
     this->publishResult(Transform_acc);
 
 	double time_1 = (double)ros::Time::now().toSec();
-	cout<<"time_cost:  "<<time_1-time_0<<endl;
+	cout<<"time_cost:  "<<time_1-time_0<<endl<<endl;
 }
 
 Eigen::MatrixXd icp::rosmsgToEigen(const sensor_msgs::LaserScan input)
@@ -142,25 +182,113 @@ Eigen::MatrixXd icp::rosmsgToEigen(const sensor_msgs::LaserScan input)
 
 NeighBor icp::findNearest(const Eigen::MatrixXd &src, const Eigen::MatrixXd &tar)
 {
-    // TODO: please code by yourself
+    // please code by yourself
+    double dist;
+    double min_dist;
+    int min_index;
+    Vector2d src_vec;
+    Vector2d tar_vec;
+    NeighBor neigh;
+    // cout << "here1" << endl;
+
+    for(int i=0; i<src.cols(); i++){
+        src_vec = src.block<2,1>(0,i);
+        min_index = 0;
+        tar_vec = tar.block<2,1>(0,min_index);
+        min_dist = calc_dist(src_vec, tar_vec);
+        for(int j=0; j<tar.cols(); j++){
+            tar_vec = tar.block<2,1>(0,j);
+            dist = calc_dist(src_vec, tar_vec);
+            if(dist < min_dist){
+                min_index = j;
+                min_dist = dist;
+            }
+        }
+        if(min_dist < dis_th){
+            neigh.distances.push_back(min_dist);
+            neigh.src_indices.push_back(i);
+            neigh.tar_indices.push_back(min_index);
+        }
+        // cout << "min_dist: " << min_dist << endl;
+    }
+
+    // cout << "here2" << endl;
+    return neigh;
 }
 
 Eigen::Matrix3d icp::getTransform(const Eigen::MatrixXd &src, const Eigen::MatrixXd &tar)
 {
-    // TODO: please code by yourself
+    // please code by yourself
+    Matrix3d T = Matrix3d::Identity(3,3);
+
+    int cols = src.cols();
+    // cout << "cols: " << cols << endl;
+    Vector2d src_mc = Vector2d::Zero();
+    Vector2d tar_mc = Vector2d::Zero();
+    MatrixXd src_q = src;
+    MatrixXd tar_q = tar;
+
+    for(int i=0; i<cols; i++){
+        src_mc = src_mc + src.block<2,1>(0,i);
+        tar_mc = tar_mc + tar.block<2,1>(0,i);
+    }
+    src_mc = src_mc / cols;
+    tar_mc = tar_mc / cols;
+
+    for(int i=0; i<cols; i++){
+        src_q.block<2,1>(0,i) = src.block<2,1>(0,i) - src_mc;
+        tar_q.block<2,1>(0,i) = tar.block<2,1>(0,i) - tar_mc;
+    }
+
+    MatrixXd W = tar_q * src_q.transpose();
+    MatrixXd U;
+    MatrixXd V;
+    Matrix2d R;
+    Vector2d t;
+
+    // cout << "here1" << endl;
+    // cout << "W: " << endl;
+    // cout << W << endl;
+    JacobiSVD<MatrixXd> svd(W, ComputeFullU | ComputeFullV);
+    // cout << "here2" << endl;
+    U = svd.matrixU();
+    V = svd.matrixV();
+    // cout << "here3" << endl;
+    // cout << "U: " << endl;
+    // cout << U << endl;
+    // cout << "V: " << endl;
+    // cout << V << endl;
+    R = V * U.transpose();
+    // cout << "here4" << endl;
+
+    t = tar_mc - R * src_mc;
+    // cout << "here5" << endl;
+
+    T.block<2,2>(0,0) = R;
+    T.block<2,1>(0,2) = t;
+    // cout << "here6" << endl;
+    // cout << "T: " << endl;
+    // cout << T << endl;
+
+    return T;
 }
 
 float icp::calc_dist(const Eigen::Vector2d &pta, const Eigen::Vector2d &ptb)
 {
-    // TODO: please code by yourself
+    // please code by yourself
+    float dist;
+    dist = (pta-ptb).norm();
+    // dist = sqrt(pow(pta(0)-ptb(0),2)+pow(pta(1)-ptb(1),2));
+    // cout << "dist: " << dist << endl;
+    return dist;
 }
 
 Eigen::Matrix3d icp::staToMatrix(Eigen::Vector3d sta)
 {
 	Matrix3d RT;
     RT << cos(sta(2)), -sin(sta(2)), sta(0),
-          sin(sta(2)), cos(sta(2)),sta(1),
-          0, 0, 1;
+          sin(sta(2)), cos(sta(2)),  sta(1),
+          0,           0,            1;
     return RT;
 }
 

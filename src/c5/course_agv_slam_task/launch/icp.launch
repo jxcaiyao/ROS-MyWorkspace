@@ -1,5 +1,5 @@
 <launch>
-
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find course_agv_description)/urdf/course_agv.xacro'" />
 	<node pkg="course_agv_slam_task" type="icp" name="icp" output="screen">
 		
 		<!--from a rosbag-->
@@ -7,9 +7,9 @@
 		<param name="robot_y" value="0"/>
 		<param name="robot_theta" value="0"/>
 
-		<param name="max_iter" value=""/>
-		<param name="tolerance" value=""/>
-		<param name="dis_th" value=""/>
+		<param name="max_iter" value="100"/>
+		<param name="tolerance" value="0.001"/>
+		<param name="dis_th" value="0.01"/>
 	</node>
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find course_agv_slam_task)/launch/course_agv.rviz" />
