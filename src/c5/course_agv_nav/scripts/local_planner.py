@@ -95,7 +95,11 @@ class LocalPlanner:
         self.lock.acquire()
         self.initPlanning()
         self.lock.release()
+        # print("here1")
+        # print(self.planner_thread)
+        # self.planner_thread = None
         if self.planner_thread == None:
+            # print("here2")
             self.planner_thread = Thread(target=self.planThreadFunc)
             self.planner_thread.start()
         pass
@@ -129,7 +133,9 @@ class LocalPlanner:
         self.lock.acquire()
         self.publishVel(True)
         self.lock.release()
-        self.planning_thread = None
+        self.planner_thread = None
+        # print(self.planner_thread)
+        # print("here3")
         pass
     def planOnce(self):
         self.updateGlobalPose()

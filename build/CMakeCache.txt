@@ -263,6 +263,9 @@ EMPY_EXECUTABLE:FILEPATH=/usr/bin/empy
 //Empy script
 EMPY_SCRIPT:STRING=/usr/bin/empy
 
+//The directory containing a CMake configuration file for Eigen3.
+Eigen3_DIR:PATH=/usr/lib/cmake/eigen3
+
 //The directory containing a CMake configuration file for GMock.
 GMock_DIR:PATH=GMock_DIR-NOTFOUND
 
@@ -356,6 +359,9 @@ catkin_DIR:PATH=/opt/ros/melodic/share/catkin/cmake
 //The directory containing a CMake configuration file for class_loader.
 class_loader_DIR:PATH=/opt/ros/melodic/share/class_loader/cmake
 
+//The directory containing a CMake configuration file for cmake_modules.
+cmake_modules_DIR:PATH=/opt/ros/melodic/share/cmake_modules/cmake
+
 //Value Computed by CMake
 course_agv_control_BINARY_DIR:STATIC=/home/zailu/catkin_ws/build/c5/course_agv_control
 
@@ -379,6 +385,12 @@ course_agv_nav_BINARY_DIR:STATIC=/home/zailu/catkin_ws/build/c5/course_agv_nav
 
 //Value Computed by CMake
 course_agv_nav_SOURCE_DIR:STATIC=/home/zailu/catkin_ws/src/c5/course_agv_nav
+
+//Value Computed by CMake
+course_agv_slam_task_BINARY_DIR:STATIC=/home/zailu/catkin_ws/build/c5/course_agv_slam_task
+
+//Value Computed by CMake
+course_agv_slam_task_SOURCE_DIR:STATIC=/home/zailu/catkin_ws/src/c5/course_agv_slam_task
 
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/melodic/share/cpp_common/cmake
@@ -831,7 +843,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=19
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=20
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

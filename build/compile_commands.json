@@ -35,6 +35,21 @@
   "file": "/usr/src/googletest/googletest/src/gtest-all.cc"
 },
 {
+  "directory": "/home/zailu/catkin_ws/build/c5/course_agv_slam_task",
+  "command": "/usr/bin/c++  -DNDEBUG -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"course_agv_slam_task\\\" -I/home/zailu/catkin_ws/src/c5/course_agv_slam_task/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -O2 -g -o CMakeFiles/icp_lm.dir/src/icp_lm.cpp.o -c /home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/icp_lm.cpp",
+  "file": "/home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/icp_lm.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/c5/course_agv_slam_task",
+  "command": "/usr/bin/c++  -DNDEBUG -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"course_agv_slam_task\\\" -I/home/zailu/catkin_ws/src/c5/course_agv_slam_task/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -O2 -g -o CMakeFiles/icp.dir/src/icp.cpp.o -c /home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/icp.cpp",
+  "file": "/home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/icp.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/c5/course_agv_slam_task",
+  "command": "/usr/bin/c++  -DNDEBUG -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"course_agv_slam_task\\\" -I/home/zailu/catkin_ws/src/c5/course_agv_slam_task/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -O2 -g -o CMakeFiles/extraction.dir/src/extraction.cpp.o -c /home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/extraction.cpp",
+  "file": "/home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/extraction.cpp"
+},
+{
   "directory": "/home/zailu/catkin_ws/build/learning_parameter",
   "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_parameter\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/parameter_config.dir/src/parameter_config.cpp.o -c /home/zailu/catkin_ws/src/learning_parameter/src/parameter_config.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_parameter/src/parameter_config.cpp"

@@ -197,9 +197,9 @@ def calc_obstacle_cost(trajectory, ob, config):
     cost = 0
     # TODO here
 
-    cost = math.exp(-min(r[0,:])/100)
-    print(-min(r[:,0]))
-    print("end1\n\n")
+    cost = math.exp(-r.min())
+
+
     
     return cost  # OK
 
@@ -216,13 +216,13 @@ def calc_to_goal_cost(trajectory, goal):
     r = np.hypot(dx, dy)
 
     cost = min(r)
-    print(min(r))
-    print("end2\n\n")
+    # print(min(r))
+    # print("end2\n\n")
     
     return cost
 
 def calc_speed_cost(v, y):
 
-    cost = math.exp(v - y)
+    cost = math.exp(-v + 0.2 * y)
 
     return cost
