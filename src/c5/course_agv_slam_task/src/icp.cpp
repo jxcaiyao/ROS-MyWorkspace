@@ -94,7 +94,21 @@ icp::icp(ros::NodeHandle& n):
 
 void icp::process(sensor_msgs::LaserScan input)
 {
-    cout<<"------seq:  "<<input.header.seq<<endl;
+    std::cout<<"------seq:  "<<input.header.seq<<endl;
+
+    // MatrixXd A = MatrixXd::Zero(2,3);
+    // A <<  1, 2, 2,
+    //       -2,-2,-1;
+    // MatrixXd B = MatrixXd::Zero(2,3);
+    // B <<  1, 1, 0,
+    //       0, 1, 1;
+    // MatrixXd T1;
+
+    // // std::cout << A << endl;
+    // // std::cout << B << endl;
+    // T1 = this->getTransform(A,B);
+    // // std::cout << T1 << endl << endl;
+    // return;
 
     // set the inital
     if(isFirstScan)
@@ -111,63 +125,98 @@ void icp::process(sensor_msgs::LaserScan input)
     NeighBor neigh;
     double mean_dist = 0;
     double last_dist = 0;
+    MatrixXd src_pc_2D;
+    MatrixXd tar_pc_2D;
     MatrixXd src_pc_rearr;
     MatrixXd tar_pc_rearr;
     
+    Eigen::Matrix3d T = Eigen::MatrixXd::Identity(3,3);
     Eigen::Matrix3d Transform_acc = Eigen::MatrixXd::Identity(3,3);
     src_pc = this->rosmsgToEigen(input);
 
-    // TODO: preprocess src_pc
+    // TODO: preprocess src_pc_2D
+    
+    src_pc_2D = MatrixXd::Zero(2,src_pc.cols());
+    for(int i=0; i<src_pc.cols(); i++){
+        src_pc_2D.block<2,1>(0,i) = src_pc.block<2,1>(0,i);
+    }
+    tar_pc_2D = MatrixXd::Zero(2,tar_pc.cols());
+    for(int i=0; i<tar_pc.cols(); i++){
+        tar_pc_2D.block<2,1>(0,i) = tar_pc.block<2,1>(0,i);
+    }
 
     // main LOOP
     for(int i=0; i<max_iter; i++)
     {	
     	// please code by yourself
-        neigh = findNearest(Transform_acc * src_pc,tar_pc);
+        neigh = this->findNearest(src_pc_2D, tar_pc_2D);
         if(neigh.distances.size() == 0){
-            cout << "no solution!" << endl;
+            std::cout << "no solution!" << endl;
             break;
         }
 
-        cols = neigh.src_indices.size();
+        // std::cout << "here1" << endl;
+        cols = neigh.distances.size();
         src_pc_rearr = MatrixXd::Zero(2,cols);
         tar_pc_rearr = MatrixXd::Zero(2,cols);
         for(int j=0; j<cols; j++){
-            src_pc_rearr.block<2,1>(0,j) = src_pc.block<2,1>(0,neigh.src_indices[j]);
-            tar_pc_rearr.block<2,1>(0,j) = tar_pc.block<2,1>(0,neigh.tar_indices[j]);
+            src_pc_rearr.block<2,1>(0,j) = src_pc_2D.block<2,1>(0,neigh.src_indices[j]);
+            tar_pc_rearr.block<2,1>(0,j) = tar_pc_2D.block<2,1>(0,neigh.tar_indices[j]);
         }
-        // cout << "here1" << endl;
-        Transform_acc = getTransform(src_pc_rearr, tar_pc_rearr);
+        // std::cout << "here2" << endl;
 
-        // cout << "here2" << endl;
+        T = this->getTransform(src_pc_rearr, tar_pc_rearr);
+        // std::cout << "here3" << endl;
+
+        // std::cout << "src_pc_2D:" << endl;
+        // std::cout << src_pc_2D << endl;
+        // std::cout << "T:" << endl;
+        // std::cout << T << endl;
+        // std::cout << "Transform_acc:" << endl;
+        // std::cout << Transform_acc << endl;
+
+        src_pc_2D = T.block<2,2>(0,0) * src_pc_2D + T.block<2,1>(0,2) * MatrixXd::Ones(1,src_pc_2D.cols());
+        // std::cout << "here4" << endl;
+
+        Transform_acc = T * Transform_acc;
+        
+        // std::cout << "here5" << endl;
+
         mean_dist = std::accumulate(neigh.distances.begin(), neigh.distances.end(), 0.0) / neigh.distances.size();
-        if(abs(mean_dist - last_dist) < this->tolerance){
-            // cout << "cols: " << src_pc_rearr.cols() << endl;
-            // cout << "mean_dist:  " << mean_dist << endl;
-            cout << "iter times:  " << i+1 << endl;
+        if(abs(mean_dist) < tolerance){
+            //std::cout << "cols: " << src_pc_rearr.cols() << endl;
+            //std::cout << "mean_dist:  " << mean_dist << endl;
+            std::cout << "iter times:  " << i+1 << endl;
             break;
         }
         last_dist = mean_dist;
-        // cout << "here3" << endl;
+        //std::cout << "here3" << endl;
     }
-    cout << "cols: " << src_pc_rearr.cols() << endl;
-    cout << "mean_dist:  " << mean_dist << endl;
-    cout << "T:" << endl;
-    cout << Transform_acc << endl;
+    std::cout << "cols: " << src_pc_rearr.cols() << endl;
+    std::cout << "mean_dist:  " << mean_dist << endl;
 
-    tar_pc = this->rosmsgToEigen(input);
+    tar_pc = src_pc;
+    tar_pc_2D = MatrixXd::Zero(2,tar_pc.cols());
+    for(int i=0; i<tar_pc.cols(); i++){
+        tar_pc_2D.block<2,1>(0,i) = tar_pc.block<2,1>(0,i);
+    }
+
+    // Transform_acc = this->getTransform(tar_pc_2D, src_pc_2D);
+    // Transform_acc = this->getTransform(src_pc_rearr,tar_pc_rearr);
+    std::cout << "T:" << endl;
+    std::cout << Transform_acc << endl;
 
     this->publishResult(Transform_acc);
 
 	double time_1 = (double)ros::Time::now().toSec();
-	cout<<"time_cost:  "<<time_1-time_0<<endl<<endl;
+	std::cout<<"time_cost:  "<<time_1-time_0<<endl<<endl;
 }
 
 Eigen::MatrixXd icp::rosmsgToEigen(const sensor_msgs::LaserScan input)
 {
     int total_num = (input.angle_max - input.angle_min) / input.angle_increment + 1;
 
-    Eigen::MatrixXd pc = Eigen::MatrixXd::Ones(3,total_num);
+    Eigen::MatrixXd pc = Eigen::MatrixXd::Zero(3,total_num);
 
     float angle;
     for(int i=0; i<total_num; i++)
@@ -189,14 +238,18 @@ NeighBor icp::findNearest(const Eigen::MatrixXd &src, const Eigen::MatrixXd &tar
     Vector2d src_vec;
     Vector2d tar_vec;
     NeighBor neigh;
-    // cout << "here1" << endl;
+    // bool isfind[tar.cols()] = {0};
+    //std::cout << "here1" << endl;
 
     for(int i=0; i<src.cols(); i++){
         src_vec = src.block<2,1>(0,i);
         min_index = 0;
         tar_vec = tar.block<2,1>(0,min_index);
-        min_dist = calc_dist(src_vec, tar_vec);
+        min_dist = this->calc_dist(src_vec, tar_vec);
         for(int j=0; j<tar.cols(); j++){
+            // if(isfind[j]){
+            //     continue;
+            // }
             tar_vec = tar.block<2,1>(0,j);
             dist = calc_dist(src_vec, tar_vec);
             if(dist < min_dist){
@@ -208,11 +261,12 @@ NeighBor icp::findNearest(const Eigen::MatrixXd &src, const Eigen::MatrixXd &tar
             neigh.distances.push_back(min_dist);
             neigh.src_indices.push_back(i);
             neigh.tar_indices.push_back(min_index);
+            // isfind[min_index] = true;
         }
-        // cout << "min_dist: " << min_dist << endl;
+        //std::cout << "min_dist: " << min_dist << endl;
     }
 
-    // cout << "here2" << endl;
+    //std::cout << "here2" << endl;
     return neigh;
 }
 
@@ -222,53 +276,72 @@ Eigen::Matrix3d icp::getTransform(const Eigen::MatrixXd &src, const Eigen::Matri
     Matrix3d T = Matrix3d::Identity(3,3);
 
     int cols = src.cols();
-    // cout << "cols: " << cols << endl;
+    //std::cout << "cols: " << cols << endl;
     Vector2d src_mc = Vector2d::Zero();
     Vector2d tar_mc = Vector2d::Zero();
+    VectorXd avg = VectorXd::Ones(cols,1) / cols;
     MatrixXd src_q = src;
     MatrixXd tar_q = tar;
 
-    for(int i=0; i<cols; i++){
-        src_mc = src_mc + src.block<2,1>(0,i);
-        tar_mc = tar_mc + tar.block<2,1>(0,i);
-    }
-    src_mc = src_mc / cols;
-    tar_mc = tar_mc / cols;
+    // for(int i=0; i<cols; i++){
+    //     src_mc = src_mc + src.block<2,1>(0,i);
+    //     tar_mc = tar_mc + tar.block<2,1>(0,i);
+    // }
+    // src_mc = src_mc / cols;
+    // tar_mc = tar_mc / cols;
+    // std::cout << "src: " << endl;
+    // std::cout << src << endl;
+    // std::cout << "tar: " << endl;
+    // std::cout << tar << endl;
+
+    src_mc = src * avg;
+    tar_mc = tar * avg;
 
     for(int i=0; i<cols; i++){
         src_q.block<2,1>(0,i) = src.block<2,1>(0,i) - src_mc;
         tar_q.block<2,1>(0,i) = tar.block<2,1>(0,i) - tar_mc;
     }
 
-    MatrixXd W = tar_q * src_q.transpose();
+    // std::cout << "src_q: " << endl;
+    // std::cout << src_q << endl;
+    // std::cout << "tar_q: " << endl;
+    // std::cout << tar_q << endl;
+
+    MatrixXd W = src_q * tar_q.transpose();
     MatrixXd U;
     MatrixXd V;
     Matrix2d R;
     Vector2d t;
 
-    // cout << "here1" << endl;
-    // cout << "W: " << endl;
-    // cout << W << endl;
+    //std::cout << "here1" << endl;
+    // std::cout << "W: " << endl;
+    // std::cout << W << endl;
     JacobiSVD<MatrixXd> svd(W, ComputeFullU | ComputeFullV);
-    // cout << "here2" << endl;
+    //std::cout << "here2" << endl;
     U = svd.matrixU();
     V = svd.matrixV();
-    // cout << "here3" << endl;
-    // cout << "U: " << endl;
-    // cout << U << endl;
-    // cout << "V: " << endl;
-    // cout << V << endl;
+    //std::cout << "here3" << endl;
+    // std::cout << "U: " << endl;
+    // std::cout << U << endl;
+    // std::cout << "V: " << endl;
+    // std::cout << V << endl;
     R = V * U.transpose();
-    // cout << "here4" << endl;
+    // std::cout << "R: " << endl;
+    // std::cout << R << endl;
+    //std::cout << "here4" << endl;
+    if(R.determinant() < 0){
+       std::cout << "determinant<0" << endl;
+    }
 
     t = tar_mc - R * src_mc;
-    // cout << "here5" << endl;
+    t = R.inverse() * t;
+    //std::cout << "here5" << endl;
 
     T.block<2,2>(0,0) = R;
     T.block<2,1>(0,2) = t;
-    // cout << "here6" << endl;
-    // cout << "T: " << endl;
-    // cout << T << endl;
+    //std::cout << "here6" << endl;
+    // std::cout << "T: " << endl;
+    // std::cout << T << endl << endl;
 
     return T;
 }
@@ -279,7 +352,7 @@ float icp::calc_dist(const Eigen::Vector2d &pta, const Eigen::Vector2d &ptb)
     float dist;
     dist = (pta-ptb).norm();
     // dist = sqrt(pow(pta(0)-ptb(0),2)+pow(pta(1)-ptb(1),2));
-    // cout << "dist: " << dist << endl;
+    //std::cout << "dist: " << dist << endl;
     return dist;
 }
 
@@ -295,13 +368,13 @@ Eigen::Matrix3d icp::staToMatrix(Eigen::Vector3d sta)
 void icp::publishResult(Eigen::Matrix3d T)
 {	
     float delta_yaw = atan2(T(1,0), T(0,0));
-    cout<<"sensor-delta-xyt: "<<T(0,2)<<" "<<T(1,2)<<" "<<delta_yaw<<endl;
+   std::cout<<"sensor-delta-xyt: "<<T(0,2)<<" "<<T(1,2)<<" "<<delta_yaw<<endl;
 
     sensor_sta(0) = sensor_sta(0) + cos(sensor_sta(2))*T(0,2) - sin(sensor_sta(2))*T(1,2);
     sensor_sta(1) = sensor_sta(1) + sin(sensor_sta(2))*T(0,2) + cos(sensor_sta(2))*T(1,2);
     sensor_sta(2) = sensor_sta(2) + delta_yaw;
 
-    cout<<"sensor-global: "<<sensor_sta.transpose()<<endl;
+   std::cout<<"sensor-global: "<<sensor_sta.transpose()<<endl;
 
     // tf
     geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(sensor_sta(2));
