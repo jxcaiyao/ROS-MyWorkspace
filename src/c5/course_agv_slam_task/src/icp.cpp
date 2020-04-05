@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "ros/console.h"
+#include "std_msgs/Float64.h"
 #include <stdio.h>
 
 #include <numeric>
@@ -34,6 +35,15 @@ public:
     double robot_x;
     double robot_y;
     double robot_theta;
+
+    double robot_dx;
+    double robot_dy;
+    double robot_dtheta;
+    double v_left;
+    double v_right;
+    double tread;
+    double time_last;
+    double time_now;
     // sensor states = robot_x_y_theta
     Vector3d sensor_sta;
 
@@ -52,10 +62,15 @@ public:
 
     // ICP process function
     void process(sensor_msgs::LaserScan input);
+
+    void v_left_subfunc(std_msgs::Float64 v_left_msgs);
+    void v_right_subfunc(std_msgs::Float64 v_right_msgs);
     // transform the ros msg to Eigen Matrix
     Eigen::MatrixXd rosmsgToEigen(const sensor_msgs::LaserScan input);
     // fint the nearest points & filter
     NeighBor findNearest(const Eigen::MatrixXd &src, const Eigen::MatrixXd &tar);
+
+    Eigen::Matrix3d getWheelTransform(void);
     // get the transform from two point sets in one iteration
     Eigen::Matrix3d getTransform(const Eigen::MatrixXd &A, const Eigen::MatrixXd &B);
     // calc 2D Euclidean distance
@@ -65,6 +80,8 @@ public:
   
     // ros-related subscribers, publishers and broadcasters
     ros::Subscriber laser_sub;
+    ros::Subscriber v_left_sub;
+    ros::Subscriber v_right_sub;
     void publishResult(Matrix3d T);
  	tf::TransformBroadcaster odom_broadcaster;
  	ros::Publisher odom_pub;
@@ -88,7 +105,24 @@ icp::icp(ros::NodeHandle& n):
 	n.getParam("/icp/dis_th", dis_th);
 
     isFirstScan = true;
+
+    robot_dx = 0;
+    robot_dy = 0;
+    robot_dtheta = 0;
+    v_left = 0;
+    v_right = 0;
+
+    tread = 2*(0.1+0.08/6);
+    time_now = (double)ros::Time::now().toSec();
+    time_last = time_now;
+
     laser_sub = n.subscribe("/course_agv/laser/scan", 1, &icp::process, this);
+
+    v_left_sub = n.subscribe("/course_agv/left_wheel_velocity_controller/command", 
+                                10, &icp::v_left_subfunc, this);
+    v_right_sub = n.subscribe("/course_agv/right_wheel_velocity_controller/command", 
+                                10, &icp::v_right_subfunc, this);
+
     odom_pub = n.advertise<nav_msgs::Odometry>("icp_odom", 1);
 }
 
@@ -144,6 +178,10 @@ void icp::process(sensor_msgs::LaserScan input)
     for(int i=0; i<tar_pc.cols(); i++){
         tar_pc_2D.block<2,1>(0,i) = tar_pc.block<2,1>(0,i);
     }
+    T = this->getWheelTransform();
+    std::cout << "T: " << endl << T << endl;
+    src_pc_2D = T.block<2,2>(0,0) * src_pc_2D + T.block<2,1>(0,2) * MatrixXd::Ones(1,src_pc_2D.cols());
+    Transform_acc = T * Transform_acc;
 
     // main LOOP
     for(int i=0; i<max_iter; i++)
@@ -155,7 +193,6 @@ void icp::process(sensor_msgs::LaserScan input)
             break;
         }
 
-        // std::cout << "here1" << endl;
         cols = neigh.distances.size();
         src_pc_rearr = MatrixXd::Zero(2,cols);
         tar_pc_rearr = MatrixXd::Zero(2,cols);
@@ -163,53 +200,67 @@ void icp::process(sensor_msgs::LaserScan input)
             src_pc_rearr.block<2,1>(0,j) = src_pc_2D.block<2,1>(0,neigh.src_indices[j]);
             tar_pc_rearr.block<2,1>(0,j) = tar_pc_2D.block<2,1>(0,neigh.tar_indices[j]);
         }
-        // std::cout << "here2" << endl;
 
         T = this->getTransform(src_pc_rearr, tar_pc_rearr);
-        // std::cout << "here3" << endl;
-
-        // std::cout << "src_pc_2D:" << endl;
-        // std::cout << src_pc_2D << endl;
-        // std::cout << "T:" << endl;
-        // std::cout << T << endl;
-        // std::cout << "Transform_acc:" << endl;
-        // std::cout << Transform_acc << endl;
 
         src_pc_2D = T.block<2,2>(0,0) * src_pc_2D + T.block<2,1>(0,2) * MatrixXd::Ones(1,src_pc_2D.cols());
-        // std::cout << "here4" << endl;
-
         Transform_acc = T * Transform_acc;
-        
-        // std::cout << "here5" << endl;
 
         mean_dist = std::accumulate(neigh.distances.begin(), neigh.distances.end(), 0.0) / neigh.distances.size();
-        if(abs(mean_dist) < tolerance){
-            //std::cout << "cols: " << src_pc_rearr.cols() << endl;
-            //std::cout << "mean_dist:  " << mean_dist << endl;
+        if(abs(mean_dist - last_dist) < tolerance){
             std::cout << "iter times:  " << i+1 << endl;
             break;
         }
         last_dist = mean_dist;
-        //std::cout << "here3" << endl;
     }
     std::cout << "cols: " << src_pc_rearr.cols() << endl;
     std::cout << "mean_dist:  " << mean_dist << endl;
 
     tar_pc = src_pc;
-    tar_pc_2D = MatrixXd::Zero(2,tar_pc.cols());
-    for(int i=0; i<tar_pc.cols(); i++){
-        tar_pc_2D.block<2,1>(0,i) = tar_pc.block<2,1>(0,i);
-    }
-
-    // Transform_acc = this->getTransform(tar_pc_2D, src_pc_2D);
-    // Transform_acc = this->getTransform(src_pc_rearr,tar_pc_rearr);
-    std::cout << "T:" << endl;
-    std::cout << Transform_acc << endl;
 
     this->publishResult(Transform_acc);
 
 	double time_1 = (double)ros::Time::now().toSec();
 	std::cout<<"time_cost:  "<<time_1-time_0<<endl<<endl;
+}
+
+void icp::v_left_subfunc(std_msgs::Float64 v_left_msgs)
+{
+    time_now = (double)ros::Time::now().toSec();
+    double dt = time_now - time_last;
+    v_left = 0.08 * v_left_msgs.data;
+
+    double v = (v_left + v_right)/2;
+
+    robot_dx += v * std::cos(robot_dtheta) * dt;
+    robot_dy += v * std::sin(robot_dtheta) * dt;
+    robot_dtheta += (v_right - v_left) / tread * dt;
+
+    time_last = time_now;
+    
+    // std::cout << "vleft: " << v_left << endl;
+    // std::cout << "vright: " << v_right << endl;
+    // std::cout << "dt: " << dt << endl;
+    // std::cout << "sta: " << robot_dx << robot_dy << robot_dtheta << endl << endl;
+}
+
+void icp::v_right_subfunc(std_msgs::Float64 v_right_msgs)
+{
+    time_now = (double)ros::Time::now().toSec();
+    double dt = time_now - time_last;
+    v_right = 0.08 * v_right_msgs.data;
+
+    double v = (v_left + v_right)/2;
+
+    robot_dx += v * std::cos(robot_dtheta) * dt;
+    robot_dy += v * std::sin(robot_dtheta) * dt;
+    robot_dtheta += (v_right - v_left) / tread * dt;
+
+    time_last = time_now;
+    // std::cout << "vright: " << v_right << endl;
+    // std::cout << "vleft: " << v_left << endl;
+    // std::cout << "dt: " << dt << endl;
+    // std::cout << "sta: " << robot_dx << robot_dy << robot_dtheta << endl << endl;
 }
 
 Eigen::MatrixXd icp::rosmsgToEigen(const sensor_msgs::LaserScan input)
@@ -268,6 +319,23 @@ NeighBor icp::findNearest(const Eigen::MatrixXd &src, const Eigen::MatrixXd &tar
 
     //std::cout << "here2" << endl;
     return neigh;
+}
+
+Eigen::Matrix3d icp::getWheelTransform(void)
+{
+    Vector3d sta = Vector3d::Zero(3,1);
+    sta <<  robot_dx, 
+            robot_dy,   
+            robot_dtheta;
+    Matrix3d T;
+
+    T = this->staToMatrix(sta);
+
+    robot_dx = 0;
+    robot_dy = 0;
+    robot_dtheta = 0;
+
+    return T;
 }
 
 Eigen::Matrix3d icp::getTransform(const Eigen::MatrixXd &src, const Eigen::MatrixXd &tar)
