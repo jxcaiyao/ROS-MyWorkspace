@@ -7,10 +7,10 @@
 		<param name="robot_y" value="0"/>
 		<param name="robot_theta" value="0"/>
 
-		<param name="max_iter" value=""/>
-		<param name="tolerance" value=""/>
-		<param name="dis_th" value=""/>
-		<param name="min_match" value=""/>
+		<param name="max_iter" value="50"/>
+		<param name="tolerance" value="1e-6"/>
+		<param name="dis_th" value="0.2"/>
+		<param name="min_match" value="3"/>
 	</node>
 
 </launch>

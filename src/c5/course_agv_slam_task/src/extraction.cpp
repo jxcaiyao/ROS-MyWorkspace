@@ -109,6 +109,45 @@ LandMarkSet extraction::extractLandMark(sensor_msgs::LaserScan input)
     LandMarkSet landMarks;
 
     // TODO: please code by yourself
+    int landMark_id = 0;
+    int cur_label = 0;
+    int begin_index = 0;
+    int end_index = 0;
+    int mid_index = 0;
+    Vector2d begin_xy;
+    Vector2d end_xy;
+    Vector2d mid_xy;
+    Vector2d center_xy;
+    float angle, dis;
+    for(int i=0; i<total_num; i++){
+        if(cur_label != input.intensities[i]){
+            end_index = i-1;
+            if(end_index - begin_index >= this->landMark_min_pt){
+                angle = input.angle_min + begin_index * input.angle_increment;
+                begin_xy << input.ranges[begin_index] * std::cos(angle), input.ranges[begin_index] * std::sin(angle);
+                angle = input.angle_min + end_index * input.angle_increment;
+                end_xy << input.ranges[end_index] * std::cos(angle), input.ranges[end_index] * std::sin(angle);
+                dis = this->calc_dist(begin_xy, end_xy);
+                if(dis <= radius_max_th){
+                    mid_index = (int)((begin_index + end_index)/2.0 + 0.5);
+                    angle = input.angle_min + mid_index * input.angle_increment;
+                    mid_xy << input.ranges[mid_index] * std::cos(angle), input.ranges[mid_index] * std::sin(angle);
+
+                    center_xy = mid_xy;
+                    center_xy = (center_xy.norm() + 0.12) * center_xy.normalized();
+
+                    std::cout << landMark_id << ": " << center_xy.transpose() << endl;
+
+                    landMarks.id.push_back(landMark_id);
+                    landMarks.position_x.push_back(center_xy.x());
+                    landMarks.position_y.push_back(center_xy.y());
+                    landMark_id++;
+                }
+            }
+            begin_index = i;
+            cur_label = input.intensities[i];
+        }
+    }
 
     return landMarks;
 }
@@ -151,7 +190,10 @@ void extraction::publishLandMark(LandMarkSet input)
 
 float extraction::calc_dist(const Eigen::Vector2d &pta, const Eigen::Vector2d &ptb)
 {
-    // TODO: please code by yourself
+    // please code by yourself
+    float dist;
+    dist = (pta - ptb).norm();
+    return dist;
 }
 
 int main(int argc, char **argv)

@@ -168,7 +168,7 @@ void icp::process(sensor_msgs::LaserScan input)
     Eigen::Matrix3d Transform_acc = Eigen::MatrixXd::Identity(3,3);
     src_pc = this->rosmsgToEigen(input);
 
-    // TODO: preprocess src_pc_2D
+    // preprocess src_pc_2D
     
     src_pc_2D = MatrixXd::Zero(2,src_pc.cols());
     for(int i=0; i<src_pc.cols(); i++){
