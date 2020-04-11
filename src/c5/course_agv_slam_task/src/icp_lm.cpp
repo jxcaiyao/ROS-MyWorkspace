@@ -387,7 +387,7 @@ Eigen::Matrix3d icp_lm::getTransform(const Eigen::MatrixXd &src, const Eigen::Ma
     }
 
     t = tar_mc - R * src_mc;
-    t = R.inverse() * t;
+    // t = R.inverse() * t;
     //std::cout << "here5" << endl;
 
     T.block<2,2>(0,0) = R;

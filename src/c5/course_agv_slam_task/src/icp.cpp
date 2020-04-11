@@ -138,10 +138,10 @@ void icp::process(sensor_msgs::LaserScan input)
     //       0, 1, 1;
     // MatrixXd T1;
 
-    // // std::cout << A << endl;
-    // // std::cout << B << endl;
+    // std::cout << A << endl;
+    // std::cout << B << endl;
     // T1 = this->getTransform(A,B);
-    // // std::cout << T1 << endl << endl;
+    // std::cout << T1 << endl << endl;
     // return;
 
     // set the inital
@@ -402,7 +402,7 @@ Eigen::Matrix3d icp::getTransform(const Eigen::MatrixXd &src, const Eigen::Matri
     }
 
     t = tar_mc - R * src_mc;
-    t = R.inverse() * t;
+    // t = R.inverse() * t;
     //std::cout << "here5" << endl;
 
     T.block<2,2>(0,0) = R;
