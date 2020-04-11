@@ -36,6 +36,11 @@
 },
 {
   "directory": "/home/zailu/catkin_ws/build/c5/course_agv_slam_task",
+  "command": "/usr/bin/c++  -DNDEBUG -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"course_agv_slam_task\\\" -I/home/zailu/catkin_ws/src/c5/course_agv_slam_task/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -O2 -g -o CMakeFiles/ekf.dir/src/ekf.cpp.o -c /home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/ekf.cpp",
+  "file": "/home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/ekf.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/c5/course_agv_slam_task",
   "command": "/usr/bin/c++  -DNDEBUG -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"course_agv_slam_task\\\" -I/home/zailu/catkin_ws/src/c5/course_agv_slam_task/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -O2 -g -o CMakeFiles/icp_lm.dir/src/icp_lm.cpp.o -c /home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/icp_lm.cpp",
   "file": "/home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/icp_lm.cpp"
 },
