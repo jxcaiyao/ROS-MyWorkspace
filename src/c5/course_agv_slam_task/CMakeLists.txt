@@ -35,3 +35,8 @@ add_executable(icp_lm src/icp_lm.cpp)
 target_link_libraries(icp_lm
 ${catkin_LIBRARIES}
 )
+
+add_executable(ekf src/ekf.cpp)
+target_link_libraries(ekf
+${catkin_LIBRARIES}
+)
