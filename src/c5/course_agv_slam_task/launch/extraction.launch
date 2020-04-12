@@ -1,5 +1,4 @@
 <launch>
-	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find course_agv_description)/urdf/course_agv.xacro'" />
 
 
 	<node pkg="course_agv_slam_task" type="extraction" name="extraction" output="screen" >

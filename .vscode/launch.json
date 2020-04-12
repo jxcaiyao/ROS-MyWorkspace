@@ -16,15 +16,14 @@
             "name": "(gdb) Launch", // 配置名称，将会在调试配置下拉列表中显示
             "type": "cppdbg", // 调试器类型 该值自动生成
             "request": "launch", // 调试方式,还可以选择attach
-            "program": "${workspaceRoot}/devel/lib/course_agv_slam_task/icp", //要调试的程序（完整路径，支持相对路径）
-            "args": [   "/icp/dis_th: 0.1",
-                        "/icp/max_iter: 100",
-                        "/icp/robot_theta: 0",
-                        "/icp/robot_x: 0",
-                        "/icp/robot_y: 0",
-                        "/icp/tolerance: 0.01",
-                        "/rosdistro: melodic",
-                        "/rosversion: 1.14.3"
+            "program": "${workspaceRoot}/devel/lib/course_agv_slam_task/ekf", //要调试的程序（完整路径，支持相对路径）
+            "args": [   "/ekf/robot_theta: 0",
+                        "/ekf/robot_x: 0",
+                        "/ekf/robot_y: 0",
+                        "/ekf/match_th: 0.2",
+                        "/ekf/landMark_num: 0",
+                        "/ekf/noise_motion: 0.01",
+                        "/ekf/noise_measure: 0.01"
                     ], // 传递给上面程序的参数，没有参数留空即可
             "stopAtEntry": false, // 是否停在程序入口点（停在main函数开始）
             "cwd": "${workspaceRoot}", // 调试程序时的工作目录

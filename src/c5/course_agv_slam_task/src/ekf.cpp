@@ -44,6 +44,9 @@ public:
     float noise_motion, noise_measure;
     // count the non-zero elements in status
     int nonZero_cnt;
+
+    Vector2d mu_t;
+    bool is_Predict;
     
     // init all 
     void initAll();
@@ -59,8 +62,10 @@ public:
     void updateFeatureMap(Eigen::MatrixXd newFeatures);
     // get motion Jacobian
     MatrixXd getMotionJacobian();
+    // get control jacobian
+    MatrixXd getControlJacobian();
     // get observation Jacobian
-    MatrixXd getObservJacobian();
+    MatrixXd getObservJacobian(int i);
     // angle normalization
     double angleNorm(double angle);
     // calc 2D distance
@@ -73,6 +78,7 @@ public:
     ros::Subscriber icpOdom_sub;
     tf::TransformBroadcaster ekf_broadcaster;
     void publishResult();
+ 	ros::Publisher odom_pub;
 };
 
 ekf::~ekf()
@@ -93,19 +99,76 @@ ekf::ekf(ros::NodeHandle& n):
 
     this->initAll();
 
-    isFirstScan = true;
     landMark_sub = n.subscribe("/landMarks", 1, &ekf::update, this);
     icpOdom_sub = n.subscribe("/icp_odom", 1, &ekf::predict, this);
+    odom_pub = n.advertise<nav_msgs::Odometry>("/ekf_odom", 1);
 }
 
 void ekf::predict(nav_msgs::Odometry odom)
 {
+    // return;
     // TODO: Please complete the predict phase or motion model
+    double roll, pitch, yaw;
+    tf::Quaternion quat;
+    tf::quaternionMsgToTF(odom.pose.pose.orientation, quat);
+    tf::Matrix3x3(quat).getRPY(roll, pitch, yaw);
+
+    double dx, dy, da;
+    dx = odom.pose.pose.position.x - status(0);
+    dy = odom.pose.pose.position.y - status(1);
+    da = yaw - status(2);
+    da = this->angleNorm(da);
+
+    mu_t(0) = sqrt(dx*dx + dy*dy);
+    mu_t(1) = da;
+
+    status(0) = odom.pose.pose.position.x;
+    status(1) = odom.pose.pose.position.y;
+    status(2) = this->angleNorm(yaw);
+
+    is_Predict = true;
 }
 
 void ekf::update(visualization_msgs::MarkerArray input)
 {   
+    // Vector2d A(1,0);
+    // Vector2d B(0,1);
+    // status << 1,1,3.1415926;
+    // this->updateFeatureMap(A);
+    // cout << "status:" << endl << status.transpose() << endl;
+    // cout << "corvariance: " << endl << covariance << endl;
+    // this->updateFeatureMap(B);
+    // cout << "status:" << endl << status.transpose() << endl;
+    // cout << "corvariance: " << endl << covariance << endl;
+
+    // Vector2d C(0,1.1);
+    // int index1;
+    // index1 = this->findNearestMap(C);
+    // cout << "index:" << index1 << endl;
+
+    // Vector2d z_est1, z_t1;
+    // z_est1 = this->cartesianToPolar(status(3+2*index1)-status(0), status(4+2*index1)-status(1));
+    // z_est1(1) -= status(2);
+    // z_est1(1) = this->angleNorm(z_est1(1));
+    // cout << "z_est: " << endl << z_est1 << endl;
+    // z_t1 = this->cartesianToPolar(C(0), C(1));
+    // cout << "z_t: " << endl << z_t1 << endl;
+
+    // MatrixXd H_t1 = this->getObservJacobian(index1);
+    // cout << "H_t: " << endl << H_t1 << endl;
+
+    // this->initAll();
+    // cout << endl;
+    // return;
+
+/******************************/
+
     double time_0 = (double)ros::Time::now().toSec();
+
+    if(!is_Predict){
+        return;
+    }
+    is_Predict = false;
 
     MatrixXd landMarkFeatures = this->landMarksToXY(input);
     cout<<"-------------New LM Cnt:    "<<landMarkFeatures.cols()<<endl;
@@ -118,16 +181,106 @@ void ekf::update(visualization_msgs::MarkerArray input)
         this->updateFeatureMap(landMarkFeatures);
         return;
     }
-    
+
+    // Prediction update
+    double st;
+    cout << "landMark_num: " << landMark_num << endl;
+
+    MatrixXd G_e, G_mu;
+
+    st = (double)ros::Time::now().toSec();
+    G_e  = this->getMotionJacobian();
+    cout << "190: " << (double)ros::Time::now().toSec()-st << endl;
+    st = (double)ros::Time::now().toSec();
+    G_mu = this->getControlJacobian();
+    cout << "193: " << (double)ros::Time::now().toSec()-st << endl;
+    st = (double)ros::Time::now().toSec();
+
+    // covariance = G_e * covariance * G_e.transpose() + G_mu * noise_R * G_mu.transpose();
+    covariance.block(0,0,3,3) = G_e * covariance.block(0,0,3,3) * G_e.transpose();
+    covariance.block(0,3,3,2*landMark_num) = G_e * covariance.block(0,3,3,2*landMark_num);
+    covariance.block(3,0,2*landMark_num,3) = covariance.block(0,3,3,2*landMark_num).transpose();
+    covariance = covariance + G_mu * noise_R * G_mu.transpose();
+    cout << "197: " << (double)ros::Time::now().toSec()-st << endl;
+    st = (double)ros::Time::now().toSec();
+
+    // Observation update
+    int cols = landMarkFeatures.cols();
+    int index;
+
+    for(int i=0; i<cols; i++){
+        Vector2d z_t;
+        z_t = this->cartesianToPolar(landMarkFeatures(0,i), landMarkFeatures(1,i));
+        index = this->findNearestMap(landMarkFeatures.col(i));
+        cout << "208: " << (double)ros::Time::now().toSec()-st << endl;
+        st = (double)ros::Time::now().toSec();
+        if(index >= 0){     //特征已存在
+            Vector2d z_est;
+            z_est = this->cartesianToPolar(status(3+2*index)-status(0), status(4+2*index)-status(1));
+            z_est(1) -= status(2);
+            z_est(1) = this->angleNorm(z_est(1));
+
+            MatrixXd H_t = this->getObservJacobian(index);
+            cout << "217: " << (double)ros::Time::now().toSec()-st << endl;
+            st = (double)ros::Time::now().toSec();
+
+            MatrixXd K_t;
+            MatrixXd co = MatrixXd::Zero(5,5);
+            co.block<3,3>(0,0) = covariance.block<3,3>(0,0);
+            co.block<3,2>(0,3) = covariance.block<3,2>(0,2*index+3);
+            co.block<2,3>(3,0) = covariance.block<2,3>(2*index+3,0);
+            co.block<2,2>(3,3) = covariance.block<2,2>(2*index+3,2*index+3);
+
+            MatrixXd ht = MatrixXd::Zero(2,5);
+            ht.block<2,3>(0,0) = H_t.block<2,3>(0,0);
+            ht.block<2,2>(0,3) = H_t.block<2,2>(0,2*index+3);
+            K_t = covariance * H_t.transpose() * (ht * co * ht.transpose() + noise_Q).inverse();
+            cout << "222: " << (double)ros::Time::now().toSec()-st << endl;
+            st = (double)ros::Time::now().toSec();
+
+            status = status + K_t * (z_t - z_est);
+            cout << "226: " << (double)ros::Time::now().toSec()-st << endl;
+            st = (double)ros::Time::now().toSec();
+            covariance = covariance - K_t * (H_t * covariance);
+            cout << "230: " << (double)ros::Time::now().toSec()-st << endl;
+            st = (double)ros::Time::now().toSec();
+        }else{      //特征不存在
+            this->updateFeatureMap(z_t);
+            cout << "233: " << (double)ros::Time::now().toSec()-st << endl;
+            st = (double)ros::Time::now().toSec();
+        }
+    }
     this->publishResult();
 
     double time_1 = (double)ros::Time::now().toSec();
-    cout<<"time_cost:  "<<time_1-time_0<<endl;
+    cout<<"time_cost:  "<<time_1-time_0<<endl<<endl;
 }
 
 void ekf::initAll()
 {   
-    // TODO: You can initial here if you need
+    // TODO: You can initial here if you need    
+    isFirstScan = true;
+    is_Predict = false;
+    status = Vector3d::Zero();
+    status << robot_x, robot_y, robot_theta;
+    mu_t = Vector2d::Zero();
+
+    covariance = Matrix3d::Zero();
+    landMark_num = 0;
+
+    double b = 2*(0.1+0.08/6);
+    Matrix2d G = MatrixXd::Zero(2,2);
+    G << 1/2, 1/2,
+        -1/b, 1/b;
+    Matrix2d dSlr = MatrixXd::Zero(2,2);
+    dSlr << noise_motion*noise_motion, 0,
+            0, noise_motion*noise_motion;
+
+    noise_R = G * dSlr * G.transpose();
+        
+    noise_Q = MatrixXd::Zero(2,2);
+    noise_Q << noise_measure*noise_measure, 0,
+               0, noise_measure*noise_measure;
 }
 
 Eigen::MatrixXd ekf::landMarksToXY(visualization_msgs::MarkerArray input)
@@ -147,31 +300,145 @@ Eigen::MatrixXd ekf::landMarksToXY(visualization_msgs::MarkerArray input)
 void ekf::updateFeatureMap(Eigen::MatrixXd newFeatures)
 {   
     // TODO:  Please complete this function if you need
+    int cols = newFeatures.cols();
+    Matrix3d T;
+    T << cos(status(2)), -sin(status(2)), status(0),
+         sin(status(2)),  cos(status(2)), status(1),
+         0,               0,              1        ;
     if(isFirstScan)
     {   
         // initial the map by landmarks in first scan
+        
+
+        landMark_num = cols;
+
+        VectorXd tx = MatrixXd::Zero(3+2*landMark_num,1);
+        tx.block<3,1>(0,0) = status.block<3,1>(0,0);
+
+        for(int i=0; i<cols; i++){
+            tx.block<2,1>(3+2*i,0) = T.block<2,2>(0,0) * newFeatures.col(i) + T.block<2,1>(0,2);
+        }
+        status = tx;
+
+        MatrixXd tc = MatrixXd::Identity(3+2*landMark_num, 3+2*landMark_num);
+        tc = 100 * tc;
+        tc.block<3,3>(0,0) = covariance.block<3,3>(0,0);
+        covariance = tc;
 
         isFirstScan = false;
     }
     else
     {   
+        VectorXd tx = MatrixXd::Zero(3+2*landMark_num+2*cols, 1);
+        tx.block(0,0,status.rows(),1) = status;
+
+        for(int i=0; i<cols; i++){
+            tx.block<2,1>(3+2*landMark_num+2*i,0) = T.block<2,2>(0,0) * newFeatures.col(i) + T.block<2,1>(0,2);
+        }
+        status = tx;
+
+        MatrixXd tc = MatrixXd::Identity(3+2*landMark_num+2*cols, 3+2*landMark_num+2*cols);
+        tc = 10 * noise_measure*noise_measure * tc;
+        tc.block(0, 0, covariance.rows(), covariance.cols()) = covariance;
+        landMark_num += cols;
+
+        covariance = tc;
     }
 }
 
 int ekf::findNearestMap(Vector2d point)
 {   
     // TODO: Please complete the NN search
+    int min_index = -1;
+    double min_dist = 1e10;
+    double cur_dist = 0;
+    double min_th = 1e10;
+    Vector2d landMark;
+    Vector2d p = point;
+    Matrix3d T;
+    T << cos(status(2)), -sin(status(2)), status(0),
+         sin(status(2)),  cos(status(2)), status(1),
+         0,               0,              1        ;
+
+    point = T.block<2,2>(0,0) * point + T.block<2,1>(0,2);
+    for(int i=0; i<landMark_num; i++){
+        landMark(0) = status(i*2 + 3);
+        landMark(1) = status(i*2 + 4);
+
+        cur_dist = this->calc_dist(landMark, point);
+        match_th = 5*sqrt(covariance(3+2*i,3+2*i) + covariance(4+2*i,4+2*i));
+        // match_th = match_th > 1.2 ? 1.2 : match_th;
+        match_th = 1.2;
+        if(match_th < min_th){
+            min_th = match_th;
+        }
+        if(cur_dist < match_th && cur_dist < min_dist){
+            min_index = i;
+            min_dist = cur_dist;
+        }
+    }
+    // cout << endl;
+    // cout << "status: " << endl << status.transpose() << endl;
+    // cout << "covarance: " << endl << covariance << endl;
+    // cout << "T: " << endl << T << endl;
+    // cout << "p: " << p.transpose() << endl;
+    // cout << "point: " << point.transpose() << endl;
+    cout << "min_th: " << min_th << endl;
+    cout << "min_dist: " << min_dist << endl;
+    // cout << endl;
+
+    return min_index;
 }
 
 Eigen::MatrixXd ekf::getMotionJacobian()
 {
     // TODO: Please complete the Jocobian Calculation of Motion
+    MatrixXd G_e = MatrixXd::Identity(3,3);
+    G_e(0,2) = -mu_t(0) * sin(status(2) + mu_t(1)/2);
+    G_e(1,2) =  mu_t(0) * cos(status(2) + mu_t(1)/2);
+
+    // MatrixXd G_ee = MatrixXd::Identity(3+2*landMark_num, 3+2*landMark_num);
+    // G_ee.block<3,3>(0,0) = G_e;
+
+    return G_e;
 }
 
-Eigen::MatrixXd ekf::getObservJacobian()
+Eigen::MatrixXd ekf::getControlJacobian()
+{
+    // TODO: Please complete the Jocobian Calculation of Control
+    MatrixXd G_mu = MatrixXd::Zero(3,2);
+    MatrixXd F = MatrixXd::Zero(3+2*landMark_num,3);
+    F.block<3,3>(0,0) = MatrixXd::Identity(3,3);
+
+    G_mu << cos(status(2) + mu_t(1)/2), -mu_t(0)/2*sin(status(2) + mu_t(1)/2),
+            sin(status(2) + mu_t(1)/2),  mu_t(0)/2*cos(status(2) + mu_t(1)/2),
+            0,                           1                                   ;
+    
+    G_mu = F * G_mu;
+
+    return G_mu;
+}
+
+Eigen::MatrixXd ekf::getObservJacobian(int i)
 {
     // TODO: Please complete the Jocobian Calculation of Observation
+    MatrixXd H_v = MatrixXd::Zero(2,5);
+    MatrixXd F_i = MatrixXd::Zero(5,3+2*landMark_num);
+    double dx = status(3+2*i) - status(0);
+    double dy = status(4+2*i) - status(1);
+    double q = dx*dx + dy*dy;
+    double ds = sqrt(q);
+    
+    H_v <<  -ds*dx, -ds*dy, 0,  ds*dx,  ds*dy,
+            dy,     -dx,    -q, -dy,    dx   ;
+    H_v /= q;
 
+    F_i.block<3,3>(0,0) = MatrixXd::Identity(3,3);
+    F_i.block<2,2>(3,2*i+3) = MatrixXd::Identity(2,2);
+
+    H_v = H_v * F_i;
+
+    return H_v;
 }
 
 Vector2d ekf::cartesianToPolar(double x, double y)
@@ -213,6 +480,17 @@ void ekf::publishResult()
     ekf_trans.transform.rotation = odom_quat;
 
     ekf_broadcaster.sendTransform(ekf_trans);
+
+    nav_msgs::Odometry odom;
+    odom.header.stamp = ros::Time::now();
+    odom.header.frame_id = "world_base";
+
+    odom.pose.pose.position.x = status(0);
+    odom.pose.pose.position.y = status(1);
+    odom.pose.pose.position.z = 0.0;
+    odom.pose.pose.orientation = odom_quat;
+
+    odom_pub.publish(odom);
 }
 
 int main(int argc, char **argv)
