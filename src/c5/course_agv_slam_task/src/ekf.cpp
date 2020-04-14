@@ -113,7 +113,7 @@ void ekf::predict(nav_msgs::Odometry odom)
         return;
     }
     is_Update = false;
-    // return;
+
     // TODO: Please complete the predict phase or motion model
     double roll, pitch, yaw;
     tf::Quaternion quat;
@@ -144,38 +144,6 @@ void ekf::predict(nav_msgs::Odometry odom)
 
 void ekf::update(visualization_msgs::MarkerArray input)
 {   
-    // Vector2d A(1,0);
-    // Vector2d B(0,1);
-    // status << 1,1,3.1415926;
-    // this->updateFeatureMap(A);
-    // cout << "status:" << endl << status.transpose() << endl;
-    // cout << "corvariance: " << endl << covariance << endl;
-    // this->updateFeatureMap(B);
-    // cout << "status:" << endl << status.transpose() << endl;
-    // cout << "corvariance: " << endl << covariance << endl;
-
-    // Vector2d C(0,1.1);
-    // int index1;
-    // index1 = this->findNearestMap(C);
-    // cout << "index:" << index1 << endl;
-
-    // Vector2d z_est1, z_t1;
-    // z_est1 = this->cartesianToPolar(status(3+2*index1)-status(0), status(4+2*index1)-status(1));
-    // z_est1(1) -= status(2);
-    // z_est1(1) = this->angleNorm(z_est1(1));
-    // cout << "z_est: " << endl << z_est1 << endl;
-    // z_t1 = this->cartesianToPolar(C(0), C(1));
-    // cout << "z_t: " << endl << z_t1 << endl;
-
-    // MatrixXd H_t1 = this->getObservJacobian(index1);
-    // cout << "H_t: " << endl << H_t1 << endl;
-
-    // this->initAll();
-    // cout << endl;
-    // return;
-
-/******************************/
-
     double time_0 = (double)ros::Time::now().toSec();
 
     if(!is_Predict){
@@ -236,12 +204,6 @@ void ekf::update(visualization_msgs::MarkerArray input)
             ht.block<2,3>(0,0) = H_t.block<2,3>(0,0);
             ht.block<2,2>(0,3) = H_t.block<2,2>(0,2*index+3);
             K_t = covariance * H_t.transpose() * (ht * co * ht.transpose() + noise_Q).inverse();
-            // K_t = covariance * H_t.transpose() * (H_t * covariance * H_t.transpose() + noise_Q).inverse();
-
-            cout << endl << z_t.transpose() << endl;
-            cout << z_est.transpose() << endl;
-            // cout << K_t.transpose() << endl;
-            cout << status.block<3,1>(0,0).transpose() << endl;
 
             Vector2d dz = z_t - z_est;
             dz(1) = this->angleNorm(dz(1));
@@ -250,8 +212,6 @@ void ekf::update(visualization_msgs::MarkerArray input)
             }
 
             status = status + K_t * dz;
-            cout << status.block<3,1>(0,0).transpose() << endl << endl;
-            // cout << status.transpose() << endl << endl;
             status(2) = this->angleNorm(status(2));
             covariance = covariance - K_t * (H_t * covariance);
         }else{      //特征不存在
@@ -323,7 +283,6 @@ void ekf::updateFeatureMap(Eigen::MatrixXd newFeatures)
     {   
         // initial the map by landmarks in first scan
         
-
         landMark_num = cols;
 
         VectorXd tx = MatrixXd::Zero(3+2*landMark_num,1);
@@ -380,22 +339,11 @@ int ekf::findNearestMap(Vector2d point)
         landMark(1) = status(i*2 + 4);
 
         cur_dist = this->calc_dist(landMark, point);
-        // cout << point.transpose() << "\t-\t" << landMark.transpose() << "\t:\t" << cur_dist << endl;
-        // match_th = 3*sqrt(covariance(3+2*i,3+2*i) + covariance(4+2*i,4+2*i));
         if(cur_dist < match_th && cur_dist < min_dist){
             min_index = i;
             min_dist = cur_dist;
         }
     }
-    // cout << endl;
-    // cout << "status: " << endl << status.transpose() << endl;
-    // cout << "covarance: " << endl << covariance << endl;
-    // cout << "T: " << endl << T << endl;
-    // cout << "p: " << p.transpose() << endl;
-    // cout << "point: " << point.transpose() << endl;
-    // cout << "min_th: " << min_th << endl;
-    // cout << "min_dist: " << min_dist << endl;
-    // cout << endl;
 
     return min_index;
 }
@@ -406,9 +354,6 @@ Eigen::MatrixXd ekf::getMotionJacobian()
     MatrixXd G_e = MatrixXd::Identity(3,3);
     G_e(0,2) = -mu_t(0) * sin(status(2) + mu_t(1)/2);
     G_e(1,2) =  mu_t(0) * cos(status(2) + mu_t(1)/2);
-
-    // MatrixXd G_ee = MatrixXd::Identity(3+2*landMark_num, 3+2*landMark_num);
-    // G_ee.block<3,3>(0,0) = G_e;
 
     return G_e;
 }
