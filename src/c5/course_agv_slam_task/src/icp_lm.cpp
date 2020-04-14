@@ -121,9 +121,9 @@ icp_lm::icp_lm(ros::NodeHandle& n):
     landMark_sub = n.subscribe("/landMarks", 1, &icp_lm::process, this);
     
     v_left_sub = n.subscribe("/course_agv/left_wheel_velocity_controller/command", 
-                                10, &icp_lm::v_left_subfunc, this);
+                                1, &icp_lm::v_left_subfunc, this);
     v_right_sub = n.subscribe("/course_agv/right_wheel_velocity_controller/command", 
-                                10, &icp_lm::v_right_subfunc, this);
+                                1, &icp_lm::v_right_subfunc, this);
     
     odom_pub = n.advertise<nav_msgs::Odometry>("icp_odom", 1);
 }
