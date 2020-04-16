@@ -311,7 +311,8 @@ void ekf::updateFeatureMap(Eigen::MatrixXd newFeatures)
         status = tx;
 
         MatrixXd tc = MatrixXd::Identity(3+2*landMark_num+2*cols, 3+2*landMark_num+2*cols);
-        tc.block(covariance.rows(), covariance.cols(), cols, cols) = 1000 * MatrixXd::Identity(cols, cols);
+        tc.block(covariance.rows(), covariance.cols(), 2*cols, 2*cols) = 
+                            2*noise_measure*noise_measure * MatrixXd::Identity(2*cols, 2*cols);
         tc.block(0, 0, covariance.rows(), covariance.cols()) = covariance;
         landMark_num += cols;
 

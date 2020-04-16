@@ -118,6 +118,7 @@ LandMarkSet extraction::extractLandMark(sensor_msgs::LaserScan input)
     Vector2d end_xy;
     Vector2d mid_xy;
     Vector2d center_xy;
+    Vector2d center2_xy;
     float angle, dis;
     for(int i=0; i<total_num; i++){
         if(cur_label != input.intensities[i]){
@@ -133,8 +134,15 @@ LandMarkSet extraction::extractLandMark(sensor_msgs::LaserScan input)
                     angle = input.angle_min + mid_index * input.angle_increment;
                     mid_xy << input.ranges[mid_index] * std::cos(angle), input.ranges[mid_index] * std::sin(angle);
 
+                    double R = 0.09;
                     center_xy = mid_xy;
-                    center_xy = (center_xy.norm() + 0.12) * center_xy.normalized();
+                    center_xy += R * center_xy.normalized();
+
+                    center2_xy = (begin_xy + end_xy) / 2;
+                    if(dis < 2*R){
+                        center2_xy += sqrt(R*R - dis*dis/4) * center2_xy.normalized();
+                    }
+                    center_xy = (center_xy + center2_xy) / 2;
 
                     std::cout << landMark_id << ": " << center_xy.transpose() << endl;
 
