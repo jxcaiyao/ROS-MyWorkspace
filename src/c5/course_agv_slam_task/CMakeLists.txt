@@ -40,3 +40,8 @@ add_executable(ekf src/ekf.cpp)
 target_link_libraries(ekf
 ${catkin_LIBRARIES}
 )
+
+add_executable(mapping src/mapping.cpp)
+target_link_libraries(mapping
+${catkin_LIBRARIES}
+)

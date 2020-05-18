@@ -99,7 +99,6 @@ extraction_EXTERNAL_OBJECTS =
 /home/zailu/catkin_ws/devel/lib/course_agv_slam_task/extraction: /opt/ros/melodic/lib/libmessage_filters.so
 /home/zailu/catkin_ws/devel/lib/course_agv_slam_task/extraction: /opt/ros/melodic/lib/libroscpp.so
 /home/zailu/catkin_ws/devel/lib/course_agv_slam_task/extraction: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
-/home/zailu/catkin_ws/devel/lib/course_agv_slam_task/extraction: /usr/lib/x86_64-linux-gnu/libboost_signals.so
 /home/zailu/catkin_ws/devel/lib/course_agv_slam_task/extraction: /opt/ros/melodic/lib/libxmlrpcpp.so
 /home/zailu/catkin_ws/devel/lib/course_agv_slam_task/extraction: /opt/ros/melodic/lib/libtf2.so
 /home/zailu/catkin_ws/devel/lib/course_agv_slam_task/extraction: /opt/ros/melodic/lib/libroscpp_serialization.so

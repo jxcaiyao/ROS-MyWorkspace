@@ -168,6 +168,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+c5/course_agv_slam_task/CMakeFiles/mapping.dir/rule:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 c5/course_agv_slam_task/CMakeFiles/mapping.dir/rule
+.PHONY : c5/course_agv_slam_task/CMakeFiles/mapping.dir/rule
+
+# Convenience name for target.
+mapping: c5/course_agv_slam_task/CMakeFiles/mapping.dir/rule
+
+.PHONY : mapping
+
+# fast build rule for target.
+mapping/fast:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f c5/course_agv_slam_task/CMakeFiles/mapping.dir/build.make c5/course_agv_slam_task/CMakeFiles/mapping.dir/build
+.PHONY : mapping/fast
+
+# Convenience name for target.
 c5/course_agv_slam_task/CMakeFiles/ekf.dir/rule:
 	cd /home/zailu/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 c5/course_agv_slam_task/CMakeFiles/ekf.dir/rule
 .PHONY : c5/course_agv_slam_task/CMakeFiles/ekf.dir/rule
@@ -935,6 +950,33 @@ src/icp_lm.cpp.s:
 	cd /home/zailu/catkin_ws/build && $(MAKE) -f c5/course_agv_slam_task/CMakeFiles/icp_lm.dir/build.make c5/course_agv_slam_task/CMakeFiles/icp_lm.dir/src/icp_lm.cpp.s
 .PHONY : src/icp_lm.cpp.s
 
+src/mapping.o: src/mapping.cpp.o
+
+.PHONY : src/mapping.o
+
+# target to build an object file
+src/mapping.cpp.o:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f c5/course_agv_slam_task/CMakeFiles/mapping.dir/build.make c5/course_agv_slam_task/CMakeFiles/mapping.dir/src/mapping.cpp.o
+.PHONY : src/mapping.cpp.o
+
+src/mapping.i: src/mapping.cpp.i
+
+.PHONY : src/mapping.i
+
+# target to preprocess a source file
+src/mapping.cpp.i:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f c5/course_agv_slam_task/CMakeFiles/mapping.dir/build.make c5/course_agv_slam_task/CMakeFiles/mapping.dir/src/mapping.cpp.i
+.PHONY : src/mapping.cpp.i
+
+src/mapping.s: src/mapping.cpp.s
+
+.PHONY : src/mapping.s
+
+# target to generate assembly for a file
+src/mapping.cpp.s:
+	cd /home/zailu/catkin_ws/build && $(MAKE) -f c5/course_agv_slam_task/CMakeFiles/mapping.dir/build.make c5/course_agv_slam_task/CMakeFiles/mapping.dir/src/mapping.cpp.s
+.PHONY : src/mapping.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -944,6 +986,7 @@ help:
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... edit_cache"
+	@echo "... mapping"
 	@echo "... ekf"
 	@echo "... icp_lm"
 	@echo "... icp"
@@ -1004,6 +1047,9 @@ help:
 	@echo "... src/icp_lm.o"
 	@echo "... src/icp_lm.i"
 	@echo "... src/icp_lm.s"
+	@echo "... src/mapping.o"
+	@echo "... src/mapping.i"
+	@echo "... src/mapping.s"
 .PHONY : help
 
 

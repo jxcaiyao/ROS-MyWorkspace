@@ -48,6 +48,17 @@ struct Person_
 
 
 
+// reducing the odds to have name collisions with Windows.h 
+#if defined(_WIN32) && defined(unknown)
+  #undef unknown
+#endif
+#if defined(_WIN32) && defined(male)
+  #undef male
+#endif
+#if defined(_WIN32) && defined(female)
+  #undef female
+#endif
+
   enum {
     unknown = 0u,
     male = 1u,
@@ -82,6 +93,22 @@ ros::message_operations::Printer< ::learning_topic::Person_<ContainerAllocator> 
 return s;
 }
 
+
+template<typename ContainerAllocator1, typename ContainerAllocator2>
+bool operator==(const ::learning_topic::Person_<ContainerAllocator1> & lhs, const ::learning_topic::Person_<ContainerAllocator2> & rhs)
+{
+  return lhs.name == rhs.name &&
+    lhs.sex == rhs.sex &&
+    lhs.age == rhs.age;
+}
+
+template<typename ContainerAllocator1, typename ContainerAllocator2>
+bool operator!=(const ::learning_topic::Person_<ContainerAllocator1> & lhs, const ::learning_topic::Person_<ContainerAllocator2> & rhs)
+{
+  return !(lhs == rhs);
+}
+
+
 } // namespace learning_topic
 
 namespace ros
@@ -89,12 +116,6 @@ namespace ros
 namespace message_traits
 {
 
-
-
-// BOOLTRAITS {'IsFixedSize': False, 'IsMessage': True, 'HasHeader': False}
-// {'learning_topic': ['/home/zailu/catkin_ws/src/learning_topic/msg'], 'std_msgs': ['/opt/ros/melodic/share/std_msgs/cmake/../msg']}
-
-// !!!!!!!!!!! ['__class__', '__delattr__', '__dict__', '__doc__', '__eq__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_parsed_fields', 'constants', 'fields', 'full_name', 'has_header', 'header_present', 'names', 'package', 'parsed_fields', 'short_name', 'text', 'types']
 
 
 

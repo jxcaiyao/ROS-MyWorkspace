@@ -43,8 +43,8 @@ class Config:
         self.v_reso = self.max_accel*self.dt/10.0  # [m/s]
         self.yawrate_reso = self.max_dyawrate*self.dt/10.0  # [rad/s]
         self.predict_time = 2  # [s]
-        self.to_goal_cost_gain = 1.0
-        self.speed_cost_gain = 0.1
+        self.to_goal_cost_gain = 1.4
+        self.speed_cost_gain = 2.0
         self.obstacle_cost_gain = 1.0
         self.robot_type = RobotType.rectangle
 
@@ -133,18 +133,26 @@ def calc_control_and_trajectory(x, dw, config, goal, ob):
     sum_to_goal_cost = 0
     sum_speed_cost = 0
     sum_ob_cost = 0
+    n = 0
+
+    maxob = -float("inf")
+    minob = float("inf")
+    maxgo = -float("inf")
+    mingo = float("inf")
+    maxsp = -float("inf")
+    minsp = float("inf")
+
     # evaluate all trajectory with sampled input in dynamic window
     for v in np.arange(dw[0], dw[1], config.v_reso):
         for y in np.arange(dw[2], dw[3], config.yawrate_reso):
 
             trajectory = predict_trajectory(x_init, v, y, config)
-
             # calc cost
 
             to_goal_cost = calc_to_goal_cost(trajectory, goal)
             # to_goal_cost = 0
 
-            speed_cost = calc_speed_cost(v, y)
+            speed_cost = calc_speed_cost(trajectory, goal)
 
             ob_cost = calc_obstacle_cost(trajectory, ob, config)
             # ob_cost = 0
@@ -153,34 +161,47 @@ def calc_control_and_trajectory(x, dw, config, goal, ob):
             sum_to_goal_cost += to_goal_cost
             sum_speed_cost += speed_cost
             sum_ob_cost += ob_cost
+            n += 1
 
+            if ob_cost > maxob:
+                maxob = ob_cost
+            if ob_cost < minob:
+                minob = ob_cost
+
+            if to_goal_cost > maxgo:
+                maxgo = to_goal_cost
+            if to_goal_cost < mingo:
+                mingo = to_goal_cost
+
+            if speed_cost > maxsp:
+                maxsp = speed_cost
+            if speed_cost < minsp:
+                minsp = speed_cost
             # TODO here
 
-            # final_cost = config.to_goal_cost_gain  * to_goal_cost \
-            #            + config.speed_cost_gain    * speed_cost \
-            #            + config.obstacle_cost_gain * ob_cost
-            # print(final_cost)
-
-            # search minimum trajectory
-            # if min_cost >= final_cost:
-            #     min_cost = final_cost
-            #     best_u = [v, y]
-            #     best_trajectory = trajectory
+    avg_to_goal_cost = sum_to_goal_cost / n
+    avg_speed_cost = sum_speed_cost / n
+    avg_ob_cost = sum_ob_cost / n
 
 
     for vy_cost in cost_mat:
-        final_cost = config.to_goal_cost_gain  * vy_cost[2] / sum_to_goal_cost              \
-        + config.speed_cost_gain    * vy_cost[3] / sum_speed_cost                           \
-        + config.obstacle_cost_gain * vy_cost[4] / sum_speed_cost
-        
-        trajectory = predict_trajectory(x_init, vy_cost[0], vy_cost[1], config)
+        final_cost = config.to_goal_cost_gain  * vy_cost[2] / avg_to_goal_cost              \
+                   + config.speed_cost_gain    * vy_cost[3] / avg_speed_cost                \
+                   + config.obstacle_cost_gain * vy_cost[4] / avg_ob_cost
         
         if min_cost >= final_cost:
             min_cost = final_cost
             best_u = [vy_cost[0], vy_cost[1]]
-            best_trajectory = trajectory
+            best_trajectory = predict_trajectory(x_init, vy_cost[0], vy_cost[1], config)
 
-    print(min_cost)
+    print("ob_cost:")
+    print((maxob-minob)/avg_ob_cost)
+    print("go_cost:")
+    print((maxgo-mingo)/avg_to_goal_cost)
+    print("sp_cost:")
+    print((maxsp-minsp)/avg_speed_cost)
+    print("\n")
+    # print(min_cost)
 
     return best_u, best_trajectory
 
@@ -189,17 +210,24 @@ def calc_obstacle_cost(trajectory, ob, config):
     """
         calc obstacle cost inf: collision
     """
-    ox = ob[:, 0]
-    oy = ob[:, 1]
-    dx = trajectory[:, 0] - ox[:, None]
-    dy = trajectory[:, 1] - oy[:, None]
-    r = np.hypot(dx, dy)
-    cost = 0
-    # TODO here
+    # # TODO here
 
-    cost = math.exp(-r.min())
+    minr = float("inf")
+    mincost = float("inf")
+    for i in range(len(ob)):
+        j = 0
+        while j < len(trajectory):
+            dx = ob[i,0] - trajectory[j,0]
+            dy = ob[i,1] - trajectory[j,1]
+            da = math.atan2(dy,dx) - trajectory[j,2]
 
-    return cost  # OK
+            cost = (math.sqrt(dx*dx+dy*dy) * (1.4-fsgn(trajectory[j,3])*math.cos(da)))
+            if cost < mincost:
+                mincost = cost
+            j += 6
+
+    mincost = 1 / mincost 
+    return mincost  # OK
 
 
 def calc_to_goal_cost(trajectory, goal):
@@ -208,19 +236,28 @@ def calc_to_goal_cost(trajectory, goal):
     """
     cost = 0
     # TODO here
-    dx = trajectory[:,0] - goal[0]
-    dy = trajectory[:,1] - goal[1]
 
-    r = np.hypot(dx, dy)
+    dx = goal[0] - trajectory[-1,0]
+    dy = goal[1] - trajectory[-1,1]
+    da = math.atan2(dy,dx) - trajectory[-1,2]
+    # print(goal)
 
-    cost = min(r)
-    # print(min(r))
-    # print("end2\n\n")
+    cost = math.sqrt(dx*dx+dy*dy)*(1.5-fsgn(trajectory[-1,3]/0.15)*math.cos(da))
     
     return cost
 
-def calc_speed_cost(v, y):
-
-    cost = math.exp(-v + 0.2 * y)
+def calc_speed_cost(trajectory, goal):
+    v = trajectory[-1,3]
+    y = trajectory[-1,4]
+    cost = (-abs(v) + 0.2 * abs(y)) + 0.8
 
     return cost
+
+def sgn(num):
+    if num > 0:
+        return 1
+    else:
+        return -1
+
+def fsgn(num):
+    return math.atan(num)/1.5708

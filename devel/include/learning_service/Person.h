@@ -57,8 +57,8 @@ struct DataType< ::learning_service::Person > {
 };
 
 
-// service_traits::MD5Sum< ::learning_service::PersonRequest> should match 
-// service_traits::MD5Sum< ::learning_service::Person > 
+// service_traits::MD5Sum< ::learning_service::PersonRequest> should match
+// service_traits::MD5Sum< ::learning_service::Person >
 template<>
 struct MD5Sum< ::learning_service::PersonRequest>
 {
@@ -72,8 +72,8 @@ struct MD5Sum< ::learning_service::PersonRequest>
   }
 };
 
-// service_traits::DataType< ::learning_service::PersonRequest> should match 
-// service_traits::DataType< ::learning_service::Person > 
+// service_traits::DataType< ::learning_service::PersonRequest> should match
+// service_traits::DataType< ::learning_service::Person >
 template<>
 struct DataType< ::learning_service::PersonRequest>
 {
@@ -87,8 +87,8 @@ struct DataType< ::learning_service::PersonRequest>
   }
 };
 
-// service_traits::MD5Sum< ::learning_service::PersonResponse> should match 
-// service_traits::MD5Sum< ::learning_service::Person > 
+// service_traits::MD5Sum< ::learning_service::PersonResponse> should match
+// service_traits::MD5Sum< ::learning_service::Person >
 template<>
 struct MD5Sum< ::learning_service::PersonResponse>
 {
@@ -102,8 +102,8 @@ struct MD5Sum< ::learning_service::PersonResponse>
   }
 };
 
-// service_traits::DataType< ::learning_service::PersonResponse> should match 
-// service_traits::DataType< ::learning_service::Person > 
+// service_traits::DataType< ::learning_service::PersonResponse> should match
+// service_traits::DataType< ::learning_service::Person >
 template<>
 struct DataType< ::learning_service::PersonResponse>
 {

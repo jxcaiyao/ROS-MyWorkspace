@@ -57,8 +57,8 @@ struct DataType< ::probot_msgs::HeartbeatSrv > {
 };
 
 
-// service_traits::MD5Sum< ::probot_msgs::HeartbeatSrvRequest> should match 
-// service_traits::MD5Sum< ::probot_msgs::HeartbeatSrv > 
+// service_traits::MD5Sum< ::probot_msgs::HeartbeatSrvRequest> should match
+// service_traits::MD5Sum< ::probot_msgs::HeartbeatSrv >
 template<>
 struct MD5Sum< ::probot_msgs::HeartbeatSrvRequest>
 {
@@ -72,8 +72,8 @@ struct MD5Sum< ::probot_msgs::HeartbeatSrvRequest>
   }
 };
 
-// service_traits::DataType< ::probot_msgs::HeartbeatSrvRequest> should match 
-// service_traits::DataType< ::probot_msgs::HeartbeatSrv > 
+// service_traits::DataType< ::probot_msgs::HeartbeatSrvRequest> should match
+// service_traits::DataType< ::probot_msgs::HeartbeatSrv >
 template<>
 struct DataType< ::probot_msgs::HeartbeatSrvRequest>
 {
@@ -87,8 +87,8 @@ struct DataType< ::probot_msgs::HeartbeatSrvRequest>
   }
 };
 
-// service_traits::MD5Sum< ::probot_msgs::HeartbeatSrvResponse> should match 
-// service_traits::MD5Sum< ::probot_msgs::HeartbeatSrv > 
+// service_traits::MD5Sum< ::probot_msgs::HeartbeatSrvResponse> should match
+// service_traits::MD5Sum< ::probot_msgs::HeartbeatSrv >
 template<>
 struct MD5Sum< ::probot_msgs::HeartbeatSrvResponse>
 {
@@ -102,8 +102,8 @@ struct MD5Sum< ::probot_msgs::HeartbeatSrvResponse>
   }
 };
 
-// service_traits::DataType< ::probot_msgs::HeartbeatSrvResponse> should match 
-// service_traits::DataType< ::probot_msgs::HeartbeatSrv > 
+// service_traits::DataType< ::probot_msgs::HeartbeatSrvResponse> should match
+// service_traits::DataType< ::probot_msgs::HeartbeatSrv >
 template<>
 struct DataType< ::probot_msgs::HeartbeatSrvResponse>
 {

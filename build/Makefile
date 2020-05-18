@@ -519,6 +519,19 @@ course_agv_nav_gennodejs/fast:
 .PHONY : course_agv_nav_gennodejs/fast
 
 #=============================================================================
+# Target rules for targets named mapping
+
+# Build rule for target.
+mapping: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 mapping
+.PHONY : mapping
+
+# fast build rule for target.
+mapping/fast:
+	$(MAKE) -f c5/course_agv_slam_task/CMakeFiles/mapping.dir/build.make c5/course_agv_slam_task/CMakeFiles/mapping.dir/build
+.PHONY : mapping/fast
+
+#=============================================================================
 # Target rules for targets named ekf
 
 # Build rule for target.
@@ -2495,6 +2508,7 @@ help:
 	@echo "... course_agv_nav_generate_messages_nodejs"
 	@echo "... course_agv_nav_genlisp"
 	@echo "... course_agv_nav_gennodejs"
+	@echo "... mapping"
 	@echo "... ekf"
 	@echo "... icp_lm"
 	@echo "... icp"

@@ -134,22 +134,31 @@ LandMarkSet extraction::extractLandMark(sensor_msgs::LaserScan input)
                     angle = input.angle_min + mid_index * input.angle_increment;
                     mid_xy << input.ranges[mid_index] * std::cos(angle), input.ranges[mid_index] * std::sin(angle);
 
-                    double R = 0.09;
-                    center_xy = mid_xy;
-                    center_xy += R * center_xy.normalized();
+                    if((mid_xy.norm()-begin_xy.norm())*(mid_xy.norm()-end_xy.norm()) > 0){
+                        int flag;
+                        if(mid_xy.norm() > (begin_xy+end_xy).norm()/2){
+                            flag = -1;
+                        }else{
+                            flag = 1;
+                        }
 
-                    center2_xy = (begin_xy + end_xy) / 2;
-                    if(dis < 2*R){
-                        center2_xy += sqrt(R*R - dis*dis/4) * center2_xy.normalized();
+                        double R = 0.09;
+                        center_xy = mid_xy;
+                        center_xy += flag * R * center_xy.normalized();
+
+                        center2_xy = (begin_xy + end_xy) / 2;
+                        if(dis < 2*R){
+                            center2_xy += flag * sqrt(R*R - dis*dis/4) * center2_xy.normalized();
+                        }
+                        center_xy = (center_xy + center2_xy) / 2;
+
+                        std::cout << landMark_id << ": " << center_xy.transpose() << endl;
+
+                        landMarks.id.push_back(landMark_id);
+                        landMarks.position_x.push_back(center_xy.x());
+                        landMarks.position_y.push_back(center_xy.y());
+                        landMark_id++;
                     }
-                    center_xy = (center_xy + center2_xy) / 2;
-
-                    std::cout << landMark_id << ": " << center_xy.transpose() << endl;
-
-                    landMarks.id.push_back(landMark_id);
-                    landMarks.position_x.push_back(center_xy.x());
-                    landMarks.position_y.push_back(center_xy.y());
-                    landMark_id++;
                 }
             }
             begin_index = i;
@@ -192,7 +201,7 @@ void extraction::publishLandMark(LandMarkSet input)
         landMark_array_msg.markers[i].color.g = 0.0;
         landMark_array_msg.markers[i].color.b = 1.0;
     }
-
+    cout << "publish: " << input.id.size() << endl;
     landMark_pub.publish(landMark_array_msg);
 }
 

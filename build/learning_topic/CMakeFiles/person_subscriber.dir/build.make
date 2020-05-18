@@ -92,7 +92,6 @@ person_subscriber_EXTERNAL_OBJECTS =
 /home/zailu/catkin_ws/devel/lib/learning_topic/person_subscriber: learning_topic/CMakeFiles/person_subscriber.dir/build.make
 /home/zailu/catkin_ws/devel/lib/learning_topic/person_subscriber: /opt/ros/melodic/lib/libroscpp.so
 /home/zailu/catkin_ws/devel/lib/learning_topic/person_subscriber: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
-/home/zailu/catkin_ws/devel/lib/learning_topic/person_subscriber: /usr/lib/x86_64-linux-gnu/libboost_signals.so
 /home/zailu/catkin_ws/devel/lib/learning_topic/person_subscriber: /opt/ros/melodic/lib/librosconsole.so
 /home/zailu/catkin_ws/devel/lib/learning_topic/person_subscriber: /opt/ros/melodic/lib/librosconsole_log4cxx.so
 /home/zailu/catkin_ws/devel/lib/learning_topic/person_subscriber: /opt/ros/melodic/lib/librosconsole_backend_interface.so

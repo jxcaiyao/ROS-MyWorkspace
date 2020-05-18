@@ -171,35 +171,35 @@ void icp_lm::process(visualization_msgs::MarkerArray input)
     Transform_acc = T * Transform_acc;
 
     // main LOOP
-    for(int i=0; i<max_iter; i++)
-    {
-        // please code by yourself
-        neigh = this->findNearest(src_pc_2D, tar_pc_2D);
-        if(neigh.distances.size() < min_match){
-            std::cout << "no solution!" << endl;
-            break;
-        }
+    // for(int i=0; i<max_iter; i++)
+    // {
+    //     // please code by yourself
+    //     neigh = this->findNearest(src_pc_2D, tar_pc_2D);
+    //     if(neigh.distances.size() < min_match){
+    //         std::cout << "no solution!" << endl;
+    //         break;
+    //     }
 
-        cols = neigh.distances.size();
-        src_pc_rearr = MatrixXd::Zero(2,cols);
-        tar_pc_rearr = MatrixXd::Zero(2,cols);
-        for(int j=0; j<cols; j++){
-            src_pc_rearr.block<2,1>(0,j) = src_pc_2D.block<2,1>(0,neigh.src_indices[j]);
-            tar_pc_rearr.block<2,1>(0,j) = tar_pc_2D.block<2,1>(0,neigh.tar_indices[j]);
-        }
+    //     cols = neigh.distances.size();
+    //     src_pc_rearr = MatrixXd::Zero(2,cols);
+    //     tar_pc_rearr = MatrixXd::Zero(2,cols);
+    //     for(int j=0; j<cols; j++){
+    //         src_pc_rearr.block<2,1>(0,j) = src_pc_2D.block<2,1>(0,neigh.src_indices[j]);
+    //         tar_pc_rearr.block<2,1>(0,j) = tar_pc_2D.block<2,1>(0,neigh.tar_indices[j]);
+    //     }
 
-        T = this->getTransform(src_pc_rearr, tar_pc_rearr);
+    //     T = this->getTransform(src_pc_rearr, tar_pc_rearr);
 
-        src_pc_2D = T.block<2,2>(0,0) * src_pc_2D + T.block<2,1>(0,2) * MatrixXd::Ones(1,src_pc_2D.cols());
-        Transform_acc = T * Transform_acc;
+    //     src_pc_2D = T.block<2,2>(0,0) * src_pc_2D + T.block<2,1>(0,2) * MatrixXd::Ones(1,src_pc_2D.cols());
+    //     Transform_acc = T * Transform_acc;
 
-        mean_dist = std::accumulate(neigh.distances.begin(), neigh.distances.end(), 0.0) / neigh.distances.size();
-        if(abs(mean_dist - last_dist) < tolerance){
-            std::cout << "iter times:  " << i+1 << endl;
-            break;
-        }
-        last_dist = mean_dist;
-    }
+    //     mean_dist = std::accumulate(neigh.distances.begin(), neigh.distances.end(), 0.0) / neigh.distances.size();
+    //     if(abs(mean_dist - last_dist) < tolerance){
+    //         std::cout << "iter times:  " << i+1 << endl;
+    //         break;
+    //     }
+    //     last_dist = mean_dist;
+    // }
     std::cout << "cols: " << src_pc_rearr.cols() << endl;
     std::cout << "mean_dist:  " << mean_dist << endl;
 
@@ -457,11 +457,25 @@ void icp_lm::publishResult(Eigen::Matrix3d T)
     odom_pub.publish(odom);
 }
 
+void publisher(void){
+    tf::TransformBroadcaster br;
+
+    tf::Quaternion quat;
+    quat.setRPY(0,0,0);
+
+    tf::Transform transform;
+    transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
+    transform.setRotation(quat);
+
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(),"world_base","map"));
+}
+
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "icp_landMark");
     ros::NodeHandle n;
 
+    publisher();
     icp_lm icp_lm_(n);
 
     ros::MultiThreadedSpinner spinner(1);

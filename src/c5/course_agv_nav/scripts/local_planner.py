@@ -62,6 +62,8 @@ class LocalPlanner:
             # print('mdgb;; ',len(self.path.poses),ind,dis)
             if dis < self.threshold:
                 self.goal_index = ind
+            else:
+                break
             ind += 1
         goal = self.path.poses[self.goal_index]
         self.midpose_pub.publish(goal)

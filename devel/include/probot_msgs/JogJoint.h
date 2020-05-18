@@ -53,6 +53,26 @@ struct JogJoint_
 
 
 
+// reducing the odds to have name collisions with Windows.h 
+#if defined(_WIN32) && defined(DIR_PLUS)
+  #undef DIR_PLUS
+#endif
+#if defined(_WIN32) && defined(DIR_MINUS)
+  #undef DIR_MINUS
+#endif
+#if defined(_WIN32) && defined(MOD_CONTINUOUS)
+  #undef MOD_CONTINUOUS
+#endif
+#if defined(_WIN32) && defined(MOD_INCREMENT_10_DEGREE)
+  #undef MOD_INCREMENT_10_DEGREE
+#endif
+#if defined(_WIN32) && defined(MOD_INCREMENT_1_DEGREE)
+  #undef MOD_INCREMENT_1_DEGREE
+#endif
+#if defined(_WIN32) && defined(MOD_INCREMENT_01_DEGREE)
+  #undef MOD_INCREMENT_01_DEGREE
+#endif
+
   enum {
     DIR_PLUS = 0,
     DIR_MINUS = 1,
@@ -96,6 +116,23 @@ ros::message_operations::Printer< ::probot_msgs::JogJoint_<ContainerAllocator> >
 return s;
 }
 
+
+template<typename ContainerAllocator1, typename ContainerAllocator2>
+bool operator==(const ::probot_msgs::JogJoint_<ContainerAllocator1> & lhs, const ::probot_msgs::JogJoint_<ContainerAllocator2> & rhs)
+{
+  return lhs.joint_index == rhs.joint_index &&
+    lhs.direction == rhs.direction &&
+    lhs.mode == rhs.mode &&
+    lhs.velocity_scale == rhs.velocity_scale;
+}
+
+template<typename ContainerAllocator1, typename ContainerAllocator2>
+bool operator!=(const ::probot_msgs::JogJoint_<ContainerAllocator1> & lhs, const ::probot_msgs::JogJoint_<ContainerAllocator2> & rhs)
+{
+  return !(lhs == rhs);
+}
+
+
 } // namespace probot_msgs
 
 namespace ros
@@ -103,12 +140,6 @@ namespace ros
 namespace message_traits
 {
 
-
-
-// BOOLTRAITS {'IsFixedSize': True, 'IsMessage': True, 'HasHeader': False}
-// {'geometry_msgs': ['/opt/ros/melodic/share/geometry_msgs/cmake/../msg'], 'probot_msgs': ['/home/zailu/catkin_ws/src/probot_anno/probot_msgs/msg'], 'std_msgs': ['/opt/ros/melodic/share/std_msgs/cmake/../msg']}
-
-// !!!!!!!!!!! ['__class__', '__delattr__', '__dict__', '__doc__', '__eq__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_parsed_fields', 'constants', 'fields', 'full_name', 'has_header', 'header_present', 'names', 'package', 'parsed_fields', 'short_name', 'text', 'types']
 
 
 

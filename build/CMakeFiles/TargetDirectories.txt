@@ -84,6 +84,7 @@
 /home/zailu/catkin_ws/build/c5/course_agv_slam_task/CMakeFiles/install.dir
 /home/zailu/catkin_ws/build/c5/course_agv_slam_task/CMakeFiles/list_install_components.dir
 /home/zailu/catkin_ws/build/c5/course_agv_slam_task/CMakeFiles/edit_cache.dir
+/home/zailu/catkin_ws/build/c5/course_agv_slam_task/CMakeFiles/mapping.dir
 /home/zailu/catkin_ws/build/c5/course_agv_slam_task/CMakeFiles/ekf.dir
 /home/zailu/catkin_ws/build/c5/course_agv_slam_task/CMakeFiles/icp_lm.dir
 /home/zailu/catkin_ws/build/c5/course_agv_slam_task/CMakeFiles/icp.dir

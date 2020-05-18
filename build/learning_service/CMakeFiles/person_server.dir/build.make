@@ -92,7 +92,6 @@ person_server_EXTERNAL_OBJECTS =
 /home/zailu/catkin_ws/devel/lib/learning_service/person_server: learning_service/CMakeFiles/person_server.dir/build.make
 /home/zailu/catkin_ws/devel/lib/learning_service/person_server: /opt/ros/melodic/lib/libroscpp.so
 /home/zailu/catkin_ws/devel/lib/learning_service/person_server: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
-/home/zailu/catkin_ws/devel/lib/learning_service/person_server: /usr/lib/x86_64-linux-gnu/libboost_signals.so
 /home/zailu/catkin_ws/devel/lib/learning_service/person_server: /opt/ros/melodic/lib/librosconsole.so
 /home/zailu/catkin_ws/devel/lib/learning_service/person_server: /opt/ros/melodic/lib/librosconsole_log4cxx.so
 /home/zailu/catkin_ws/devel/lib/learning_service/person_server: /opt/ros/melodic/lib/librosconsole_backend_interface.so

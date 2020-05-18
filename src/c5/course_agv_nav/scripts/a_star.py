@@ -79,7 +79,7 @@ class AStarPlanner:
                 break
 
             noway = True
-            for i in range(7):
+            for i in range(8):
                 nsur = self.Node(nmin.x+self.motion[i][0], nmin.y+self.motion[i][1], nmin.cost+self.motion[i][2], -1)
                 ind = self.calc_grid_index(nsur)
                 if not self.verify_node(nsur) or closed_set.get(ind):
