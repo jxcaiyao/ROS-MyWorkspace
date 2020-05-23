@@ -199,7 +199,7 @@ int mapping::getGridLoc(Eigen::Vector2d loc)
 
 void mapping::updateMap(int index, bool isObstacle)
 {
-    double PA[2] = {0.2, 0.8};
+    double PA[2] = {0.4, 0.6};
     double PB[2] = {0.8, 0.2};
 
     if(grid_map.data[index] == -1){

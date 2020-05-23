@@ -195,7 +195,7 @@ Visualization Manager:
           Scale: 1
           Value: true
         Value: true
-      Enabled: true
+      Enabled: false
       Keep: 1000
       Name: Odometry
       Position Tolerance: 0.10000000149011612
@@ -211,7 +211,7 @@ Visualization Manager:
         Value: Arrow
       Topic: /icp_odom
       Unreliable: false
-      Value: true
+      Value: false
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /landMarks
@@ -237,7 +237,7 @@ Visualization Manager:
           Scale: 1
           Value: true
         Value: true
-      Enabled: true
+      Enabled: false
       Keep: 1000
       Name: Odometry
       Position Tolerance: 0.10000000149011612
@@ -253,7 +253,7 @@ Visualization Manager:
         Value: Arrow
       Topic: /ekf_odom
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 0.699999988079071
       Class: rviz/Map
       Color Scheme: map
@@ -291,7 +291,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 3.1350009441375732
+      Angle: 3.140000820159912
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -301,11 +301,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: -27.03116798400879
+      Scale: -27.92910385131836
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: -0.09784287959337234
-      Y: -0.39940714836120605
+      X: -0.7208940386772156
+      Y: -0.061406418681144714
     Saved: ~
 Window Geometry:
   Displays:

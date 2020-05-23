@@ -9,7 +9,7 @@
 
 		<param name="max_iter" value="50"/>
 		<param name="tolerance" value="1e-6"/>
-		<param name="dis_th" value="0.2"/>
+		<param name="dis_th" value="0.4"/>
 		<param name="min_match" value="3"/>
 	</node>
 

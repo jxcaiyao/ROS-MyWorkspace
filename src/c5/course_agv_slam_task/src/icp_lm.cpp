@@ -226,8 +226,8 @@ void icp_lm::v_left_subfunc(std_msgs::Float64 v_left_msgs)
 
     double v = (v_left + v_right)/2;
 
-    robot_dx += v * std::cos(robot_dtheta) * dt;
-    robot_dy += v * std::sin(robot_dtheta) * dt;
+    robot_dx += v * std::cos(robot_dtheta + (v_right - v_left) / tread * dt / 2) * dt;
+    robot_dy += v * std::sin(robot_dtheta + (v_right - v_left) / tread * dt / 2) * dt;
     robot_dtheta += (v_right - v_left) / tread * dt;
 
     time_last = time_now;
@@ -246,8 +246,8 @@ void icp_lm::v_right_subfunc(std_msgs::Float64 v_right_msgs)
 
     double v = (v_left + v_right)/2;
 
-    robot_dx += v * std::cos(robot_dtheta) * dt;
-    robot_dy += v * std::sin(robot_dtheta) * dt;
+    robot_dx += v * std::cos(robot_dtheta + (v_right - v_left) / tread * dt / 2) * dt;
+    robot_dy += v * std::sin(robot_dtheta + (v_right - v_left) / tread * dt / 2) * dt;
     robot_dtheta += (v_right - v_left) / tread * dt;
 
     time_last = time_now;
