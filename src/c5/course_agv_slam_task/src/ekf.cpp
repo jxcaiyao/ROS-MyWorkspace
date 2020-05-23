@@ -126,17 +126,31 @@ void ekf::predict(nav_msgs::Odometry odom)
     da = yaw - status_pre(2);
     da = this->angleNorm(da);
 
-    mu_t(0) = sqrt(dx*dx + dy*dy);
+    double tmp = dx*cos(status_pre(2))+dy*sin(status_pre(2));
+    int flag = 1;
+    if(tmp>0)
+        flag = 1;
+    else if(tmp<0)
+        flag = -1;
+    else 
+        flag = 0;
+    mu_t(0) = flag*sqrt(dx*dx+dy*dy);
     mu_t(1) = da;
+    while(mu_t(1) > 3.1415927)
+        mu_t(1) -= 2*3.1415927;
+    while(mu_t(1) < -3.1415927)
+        mu_t(1) += 2*3.1415927;
 
     status_pre(0) = odom.pose.pose.position.x;
     status_pre(1) = odom.pose.pose.position.y;
     status_pre(2) = this->angleNorm(yaw);
 
+    printf("dxdyda:\t%.3f\t%.3f\t%.3f\n",dx,dy,da);
+    printf("mu_t:\t%.3f\t%.3f\n",mu_t(0),mu_t(1));
 
-    status(0) += dx;
-    status(1) += dy;
-    status(2) += da;
+    status(0) += mu_t(0)*cos(status(2) + mu_t(1)/2);
+    status(1) += mu_t(0)*sin(status(2) + mu_t(1)/2);
+    status(2) += mu_t(1);
     status(2) = this->angleNorm(status(2));
 
     is_Predict = true;
@@ -144,7 +158,7 @@ void ekf::predict(nav_msgs::Odometry odom)
 
 void ekf::update(visualization_msgs::MarkerArray input)
 {   
-    double time_0 = (double)ros::Time::now().toSec();
+    // double time_0 = (double)ros::Time::now().toSec();
 
     if(!is_Predict){
         return;
@@ -152,7 +166,7 @@ void ekf::update(visualization_msgs::MarkerArray input)
     is_Predict = false;
 
     MatrixXd landMarkFeatures = this->landMarksToXY(input);
-    cout<<"-------------New LM Cnt:    "<<landMarkFeatures.cols()<<endl;
+    // cout<<"-------------New LM Cnt:    "<<landMarkFeatures.cols()<<endl;
 
     // TODO: Please complete the update phase or observation model
 
@@ -172,6 +186,8 @@ void ekf::update(visualization_msgs::MarkerArray input)
     G_mu = this->getControlJacobian();
 
     // covariance = G_e * covariance * G_e.transpose() + G_mu * noise_R * G_mu.transpose();
+    // cout<<endl<<"co(0): "<<covariance(0,0)<<endl;
+    // cout<<"co(1): "<<covariance(1,1)<<endl<<endl;
     covariance.block(0,0,3,3) = G_e * covariance.block(0,0,3,3) * G_e.transpose();
     covariance.block(0,3,3,2*landMark_num) = G_e * covariance.block(0,3,3,2*landMark_num);
     covariance.block(3,0,2*landMark_num,3) = covariance.block(0,3,3,2*landMark_num).transpose();
@@ -222,9 +238,9 @@ void ekf::update(visualization_msgs::MarkerArray input)
 
     is_Update = true;
 
-    cout << "landMark_num: " << landMark_num << endl;
-    double time_1 = (double)ros::Time::now().toSec();
-    cout<<"time_cost:  "<<time_1-time_0<<endl<<endl;
+    // cout << "landMark_num: " << landMark_num << endl;
+    // double time_1 = (double)ros::Time::now().toSec();
+    // cout<<"time_cost:  "<<time_1-time_0<<endl<<endl;
 }
 
 void ekf::initAll()
@@ -312,7 +328,7 @@ void ekf::updateFeatureMap(Eigen::MatrixXd newFeatures)
 
         MatrixXd tc = MatrixXd::Identity(3+2*landMark_num+2*cols, 3+2*landMark_num+2*cols);
         tc.block(covariance.rows(), covariance.cols(), 2*cols, 2*cols) = 
-                            2*noise_measure*noise_measure * MatrixXd::Identity(2*cols, 2*cols);
+                            3*noise_measure*noise_measure * MatrixXd::Identity(2*cols, 2*cols);
         tc.block(0, 0, covariance.rows(), covariance.cols()) = covariance;
         landMark_num += cols;
 

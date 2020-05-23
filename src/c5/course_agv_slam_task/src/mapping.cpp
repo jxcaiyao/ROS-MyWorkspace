@@ -40,8 +40,13 @@ public:
     // main process
     void process(sensor_msgs::LaserScan input);
 
-    //更新MAP
-    //输出MAP    
+    //激光滤波
+    sensor_msgs::LaserScan laserFilter(sensor_msgs::LaserScan input);
+
+    int getGridLoc(Eigen::Vector2d loc);
+
+    void updateMap(int index, bool isObstacle);
+  
 };
 
 mapping::~mapping()
@@ -81,21 +86,131 @@ void mapping::process(sensor_msgs::LaserScan input)
     cout<<"------seq:  "<<input.header.seq<<endl;
 
     // transformation is needed
-    listener.lookupTransform(world_frame, sensor_frame,  
-                                ros::Time(0), transform);
+    try{
+        listener.lookupTransform(world_frame, sensor_frame,  
+                                    ros::Time(0), transform);
+    }
+    catch(tf::TransformException &ex){
+        ROS_ERROR("%s", ex.what());
+        return;
+    }
 
     // TODO: Please complete your mapping code
-    // sensor_msgs::LaserScan laser_extr = input;
-    int total_num = (input.angle_max - input.angle_min) / input.angle_increment + 1;
+    sensor_msgs::LaserScan laser_extr = this->laserFilter(input);
+    int total_num = (laser_extr.angle_max - laser_extr.angle_min) / laser_extr.angle_increment + 1;
 
-    float angle, dist;
+    double angle, dist;
+    double roll, pitch, yaw;
+    Eigen::Vector3d carPose;
+    carPose(0) = transform.getOrigin().x();
+    carPose(1) = transform.getOrigin().y();
+    tf::Matrix3x3(transform.getRotation()).getRPY(roll, pitch, yaw);
+    carPose(2) = yaw;
+
+    Eigen::Vector2d startPos, endPos, tmpPos, dPos;
+    startPos = carPose.block<2,1>(0,0);
+
+    int startIndex, endIndex, tmpIndex, lastIndex;
+    startIndex = this->getGridLoc(startPos);
+
+    double dr = map_res/2;
+
     for(int i=0; i<total_num; i++){
-        angle = input.angle_min + i * input.angle_increment;
-        dist = input.ranges[i];
+        angle = laser_extr.angle_min + i * laser_extr.angle_increment;
+        dist = laser_extr.ranges[i];
+        
+        endPos(0) = carPose(0) + dist * cos(carPose(2) + angle);
+        endPos(1) = carPose(1) + dist * sin(carPose(2) + angle);
+        endIndex = this->getGridLoc(endPos);
+
+
+        if(dist < 20){
+            this->updateMap(endIndex, true);
+        }
+
+        double N = floor(dist/dr);
+        dPos = (endPos - startPos).normalized() * dr;
+
+        lastIndex = startIndex;
+        tmpIndex = startIndex;
+        tmpPos = startPos;
+        updateMap(tmpIndex, false);
+
+        for(int j=0; j<N; j++){
+            tmpPos += dPos;
+            tmpIndex = this->getGridLoc(tmpPos);
+            if(tmpIndex == lastIndex){
+                continue;
+            }
+            if(tmpIndex == endIndex){
+                break;
+            }
+
+            this->updateMap(tmpIndex, false);
+            lastIndex = tmpIndex;
+        }
+
     }
 
     // publish
     map_pub.publish(grid_map);
+}
+
+sensor_msgs::LaserScan mapping::laserFilter(sensor_msgs::LaserScan input)
+{
+    sensor_msgs::LaserScan output = input;
+    int total_num = (input.angle_max - input.angle_min) / input.angle_increment + 1;
+
+    float dist, sum, n;
+    float thread = 0.1;
+    for(int i=1; i<total_num-1; i++){
+        dist = input.ranges.at(i);
+        sum = dist;
+        n = 1;
+        if(fabs(input.ranges.at(i-1)-dist) < thread){
+            sum += input.ranges.at(i-1);
+            n++;
+        }
+        if(fabs(input.ranges.at(i+1)-dist) < thread){
+            sum += input.ranges.at(i+1);
+            n++;
+        }
+        output.ranges.at(i) = sum / n;
+    } 
+
+    return output;
+}
+
+int mapping::getGridLoc(Eigen::Vector2d loc)
+{
+    int m,n;
+    int index;
+
+    m = floor((loc(0) - grid_map.info.origin.position.x) / map_res);
+    n = floor((loc(1) - grid_map.info.origin.position.y) / map_res);
+
+    m = min(map_width, max(0, m));
+    n = min(map_height, max(0, n));
+
+    index = m + n*map_width;
+
+    return index;
+}
+
+void mapping::updateMap(int index, bool isObstacle)
+{
+    double PA[2] = {0.2, 0.8};
+    double PB[2] = {0.8, 0.2};
+
+    if(grid_map.data[index] == -1){
+        grid_map.data[index] = 50;
+    }
+
+    double p = grid_map.data[index]/100.0;
+
+    grid_map.data[index] = (p*PA[isObstacle])/(p*PA[isObstacle] + (1-p)*PB[isObstacle])*100;
+    grid_map.data[index] = (int)min(99, max(1, (int)grid_map.data[index]));
+    printf("%d: %d\n",index,grid_map.data[index]);
 }
 
 int main(int argc, char **argv)

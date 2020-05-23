@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "ros/console.h"
 #include "std_msgs/Float64.h"
+#include "rosgraph_msgs/Clock.h"
 #include <stdio.h>
 
 #include <numeric>
@@ -55,6 +56,8 @@ public:
     double tolerance;
     // if is the first scan, set as the map/target
     bool isFirstScan;
+
+    bool isFirstClock;
     // src point cloud matrix
     MatrixXd src_pc;
     // target point cloud matrix
@@ -67,6 +70,7 @@ public:
 
     void v_left_subfunc(std_msgs::Float64 v_left_msgs);
     void v_right_subfunc(std_msgs::Float64 v_right_msgs);
+    void clock_subfunc(rosgraph_msgs::Clock clock_msgs);
     // landMarks to Eigen::Matrix
     Eigen::MatrixXd landMarksToMatrix(visualization_msgs::MarkerArray input);
     // fint the nearest points & filter
@@ -84,6 +88,7 @@ public:
     ros::Subscriber landMark_sub;
     ros::Subscriber v_left_sub;
     ros::Subscriber v_right_sub;
+    ros::Subscriber clock_sub;
     void publishResult(Matrix3d T);
  	tf::TransformBroadcaster odom_broadcaster;
  	ros::Publisher odom_pub;
@@ -107,6 +112,7 @@ icp_lm::icp_lm(ros::NodeHandle& n):
     n.getParam("/icp_lm/min_match", min_match);
 
     isFirstScan = true;
+    isFirstClock = true;
 
     robot_dx = 0;
     robot_dy = 0;
@@ -115,8 +121,8 @@ icp_lm::icp_lm(ros::NodeHandle& n):
     v_right = 0;
 
     tread = 2*(0.1+0.08/6);
-    time_now = (double)ros::Time::now().toSec();
-    time_last = time_now;
+    // time_now = (double)ros::Time::now().toSec();
+    // time_last = time_now;
 
     landMark_sub = n.subscribe("/landMarks", 1, &icp_lm::process, this);
     
@@ -124,6 +130,7 @@ icp_lm::icp_lm(ros::NodeHandle& n):
                                 1, &icp_lm::v_left_subfunc, this);
     v_right_sub = n.subscribe("/course_agv/right_wheel_velocity_controller/command", 
                                 1, &icp_lm::v_right_subfunc, this);
+    clock_sub = n.subscribe("/clock",1,&icp_lm::clock_subfunc,this);
     
     odom_pub = n.advertise<nav_msgs::Odometry>("icp_odom", 1);
 }
@@ -166,40 +173,40 @@ void icp_lm::process(visualization_msgs::MarkerArray input)
         tar_pc_2D.block<2,1>(0,i) = tar_pc.block<2,1>(0,i);
     }
     T = this->getWheelTransform();
-    std::cout << "T: " << endl << T << endl;
+    // std::cout << "T: " << endl << T << endl;
     src_pc_2D = T.block<2,2>(0,0) * src_pc_2D + T.block<2,1>(0,2) * MatrixXd::Ones(1,src_pc_2D.cols());
     Transform_acc = T * Transform_acc;
 
     // main LOOP
-    // for(int i=0; i<max_iter; i++)
-    // {
-    //     // please code by yourself
-    //     neigh = this->findNearest(src_pc_2D, tar_pc_2D);
-    //     if(neigh.distances.size() < min_match){
-    //         std::cout << "no solution!" << endl;
-    //         break;
-    //     }
+    for(int i=0; i<max_iter; i++)
+    {
+        // please code by yourself
+        neigh = this->findNearest(src_pc_2D, tar_pc_2D);
+        if(neigh.distances.size() < min_match){
+            std::cout << "no solution!" << endl;
+            break;
+        }
 
-    //     cols = neigh.distances.size();
-    //     src_pc_rearr = MatrixXd::Zero(2,cols);
-    //     tar_pc_rearr = MatrixXd::Zero(2,cols);
-    //     for(int j=0; j<cols; j++){
-    //         src_pc_rearr.block<2,1>(0,j) = src_pc_2D.block<2,1>(0,neigh.src_indices[j]);
-    //         tar_pc_rearr.block<2,1>(0,j) = tar_pc_2D.block<2,1>(0,neigh.tar_indices[j]);
-    //     }
+        cols = neigh.distances.size();
+        src_pc_rearr = MatrixXd::Zero(2,cols);
+        tar_pc_rearr = MatrixXd::Zero(2,cols);
+        for(int j=0; j<cols; j++){
+            src_pc_rearr.block<2,1>(0,j) = src_pc_2D.block<2,1>(0,neigh.src_indices[j]);
+            tar_pc_rearr.block<2,1>(0,j) = tar_pc_2D.block<2,1>(0,neigh.tar_indices[j]);
+        }
 
-    //     T = this->getTransform(src_pc_rearr, tar_pc_rearr);
+        T = this->getTransform(src_pc_rearr, tar_pc_rearr);
 
-    //     src_pc_2D = T.block<2,2>(0,0) * src_pc_2D + T.block<2,1>(0,2) * MatrixXd::Ones(1,src_pc_2D.cols());
-    //     Transform_acc = T * Transform_acc;
+        src_pc_2D = T.block<2,2>(0,0) * src_pc_2D + T.block<2,1>(0,2) * MatrixXd::Ones(1,src_pc_2D.cols());
+        Transform_acc = T * Transform_acc;
 
-    //     mean_dist = std::accumulate(neigh.distances.begin(), neigh.distances.end(), 0.0) / neigh.distances.size();
-    //     if(abs(mean_dist - last_dist) < tolerance){
-    //         std::cout << "iter times:  " << i+1 << endl;
-    //         break;
-    //     }
-    //     last_dist = mean_dist;
-    // }
+        mean_dist = std::accumulate(neigh.distances.begin(), neigh.distances.end(), 0.0) / neigh.distances.size();
+        if(abs(mean_dist - last_dist) < tolerance){
+            std::cout << "iter times:  " << i+1 << endl;
+            break;
+        }
+        last_dist = mean_dist;
+    }
     std::cout << "cols: " << src_pc_rearr.cols() << endl;
     std::cout << "mean_dist:  " << mean_dist << endl;
 
@@ -213,7 +220,7 @@ void icp_lm::process(visualization_msgs::MarkerArray input)
 
 void icp_lm::v_left_subfunc(std_msgs::Float64 v_left_msgs)
 {
-    time_now = (double)ros::Time::now().toSec();
+    // time_now = (double)ros::Time::now().toSec();
     double dt = time_now - time_last;
     v_left = 0.08 * v_left_msgs.data;
 
@@ -233,7 +240,7 @@ void icp_lm::v_left_subfunc(std_msgs::Float64 v_left_msgs)
 
 void icp_lm::v_right_subfunc(std_msgs::Float64 v_right_msgs)
 {
-    time_now = (double)ros::Time::now().toSec();
+    // time_now = (double)ros::Time::now().toSec();
     double dt = time_now - time_last;
     v_right = 0.08 * v_right_msgs.data;
 
@@ -248,6 +255,15 @@ void icp_lm::v_right_subfunc(std_msgs::Float64 v_right_msgs)
     // std::cout << "vleft: " << v_left << endl;
     // std::cout << "dt: " << dt << endl;
     // std::cout << "sta: " << robot_dx << robot_dy << robot_dtheta << endl << endl;
+}
+
+void icp_lm::clock_subfunc(rosgraph_msgs::Clock clock_msgs)
+{
+    time_now = clock_msgs.clock.toSec();
+    if(isFirstClock){
+        isFirstClock = false;
+        time_last = time_now;
+    }
 }
 
 Eigen::MatrixXd icp_lm::landMarksToMatrix(visualization_msgs::MarkerArray input)

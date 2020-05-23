@@ -45,6 +45,8 @@ public:
     void publishLandMark(LandMarkSet input);
     // 2D euclidean distance calculation
     float calc_dist(const Eigen::Vector2d &pta, const Eigen::Vector2d &ptb);
+
+    sensor_msgs::LaserScan laserFilter(sensor_msgs::LaserScan input);
 };
 
 extraction::~extraction()
@@ -65,6 +67,8 @@ extraction::extraction(ros::NodeHandle& n):
 void extraction::process(sensor_msgs::LaserScan input)
 {   
     double time_0 = (double)ros::Time::now().toSec();
+
+    input = laserFilter(input);
 
     int label = 0;
     sensor_msgs::LaserScan laser_extr = input;
@@ -211,6 +215,31 @@ float extraction::calc_dist(const Eigen::Vector2d &pta, const Eigen::Vector2d &p
     float dist;
     dist = (pta - ptb).norm();
     return dist;
+}
+
+sensor_msgs::LaserScan extraction::laserFilter(sensor_msgs::LaserScan input)
+{
+    sensor_msgs::LaserScan output = input;
+    int total_num = (input.angle_max - input.angle_min) / input.angle_increment + 1;
+
+    float dist, sum, n;
+    float thread = 0.03;
+    for(int i=1; i<total_num-1; i++){
+        dist = input.ranges.at(i);
+        sum = dist;
+        n = 1;
+        if(fabs(input.ranges.at(i-1)-dist) < thread){
+            sum += input.ranges.at(i-1);
+            n++;
+        }
+        if(fabs(input.ranges.at(i+1)-dist) < thread){
+            sum += input.ranges.at(i+1);
+            n++;
+        }
+        output.ranges.at(i) = sum / n;
+    } 
+
+    return output;
 }
 
 int main(int argc, char **argv)
