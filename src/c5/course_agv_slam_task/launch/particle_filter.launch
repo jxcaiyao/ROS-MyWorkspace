@@ -1,0 +1,15 @@
+<launch>
+
+	<node pkg="course_agv_slam" type="particle_filter" name="particle_filter" output="screen">
+		
+		<!--from a rosbag-->
+        <param name="init_x" value=""/>
+        <param name="init_y" value=""/>
+        <param name="init_theta" value=""/>
+
+        <param name="init_rand_xy" value=""/>
+        <param name="init_rand_theta" value=""/>
+	</node>
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find course_agv_slam_task)/launch/course_agv.rviz" />
+</launch>

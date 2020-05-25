@@ -45,3 +45,8 @@ add_executable(mapping src/mapping.cpp)
 target_link_libraries(mapping
 ${catkin_LIBRARIES}
 )
+
+add_executable(particle_filter src/particle_filter.cpp)
+target_link_libraries(particle_filter
+${catkin_LIBRARIES}
+)
