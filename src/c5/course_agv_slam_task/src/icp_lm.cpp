@@ -137,7 +137,7 @@ icp_lm::icp_lm(ros::NodeHandle& n):
 
 void icp_lm::process(visualization_msgs::MarkerArray input)
 {   
-    cout<<"------Time:  "<<input.markers[0].header.stamp<<endl;
+    // cout<<"------Time:  "<<input.markers[0].header.stamp<<endl;
     
     double time_0 = (double)ros::Time::now().toSec();
 
@@ -202,20 +202,20 @@ void icp_lm::process(visualization_msgs::MarkerArray input)
 
         mean_dist = std::accumulate(neigh.distances.begin(), neigh.distances.end(), 0.0) / neigh.distances.size();
         if(abs(mean_dist - last_dist) < tolerance){
-            std::cout << "iter times:  " << i+1 << endl;
+            // std::cout << "iter times:  " << i+1 << endl;
             break;
         }
         last_dist = mean_dist;
     }
-    std::cout << "cols: " << src_pc_rearr.cols() << endl;
-    std::cout << "mean_dist:  " << mean_dist << endl;
+    // std::cout << "cols: " << src_pc_rearr.cols() << endl;
+    // std::cout << "mean_dist:  " << mean_dist << endl;
 
     tar_pc = src_pc;
 
     this->publishResult(Transform_acc);
 
     double time_1 = (double)ros::Time::now().toSec();
-    cout<<"time_cost:  "<<time_1-time_0<<endl;
+    // cout<<"time_cost:  "<<time_1-time_0<<endl;
 }
 
 void icp_lm::v_left_subfunc(std_msgs::Float64 v_left_msgs)
@@ -269,7 +269,7 @@ void icp_lm::clock_subfunc(rosgraph_msgs::Clock clock_msgs)
 Eigen::MatrixXd icp_lm::landMarksToMatrix(visualization_msgs::MarkerArray input)
 {
     int markerSize = input.markers.size();
-    cout<<markerSize<<" markers received !"<<endl;
+    // cout<<markerSize<<" markers received !"<<endl;
 
     Eigen::MatrixXd pc = Eigen::MatrixXd::Ones(3, markerSize);
 
@@ -437,13 +437,13 @@ Eigen::Matrix3d icp_lm::staToMatrix(Eigen::Vector3d sta)
 void icp_lm::publishResult(Eigen::Matrix3d T)
 {	
     float delta_yaw = atan2(T(1,0), T(0,0));
-    cout<<"sensor-delta-xyt: "<<T(0,2)<<" "<<T(1,2)<<" "<<delta_yaw<<endl;
+    // cout<<"sensor-delta-xyt: "<<T(0,2)<<" "<<T(1,2)<<" "<<delta_yaw<<endl;
 
     sensor_sta(0) = sensor_sta(0) + cos(sensor_sta(2))*T(0,2) - sin(sensor_sta(2))*T(1,2);
     sensor_sta(1) = sensor_sta(1) + sin(sensor_sta(2))*T(0,2) + cos(sensor_sta(2))*T(1,2);
     sensor_sta(2) = sensor_sta(2) + delta_yaw;
 
-    cout<<"sensor-global: "<<sensor_sta.transpose()<<endl;
+    // cout<<"sensor-global: "<<sensor_sta.transpose()<<endl;
 
     // tf
     geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(sensor_sta(2));

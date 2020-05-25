@@ -1,6 +1,8 @@
 #include "ros/ros.h"
 #include "ros/console.h"
 #include <stdio.h>
+#include <fstream>
+#include <iostream>
 
 #include <numeric>
 #include <vector>
@@ -11,6 +13,7 @@
 #include "nav_msgs/Odometry.h"
 #include <tf/transform_broadcaster.h>
 #include <visualization_msgs/MarkerArray.h>
+#include <tf2_msgs/TFMessage.h>
 
 using namespace std;
 using namespace Eigen;
@@ -50,7 +53,9 @@ public:
     Vector2d mu_t;
     bool is_Predict;
     bool is_Update;
-    
+
+    Eigen::Vector3d realstatus;
+
     // init all 
     void initAll();
     // predict phase
@@ -76,9 +81,12 @@ public:
     // find nearest map points
     int findNearestMap(Vector2d point);
 
+    void realtf_subfunc(tf2_msgs::TFMessage realtf);
+
     // ros-related subscribers, publishers and broadcasters
     ros::Subscriber landMark_sub;
     ros::Subscriber icpOdom_sub;
+    ros::Subscriber realtf_sub;
     tf::TransformBroadcaster ekf_broadcaster;
     void publishResult();
  	ros::Publisher odom_pub;
@@ -104,6 +112,7 @@ ekf::ekf(ros::NodeHandle& n):
 
     landMark_sub = n.subscribe("/landMarks", 1, &ekf::update, this);
     icpOdom_sub = n.subscribe("/icp_odom", 1, &ekf::predict, this);
+    realtf_sub = n.subscribe("/tf", 1, &ekf::realtf_subfunc, this);
     odom_pub = n.advertise<nav_msgs::Odometry>("/ekf_odom", 1);
 }
 
@@ -145,8 +154,8 @@ void ekf::predict(nav_msgs::Odometry odom)
     status_pre(1) = odom.pose.pose.position.y;
     status_pre(2) = this->angleNorm(yaw);
 
-    printf("dxdyda:\t%.3f\t%.3f\t%.3f\n",dx,dy,da);
-    printf("mu_t:\t%.3f\t%.3f\n",mu_t(0),mu_t(1));
+    // printf("dxdyda:\t%.3f\t%.3f\t%.3f\n",dx,dy,da);
+    // printf("mu_t:\t%.3f\t%.3f\n",mu_t(0),mu_t(1));
 
     status(0) += mu_t(0)*cos(status(2) + mu_t(1)/2);
     status(1) += mu_t(0)*sin(status(2) + mu_t(1)/2);
@@ -178,6 +187,8 @@ void ekf::update(visualization_msgs::MarkerArray input)
         return;
     }
 
+    printf("cov:\t%.3f\t%.3f\t%.3f\n", sqrt(covariance(0,0)), sqrt(covariance(1,1)), sqrt(covariance(2,2)));
+
     // Prediction update
 
     MatrixXd G_e, G_mu;
@@ -192,6 +203,8 @@ void ekf::update(visualization_msgs::MarkerArray input)
     covariance.block(0,3,3,2*landMark_num) = G_e * covariance.block(0,3,3,2*landMark_num);
     covariance.block(3,0,2*landMark_num,3) = covariance.block(0,3,3,2*landMark_num).transpose();
     covariance = covariance + G_mu * noise_R * G_mu.transpose();
+    // cout<<"\ncov1:\nco(0):\t"<<covariance(0,0)<<endl;
+    // cout<<"co(1):\t"<<covariance(1,1)<<endl<<endl;
 
     // Observation update
     int cols = landMarkFeatures.cols();
@@ -236,11 +249,46 @@ void ekf::update(visualization_msgs::MarkerArray input)
     }
     this->publishResult();
 
+    // cout<<"\ncov2:\nco(0):\t"<<covariance(0,0)<<endl;
+    // cout<<"co(1):\t"<<covariance(1,1)<<endl<<endl;
+
     is_Update = true;
 
     // cout << "landMark_num: " << landMark_num << endl;
     // double time_1 = (double)ros::Time::now().toSec();
     // cout<<"time_cost:  "<<time_1-time_0<<endl<<endl;
+}
+
+void ekf::realtf_subfunc(tf2_msgs::TFMessage realtf)
+{
+    double roll, pitch, yaw;
+    tf::Quaternion quat;
+    tf::quaternionMsgToTF(realtf.transforms.at(0).transform.rotation, quat);
+    tf::Matrix3x3(quat).getRPY(roll, pitch, yaw);
+
+    realstatus <<   realtf.transforms.at(0).transform.translation.x, 
+                    realtf.transforms.at(0).transform.translation.y,
+                    yaw;
+                    
+    
+    // ofstream tfout;
+    // tfout.open("real_tf_data.dat", ios::out);
+    // if(tfout.is_open()){
+    //     cout << realstatus.transpose() << endl;
+    //     tfout << realstatus.transpose() << endl;
+    // }else{
+    //     cout << "tf open wrong!" << endl;
+    // }
+    // tfout.close();
+
+    // FILE *fp;
+    // fp = fopen("/home/zailu/real_tf_data.dat", "a+");
+    // if(fp == NULL){
+    //     cout << "tf open wrong!" << endl;
+    // }else{
+    //     fprintf(fp, "%.3f,%.3f,%.3f\n", realstatus(0), realstatus(1), realstatus(2));
+    // }
+    // fclose(fp);
 }
 
 void ekf::initAll()
@@ -463,6 +511,26 @@ void ekf::publishResult()
     odom.pose.pose.orientation = odom_quat;
 
     odom_pub.publish(odom);
+
+
+    // ofstream ekfout;
+    // ekfout.open("ekf_slam_data.dat", ios::out);
+    // if(ekfout.is_open()){
+    //     cout << status.block<3,1>(0,0).transpose() << endl;
+    //     ekfout << status.block<3,1>(0,0).transpose() << endl;
+    // }else{
+    //     cout << "ekf open wrong!" << endl;
+    // }
+    // ekfout.close();
+
+    FILE *fp;
+    fp = fopen("/home/zailu/ekf_err_data.dat", "a+");
+    if(fp == NULL){
+        cout << "tf open wrong!" << endl;
+    }else{
+        fprintf(fp, "%.3f,%.3f,%.3f\n", status(0)-realstatus(0), status(1)-realstatus(1), status(2)-realstatus(2));
+    }
+    fclose(fp);
 }
 
 int main(int argc, char **argv)

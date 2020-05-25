@@ -96,14 +96,14 @@ void extraction::process(sensor_msgs::LaserScan input)
         last_xy = curr_xy;
     }
 
-    cout<<"Total original labels: "<<label<<endl;
+    // cout<<"Total original labels: "<<label<<endl;
 
     LandMarkSet landmarks_ = this->extractLandMark(laser_extr);
 
     this->publishLandMark(landmarks_);
 
     double time_1 = (double)ros::Time::now().toSec();
-    cout<<"time_cost:  "<<time_1-time_0<<endl;
+    // cout<<"time_cost:  "<<time_1-time_0<<endl;
 }
 
 LandMarkSet extraction::extractLandMark(sensor_msgs::LaserScan input)
@@ -156,7 +156,7 @@ LandMarkSet extraction::extractLandMark(sensor_msgs::LaserScan input)
                         }
                         center_xy = (center_xy + center2_xy) / 2;
 
-                        std::cout << landMark_id << ": " << center_xy.transpose() << endl;
+                        // std::cout << landMark_id << ": " << center_xy.transpose() << endl;
 
                         landMarks.id.push_back(landMark_id);
                         landMarks.position_x.push_back(center_xy.x());
@@ -205,7 +205,7 @@ void extraction::publishLandMark(LandMarkSet input)
         landMark_array_msg.markers[i].color.g = 0.0;
         landMark_array_msg.markers[i].color.b = 1.0;
     }
-    cout << "publish: " << input.id.size() << endl;
+    // cout << "publish: " << input.id.size() << endl;
     landMark_pub.publish(landMark_array_msg);
 }
 

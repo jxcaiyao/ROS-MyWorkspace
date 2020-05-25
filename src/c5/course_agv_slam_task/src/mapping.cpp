@@ -152,6 +152,8 @@ void mapping::process(sensor_msgs::LaserScan input)
 
     }
 
+    // grid_map.data[20100] = 100;
+
     // publish
     map_pub.publish(grid_map);
 }
