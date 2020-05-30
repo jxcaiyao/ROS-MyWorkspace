@@ -1,5 +1,5 @@
 <launch>
-	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find course_agv_description)/urdf/course_agv.xacro'" />
+
 	<node pkg="course_agv_slam_task" type="icp" name="icp" output="screen">
 		
 		<!--from a rosbag-->
@@ -12,5 +12,5 @@
 		<param name="dis_th" value="0.2"/>
 	</node>
 
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find course_agv_slam_task)/launch/course_agv.rviz" />
+    <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find course_agv_slam_task)/launch/course_agv.rviz" /> -->
 </launch>

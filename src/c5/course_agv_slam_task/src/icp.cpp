@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "ros/console.h"
 #include "std_msgs/Float64.h"
+#include "rosgraph_msgs/Clock.h"
 #include <stdio.h>
 
 #include <numeric>
@@ -47,6 +48,7 @@ public:
     // sensor states = robot_x_y_theta
     Vector3d sensor_sta;
 
+    bool isFirstClock;
     // max iterations
     int max_iter;
     // distance threshold for filter the matching points
@@ -65,6 +67,7 @@ public:
 
     void v_left_subfunc(std_msgs::Float64 v_left_msgs);
     void v_right_subfunc(std_msgs::Float64 v_right_msgs);
+    void clock_subfunc(rosgraph_msgs::Clock clock_msgs);
     // transform the ros msg to Eigen Matrix
     Eigen::MatrixXd rosmsgToEigen(const sensor_msgs::LaserScan input);
     // fint the nearest points & filter
@@ -82,6 +85,7 @@ public:
     ros::Subscriber laser_sub;
     ros::Subscriber v_left_sub;
     ros::Subscriber v_right_sub;
+    ros::Subscriber clock_sub;
     void publishResult(Matrix3d T);
  	tf::TransformBroadcaster odom_broadcaster;
  	ros::Publisher odom_pub;
@@ -105,6 +109,7 @@ icp::icp(ros::NodeHandle& n):
 	n.getParam("/icp/dis_th", dis_th);
 
     isFirstScan = true;
+    isFirstClock = true;
 
     robot_dx = 0;
     robot_dy = 0;
@@ -122,6 +127,7 @@ icp::icp(ros::NodeHandle& n):
                                 10, &icp::v_left_subfunc, this);
     v_right_sub = n.subscribe("/course_agv/right_wheel_velocity_controller/command", 
                                 10, &icp::v_right_subfunc, this);
+    clock_sub = n.subscribe("/clock",1,&icp::clock_subfunc,this);
 
     odom_pub = n.advertise<nav_msgs::Odometry>("icp_odom", 1);
 }
@@ -184,37 +190,37 @@ void icp::process(sensor_msgs::LaserScan input)
     Transform_acc = T * Transform_acc;
 
     // main LOOP
-    for(int i=0; i<max_iter; i++)
-    {	
-    	// please code by yourself
-        neigh = this->findNearest(src_pc_2D, tar_pc_2D);
-        if(neigh.distances.size() == 0){
-            std::cout << "no solution!" << endl;
-            break;
-        }
+    // for(int i=0; i<max_iter; i++)
+    // {	
+    // 	// please code by yourself
+    //     neigh = this->findNearest(src_pc_2D, tar_pc_2D);
+    //     if(neigh.distances.size() == 0){
+    //         std::cout << "no solution!" << endl;
+    //         break;
+    //     }
 
-        cols = neigh.distances.size();
-        src_pc_rearr = MatrixXd::Zero(2,cols);
-        tar_pc_rearr = MatrixXd::Zero(2,cols);
-        for(int j=0; j<cols; j++){
-            src_pc_rearr.block<2,1>(0,j) = src_pc_2D.block<2,1>(0,neigh.src_indices[j]);
-            tar_pc_rearr.block<2,1>(0,j) = tar_pc_2D.block<2,1>(0,neigh.tar_indices[j]);
-        }
+    //     cols = neigh.distances.size();
+    //     src_pc_rearr = MatrixXd::Zero(2,cols);
+    //     tar_pc_rearr = MatrixXd::Zero(2,cols);
+    //     for(int j=0; j<cols; j++){
+    //         src_pc_rearr.block<2,1>(0,j) = src_pc_2D.block<2,1>(0,neigh.src_indices[j]);
+    //         tar_pc_rearr.block<2,1>(0,j) = tar_pc_2D.block<2,1>(0,neigh.tar_indices[j]);
+    //     }
 
-        T = this->getTransform(src_pc_rearr, tar_pc_rearr);
+    //     T = this->getTransform(src_pc_rearr, tar_pc_rearr);
 
-        src_pc_2D = T.block<2,2>(0,0) * src_pc_2D + T.block<2,1>(0,2) * MatrixXd::Ones(1,src_pc_2D.cols());
-        Transform_acc = T * Transform_acc;
+    //     src_pc_2D = T.block<2,2>(0,0) * src_pc_2D + T.block<2,1>(0,2) * MatrixXd::Ones(1,src_pc_2D.cols());
+    //     Transform_acc = T * Transform_acc;
 
-        mean_dist = std::accumulate(neigh.distances.begin(), neigh.distances.end(), 0.0) / neigh.distances.size();
-        if(abs(mean_dist - last_dist) < tolerance){
-            std::cout << "iter times:  " << i+1 << endl;
-            break;
-        }
-        last_dist = mean_dist;
-    }
-    std::cout << "cols: " << src_pc_rearr.cols() << endl;
-    std::cout << "mean_dist:  " << mean_dist << endl;
+    //     mean_dist = std::accumulate(neigh.distances.begin(), neigh.distances.end(), 0.0) / neigh.distances.size();
+    //     if(abs(mean_dist - last_dist) < tolerance){
+    //         std::cout << "iter times:  " << i+1 << endl;
+    //         break;
+    //     }
+    //     last_dist = mean_dist;
+    // }
+    // std::cout << "cols: " << src_pc_rearr.cols() << endl;
+    // std::cout << "mean_dist:  " << mean_dist << endl;
 
     tar_pc = src_pc;
 
@@ -226,7 +232,7 @@ void icp::process(sensor_msgs::LaserScan input)
 
 void icp::v_left_subfunc(std_msgs::Float64 v_left_msgs)
 {
-    time_now = (double)ros::Time::now().toSec();
+    // time_now = (double)ros::Time::now().toSec();
     double dt = time_now - time_last;
     v_left = 0.08 * v_left_msgs.data;
 
@@ -246,7 +252,7 @@ void icp::v_left_subfunc(std_msgs::Float64 v_left_msgs)
 
 void icp::v_right_subfunc(std_msgs::Float64 v_right_msgs)
 {
-    time_now = (double)ros::Time::now().toSec();
+    // time_now = (double)ros::Time::now().toSec();
     double dt = time_now - time_last;
     v_right = 0.08 * v_right_msgs.data;
 
@@ -261,6 +267,15 @@ void icp::v_right_subfunc(std_msgs::Float64 v_right_msgs)
     // std::cout << "vleft: " << v_left << endl;
     // std::cout << "dt: " << dt << endl;
     // std::cout << "sta: " << robot_dx << robot_dy << robot_dtheta << endl << endl;
+}
+
+void icp::clock_subfunc(rosgraph_msgs::Clock clock_msgs)
+{
+    time_now = clock_msgs.clock.toSec();
+    if(isFirstClock){
+        isFirstClock = false;
+        time_last = time_now;
+    }
 }
 
 Eigen::MatrixXd icp::rosmsgToEigen(const sensor_msgs::LaserScan input)
@@ -344,23 +359,11 @@ Eigen::Matrix3d icp::getTransform(const Eigen::MatrixXd &src, const Eigen::Matri
     Matrix3d T = Matrix3d::Identity(3,3);
 
     int cols = src.cols();
-    //std::cout << "cols: " << cols << endl;
     Vector2d src_mc = Vector2d::Zero();
     Vector2d tar_mc = Vector2d::Zero();
     VectorXd avg = VectorXd::Ones(cols,1) / cols;
     MatrixXd src_q = src;
     MatrixXd tar_q = tar;
-
-    // for(int i=0; i<cols; i++){
-    //     src_mc = src_mc + src.block<2,1>(0,i);
-    //     tar_mc = tar_mc + tar.block<2,1>(0,i);
-    // }
-    // src_mc = src_mc / cols;
-    // tar_mc = tar_mc / cols;
-    // std::cout << "src: " << endl;
-    // std::cout << src << endl;
-    // std::cout << "tar: " << endl;
-    // std::cout << tar << endl;
 
     src_mc = src * avg;
     tar_mc = tar * avg;
@@ -370,46 +373,24 @@ Eigen::Matrix3d icp::getTransform(const Eigen::MatrixXd &src, const Eigen::Matri
         tar_q.block<2,1>(0,i) = tar.block<2,1>(0,i) - tar_mc;
     }
 
-    // std::cout << "src_q: " << endl;
-    // std::cout << src_q << endl;
-    // std::cout << "tar_q: " << endl;
-    // std::cout << tar_q << endl;
-
     MatrixXd W = src_q * tar_q.transpose();
     MatrixXd U;
     MatrixXd V;
     Matrix2d R;
     Vector2d t;
 
-    //std::cout << "here1" << endl;
-    // std::cout << "W: " << endl;
-    // std::cout << W << endl;
     JacobiSVD<MatrixXd> svd(W, ComputeFullU | ComputeFullV);
-    //std::cout << "here2" << endl;
     U = svd.matrixU();
     V = svd.matrixV();
-    //std::cout << "here3" << endl;
-    // std::cout << "U: " << endl;
-    // std::cout << U << endl;
-    // std::cout << "V: " << endl;
-    // std::cout << V << endl;
     R = V * U.transpose();
-    // std::cout << "R: " << endl;
-    // std::cout << R << endl;
-    //std::cout << "here4" << endl;
     if(R.determinant() < 0){
        std::cout << "determinant<0" << endl;
     }
 
     t = tar_mc - R * src_mc;
-    // t = R.inverse() * t;
-    //std::cout << "here5" << endl;
 
     T.block<2,2>(0,0) = R;
     T.block<2,1>(0,2) = t;
-    //std::cout << "here6" << endl;
-    // std::cout << "T: " << endl;
-    // std::cout << T << endl << endl;
 
     return T;
 }
@@ -419,8 +400,6 @@ float icp::calc_dist(const Eigen::Vector2d &pta, const Eigen::Vector2d &ptb)
     // please code by yourself
     float dist;
     dist = (pta-ptb).norm();
-    // dist = sqrt(pow(pta(0)-ptb(0),2)+pow(pta(1)-ptb(1),2));
-    //std::cout << "dist: " << dist << endl;
     return dist;
 }
 

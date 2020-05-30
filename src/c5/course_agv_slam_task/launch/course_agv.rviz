@@ -17,6 +17,7 @@ Panels:
         - /MarkerArray1
         - /Odometry2
         - /Odometry2/Shape1
+        - /MarkerArray2
       Splitter Ratio: 0.5304568409919739
     Tree Height: 416
   - Class: rviz/Selection
@@ -37,7 +38,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -84,49 +85,13 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        course_agv__hokuyo__link:
-          Value: true
-        course_agv__imu:
-          Value: true
-        course_agv__left_wheel:
-          Value: true
-        course_agv__right_wheel:
-          Value: true
-        ekf_slam:
-          Value: true
-        icp_odom:
-          Value: true
-        map:
-          Value: true
-        robot_base:
-          Value: true
-        robot_chassis:
-          Value: true
-        world_base:
-          Value: true
       Marker Scale: 0.30000001192092896
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        world_base:
-          ekf_slam:
-            {}
-          icp_odom:
-            {}
-          map:
-            robot_base:
-              course_agv__hokuyo__link:
-                {}
-              course_agv__imu:
-                {}
-              course_agv__left_wheel:
-                {}
-              course_agv__right_wheel:
-                {}
-              robot_chassis:
-                {}
+        {}
       Update Interval: 0
       Value: true
     - Alpha: 0.5
@@ -217,7 +182,7 @@ Visualization Manager:
       Marker Topic: /landMarks
       Name: MarkerArray
       Namespaces:
-        lm: true
+        {}
       Queue Size: 100
       Value: true
     - Angle Tolerance: 0.10000000149011612
@@ -258,11 +223,19 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Map
       Topic: /grid_map_mine
       Unreliable: false
       Use Timestamp: false
+      Value: false
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /particles
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
