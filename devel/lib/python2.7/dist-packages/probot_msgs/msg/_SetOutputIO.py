@@ -9,7 +9,7 @@ import struct
 class SetOutputIO(genpy.Message):
   _md5sum = "17d3f288ef8d0147911617f2a2126f98"
   _type = "probot_msgs/SetOutputIO"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int8 ioNumber
 int8 status
 
@@ -39,7 +39,7 @@ int8 IO_HIGH = 1
     """
     if args or kwds:
       super(SetOutputIO, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.ioNumber is None:
         self.ioNumber = 0
       if self.status is None:
@@ -78,7 +78,7 @@ int8 IO_HIGH = 1
       (_x.ioNumber, _x.status,) = _get_struct_2b().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -107,7 +107,7 @@ int8 IO_HIGH = 1
       (_x.ioNumber, _x.status,) = _get_struct_2b().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

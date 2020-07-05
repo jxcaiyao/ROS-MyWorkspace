@@ -59,10 +59,10 @@
   "98991985d4cdd4fbc58ba5a8e9c60574")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<HeartbeatSrv-request>)))
   "Returns full string definition for message of type '<HeartbeatSrv-request>"
-  (cl:format cl:nil "int32 countRequest~%~%~%"))
+  (cl:format cl:nil "int32 countRequest~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'HeartbeatSrv-request)))
   "Returns full string definition for message of type 'HeartbeatSrv-request"
-  (cl:format cl:nil "int32 countRequest~%~%~%"))
+  (cl:format cl:nil "int32 countRequest~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <HeartbeatSrv-request>))
   (cl:+ 0
      4

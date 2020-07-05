@@ -9,7 +9,7 @@ import struct
 class PersonRequest(genpy.Message):
   _md5sum = "b3f7ec37d11629ec3010e27635cf22a9"
   _type = "learning_service/PersonRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string name
 uint8  age
 uint8  sex
@@ -42,7 +42,7 @@ uint8 female  = 2
     """
     if args or kwds:
       super(PersonRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.name is None:
         self.name = ''
       if self.age is None:
@@ -99,7 +99,7 @@ uint8 female  = 2
       (_x.age, _x.sex,) = _get_struct_2B().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -143,7 +143,7 @@ uint8 female  = 2
       (_x.age, _x.sex,) = _get_struct_2B().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -166,7 +166,7 @@ import struct
 class PersonResponse(genpy.Message):
   _md5sum = "c22f2a1ed8654a0b365f1bb3f7ff2c0f"
   _type = "learning_service/PersonResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string result
 """
   __slots__ = ['result']
@@ -188,7 +188,7 @@ class PersonResponse(genpy.Message):
     """
     if args or kwds:
       super(PersonResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = ''
     else:
@@ -233,7 +233,7 @@ class PersonResponse(genpy.Message):
         self.result = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -271,7 +271,7 @@ class PersonResponse(genpy.Message):
         self.result = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

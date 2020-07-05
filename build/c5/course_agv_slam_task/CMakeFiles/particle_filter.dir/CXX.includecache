@@ -35,6 +35,8 @@ tf/transform_broadcaster.h
 -
 visualization_msgs/MarkerArray.h
 -
+tf2_msgs/TFMessage.h
+-
 
 /opt/ros/melodic/include/geometry_msgs/Point.h
 string

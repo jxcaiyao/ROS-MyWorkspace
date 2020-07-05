@@ -65,9 +65,59 @@
   "file": "/home/zailu/catkin_ws/src/c5/course_agv_slam_task/src/particle_filter.cpp"
 },
 {
+  "directory": "/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_client",
+  "command": "/usr/bin/c++  -DROS_BUILD_SHARED_LIBS=1 -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/src/ros_lib -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/usr/src/googletest/googletest/include  -g   -o CMakeFiles/float64_test.dir/test/float64_test.cpp.o -c /home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/test/float64_test.cpp",
+  "file": "/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/test/float64_test.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_client",
+  "command": "/usr/bin/c++  -DROS_BUILD_SHARED_LIBS=1 -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/src/ros_lib -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/usr/src/googletest/googletest/include  -g   -o CMakeFiles/subscriber_test.dir/test/subscriber_test.cpp.o -c /home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/test/subscriber_test.cpp",
+  "file": "/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/test/subscriber_test.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_client",
+  "command": "/usr/bin/c++  -DROS_BUILD_SHARED_LIBS=1 -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/src/ros_lib -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/usr/src/googletest/googletest/include  -g   -o CMakeFiles/time_test.dir/test/time_test.cpp.o -c /home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/test/time_test.cpp",
+  "file": "/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/test/time_test.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_client",
+  "command": "/usr/bin/c++  -DROS_BUILD_SHARED_LIBS=1 -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/src/ros_lib -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/usr/src/googletest/googletest/include  -g   -o CMakeFiles/time_test.dir/src/ros_lib/duration.cpp.o -c /home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/src/ros_lib/duration.cpp",
+  "file": "/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/src/ros_lib/duration.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_client",
+  "command": "/usr/bin/c++  -DROS_BUILD_SHARED_LIBS=1 -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/src/ros_lib -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/usr/src/googletest/googletest/include  -g   -o CMakeFiles/time_test.dir/src/ros_lib/time.cpp.o -c /home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/src/ros_lib/time.cpp",
+  "file": "/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_client/src/ros_lib/time.cpp"
+},
+{
   "directory": "/home/zailu/catkin_ws/build/learning_parameter",
   "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"learning_parameter\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/parameter_config.dir/src/parameter_config.cpp.o -c /home/zailu/catkin_ws/src/learning_parameter/src/parameter_config.cpp",
   "file": "/home/zailu/catkin_ws/src/learning_parameter/src/parameter_config.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_server",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"rosserial_server\\\" -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/rosserial_server_socket_node.dir/src/socket_node.cpp.o -c /home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/src/socket_node.cpp",
+  "file": "/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/src/socket_node.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_server",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"rosserial_server\\\" -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/rosserial_server_udp_socket_node.dir/src/udp_socket_node.cpp.o -c /home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/src/udp_socket_node.cpp",
+  "file": "/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/src/udp_socket_node.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_server",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"rosserial_server\\\" -Drosserial_server_lookup_EXPORTS -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -isystem /usr/include/python2.7  -g -fPIC   -o CMakeFiles/rosserial_server_lookup.dir/src/msg_lookup.cpp.o -c /home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/src/msg_lookup.cpp",
+  "file": "/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/src/msg_lookup.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_server",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"rosserial_server\\\" -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -g   -o CMakeFiles/rosserial_server_serial_node.dir/src/serial_node.cpp.o -c /home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/src/serial_node.cpp",
+  "file": "/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/src/serial_node.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_test",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"rosserial_test\\\" -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_test/include -I/home/zailu/catkin_ws/build/rosserial-noetic-devel/rosserial_test/include -I/home/zailu/catkin_ws/devel/include -I/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_server/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/src/googletest/googletest/include  -g   -o CMakeFiles/rosserial_test_publish_subscribe.dir/src/publish_subscribe.cpp.o -c /home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_test/src/publish_subscribe.cpp",
+  "file": "/home/zailu/catkin_ws/src/rosserial-noetic-devel/rosserial_test/src/publish_subscribe.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/learning_service",
@@ -126,28 +176,13 @@
 },
 {
   "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/control_example_copy.dir/src/control_example_copy.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example_copy.cpp",
-  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example_copy.cpp"
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/forward_kinematics.dir/src/forward_kinematics.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/forward_kinematics.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/forward_kinematics.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_1.dir/src/experiment_1.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_1.cpp",
-  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_1.cpp"
-},
-{
-  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/control_example.dir/src/control_example.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example.cpp",
-  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example.cpp"
-},
-{
-  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_2_vel.dir/src/experiment_2_vel.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_2_vel.cpp",
-  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_2_vel.cpp"
-},
-{
-  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_3.dir/src/experiment_3.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_3.cpp",
-  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_3.cpp"
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_5.dir/src/experiment_5.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_5.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_5.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
@@ -161,12 +196,37 @@
 },
 {
   "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_5.dir/src/experiment_5.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_5.cpp",
-  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_5.cpp"
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_2_pos.dir/src/experiment_2_pos.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_2_pos.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_2_pos.cpp"
 },
 {
   "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_2_pos.dir/src/experiment_2_pos.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_2_pos.cpp",
-  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_2_pos.cpp"
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/inverse_kinematics.dir/src/inverse_kinematics.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/inverse_kinematics.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/inverse_kinematics.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_2_vel.dir/src/experiment_2_vel.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_2_vel.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_2_vel.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_1.dir/src/experiment_1.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_1.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_1.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/control_example.dir/src/control_example.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/control_example_copy.dir/src/control_example_copy.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example_copy.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/control_example_copy.cpp"
+},
+{
+  "directory": "/home/zailu/catkin_ws/build/probot_anno/probot_gazebo",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"probot_gazebo\\\" -I/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/include -I/home/zailu/catkin_ws/devel/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/opt/ros/melodic/share/orocos_kdl/cmake/../../../include -I/usr/include/eigen3  -g   -std=c++11 -o CMakeFiles/experiment_3.dir/src/experiment_3.cpp.o -c /home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_3.cpp",
+  "file": "/home/zailu/catkin_ws/src/probot_anno/probot_gazebo/src/experiment_3.cpp"
 }
 ]

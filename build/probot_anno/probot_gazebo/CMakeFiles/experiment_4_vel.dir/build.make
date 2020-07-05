@@ -90,9 +90,15 @@ experiment_4_vel_EXTERNAL_OBJECTS =
 
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: probot_anno/probot_gazebo/CMakeFiles/experiment_4_vel.dir/src/experiment_4_vel.cpp.o
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: probot_anno/probot_gazebo/CMakeFiles/experiment_4_vel.dir/build.make
+/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_lazy_free_space_updater.so
+/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_point_containment_filter.so
+/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_pointcloud_octomap_updater_core.so
+/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_semantic_world.so
+/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libimage_transport.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_common_planning_interface_objects.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_planning_scene_interface.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_move_group_interface.so
+/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_py_bindings_tools.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_warehouse.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libwarehouse_ros.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_pick_place_planner.so
@@ -106,12 +112,8 @@ experiment_4_vel_EXTERNAL_OBJECTS =
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_plan_execution.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_planning_scene_monitor.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_collision_plugin_loader.so
-/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_lazy_free_space_updater.so
-/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_point_containment_filter.so
-/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_occupancy_map_monitor.so
-/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_pointcloud_octomap_updater_core.so
-/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_semantic_world.so
-/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libimage_transport.so
+/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libdynamic_reconfigure_config_init_mutex.so
+/home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_ros_occupancy_map_monitor.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_exceptions.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_background_processing.so
 /home/zailu/catkin_ws/devel/lib/probot_gazebo/experiment_4_vel: /opt/ros/melodic/lib/libmoveit_kinematics_base.so

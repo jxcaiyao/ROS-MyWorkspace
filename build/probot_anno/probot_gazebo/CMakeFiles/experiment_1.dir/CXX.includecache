@@ -27,7 +27,7 @@ ros/ros.h
 -
 std_msgs/Float32.h
 -
-std_msgs/Float64MultiArray.h
+std_msgs/Float32MultiArray.h
 -
 tf/transform_datatypes.h
 -
@@ -547,8 +547,6 @@ moveit_msgs/MoveItErrorCodes.h
 -
 moveit/macros/class_forward.h
 -
-moveit/macros/deprecation.h
--
 ros/node_handle.h
 -
 boost/function.hpp
@@ -563,8 +561,6 @@ moveit/macros/declare_ptr.h
 /opt/ros/melodic/include/moveit/macros/declare_ptr.h
 memory
 -
-
-/opt/ros/melodic/include/moveit/macros/deprecation.h
 
 /opt/ros/melodic/include/moveit_msgs/MoveItErrorCodes.h
 string
@@ -1248,7 +1244,7 @@ ros/builtin_message_traits.h
 ros/message_operations.h
 -
 
-/opt/ros/melodic/include/std_msgs/Float64MultiArray.h
+/opt/ros/melodic/include/std_msgs/Float32MultiArray.h
 string
 -
 vector

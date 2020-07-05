@@ -4,7 +4,7 @@
 #include <time.h>
 #include <ros/ros.h>
 #include <std_msgs/Float32.h>
-#include <std_msgs/Float64MultiArray.h>
+#include <std_msgs/Float32MultiArray.h>
 #include <tf/transform_datatypes.h>
 #include "controller_manager_msgs/SwitchController.h"
 #include "controller_manager_msgs/ListControllers.h"
@@ -90,8 +90,9 @@ std::vector<std::vector<geometry_msgs::Pose>> experiment_1::Init_Pose(void){
     return req_pose_vec_vec;
 }
 
-std_msgs::Float64MultiArray Vec2Msg(std::vector<double> vec){
-    std_msgs::Float64MultiArray init_pos;
+std_msgs::Float32MultiArray Vec2Msg(std::vector<double> vec){
+    std_msgs::Float32MultiArray init_pos;
+    init_pos.data.push_back(0);
     init_pos.data.push_back(0);
     init_pos.data.push_back(0);
     init_pos.data.push_back(0);
@@ -100,9 +101,13 @@ std_msgs::Float64MultiArray Vec2Msg(std::vector<double> vec){
     init_pos.data.push_back(0);
     // sleep(1);
 
-    for(int i=0; i<6; i++){
-        init_pos.data.at(i) = vec[i];
-    }
+    init_pos.data.at(0) = vec.at(0) * 30 * 180 / 3.1415926;
+    init_pos.data.at(1) = vec.at(1) * 205 * 180 / 3 / 3.1415926;
+    init_pos.data.at(2) = vec.at(2) * 50 * 180 / 3.1415926;
+    init_pos.data.at(3) = vec.at(3) * 125 * 180 / 2 / 3.1415926;
+    init_pos.data.at(4) = vec.at(4) * 125 * 180 / 2 / 3.1415926;
+    init_pos.data.at(5) = vec.at(5) * 200 * 180 / 9 / 3.1415926;
+    init_pos.data.at(6) = 1200.0;
     
     return init_pos;
 }
@@ -127,7 +132,7 @@ int main(int argc, char** argv){
 
     ROS_INFO_STREAM("start");
 
-    ros::Publisher pos_pub = node_handle.advertise<std_msgs::Float64MultiArray>("/probot_anno/arm_pos_controller/command", 100);
+    ros::Publisher pos_pub = node_handle.advertise<std_msgs::Float32MultiArray>("position_chatter", 1000);
 
     IKFastKinematicsPlugin ik;
     
@@ -158,9 +163,12 @@ int main(int argc, char** argv){
     link_names.push_back("link_6");
 
     while(ros::ok()){
+        sleep(5);
         std::cout << std::endl;
         std::cout << " Inverse kinematics" << std::endl;
         for(int i=0; i<req_pose_vec.size() && ros::ok(); i++){
+
+            std::cout << "Trying to solve IK: " << i << std::endl;
 
             ret=ik.getPositionIK(req_pose_vec.at(i), seed1, sol_rad, kinematic_result, kinematics::KinematicsQueryOptions());
 
@@ -177,12 +185,17 @@ int main(int argc, char** argv){
             }
 
             for(int i=0; i<sol_rad.size(); i++){
-                std_msgs::Float64MultiArray init_pos = Vec2Msg(sol_rad.at(i));
+                std_msgs::Float32MultiArray init_pos = Vec2Msg(sol_rad.at(i));
 
                 pos_pub.publish(init_pos);
                 ROS_INFO_STREAM("published");
+                std::cout << "IK solution: " << i << std::endl;
 
-                sleep(10);
+                // sleep(10);
+                int pnext = 0;
+                do{
+                    cin >> pnext;
+                }while(pnext != 1);
             }
 
             sol_rad.clear();
@@ -194,8 +207,10 @@ int main(int argc, char** argv){
         std::cout << " Forward kinematics" << std::endl;
 
         for(int i=0; i<req_joint_vec.size() && ros::ok(); i++){
-            std_msgs::Float64MultiArray init_pos = Vec2Msg(req_joint_vec.at(i));
+            std_msgs::Float32MultiArray init_pos = Vec2Msg(req_joint_vec.at(i));
             pos_pub.publish(init_pos);
+
+            std::cout << "Trying to solve FK: " << i << std::endl;
 
             ret = ik.getPositionFK(link_names,req_joint_vec.at(i), sol_pose);
             if(ret){
@@ -223,7 +238,11 @@ int main(int argc, char** argv){
 
             sol_pose.clear();
 
-            sleep(10);
+            // sleep(10);
+            int pnext = 0;
+            do{
+                cin >> pnext;
+            }while(pnext != 1);
         }
     }
 

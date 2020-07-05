@@ -186,6 +186,12 @@ target_link_libraries(experiment_4_vel ${catkin_LIBRARIES})
 add_executable(experiment_5 src/experiment_5.cpp)
 target_link_libraries(experiment_5 ${catkin_LIBRARIES})
 
+add_executable(forward_kinematics src/forward_kinematics.cpp)
+target_link_libraries(forward_kinematics ${catkin_LIBRARIES})
+
+add_executable(inverse_kinematics src/inverse_kinematics.cpp)
+target_link_libraries(inverse_kinematics ${catkin_LIBRARIES})
+
 #############
 ## Install ##
 #############

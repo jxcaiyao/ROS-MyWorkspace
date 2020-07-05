@@ -9,7 +9,7 @@ import struct
 class HeartbeatSrvRequest(genpy.Message):
   _md5sum = "b6a833a94dfff474954f461420badd1a"
   _type = "probot_msgs/HeartbeatSrvRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32 countRequest
 """
   __slots__ = ['countRequest']
@@ -31,7 +31,7 @@ class HeartbeatSrvRequest(genpy.Message):
     """
     if args or kwds:
       super(HeartbeatSrvRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.countRequest is None:
         self.countRequest = 0
     else:
@@ -49,7 +49,8 @@ class HeartbeatSrvRequest(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.countRequest))
+      _x = self.countRequest
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -65,7 +66,7 @@ class HeartbeatSrvRequest(genpy.Message):
       (self.countRequest,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -75,7 +76,8 @@ class HeartbeatSrvRequest(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.countRequest))
+      _x = self.countRequest
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -92,7 +94,7 @@ class HeartbeatSrvRequest(genpy.Message):
       (self.countRequest,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -115,7 +117,7 @@ import struct
 class HeartbeatSrvResponse(genpy.Message):
   _md5sum = "b4b441852a5db47dfa689349d7628591"
   _type = "probot_msgs/HeartbeatSrvResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32 countResponse
 """
   __slots__ = ['countResponse']
@@ -137,7 +139,7 @@ class HeartbeatSrvResponse(genpy.Message):
     """
     if args or kwds:
       super(HeartbeatSrvResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.countResponse is None:
         self.countResponse = 0
     else:
@@ -155,7 +157,8 @@ class HeartbeatSrvResponse(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.countResponse))
+      _x = self.countResponse
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -171,7 +174,7 @@ class HeartbeatSrvResponse(genpy.Message):
       (self.countResponse,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -181,7 +184,8 @@ class HeartbeatSrvResponse(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.countResponse))
+      _x = self.countResponse
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -198,7 +202,7 @@ class HeartbeatSrvResponse(genpy.Message):
       (self.countResponse,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

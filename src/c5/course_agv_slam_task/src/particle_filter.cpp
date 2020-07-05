@@ -15,6 +15,7 @@
 #include <tf/transform_broadcaster.h>
 
 #include <visualization_msgs/MarkerArray.h>
+#include <tf2_msgs/TFMessage.h>
 
 using namespace std;
 using namespace Eigen;
@@ -46,6 +47,7 @@ public:
     float gen_var;
     float gen_exp;
     float laser_max_samples;
+    Eigen::Vector3d realstatus;
 
     // subers & pubers
     ros::Subscriber laser_sub;
@@ -53,6 +55,8 @@ public:
     ros::Subscriber map_sub;
     ros::Publisher particles_pub;
     tf::TransformBroadcaster tf_broadcaster;
+
+    ros::Subscriber realtf_sub;
 
     // particles 
     particle particles[particle_num];
@@ -90,6 +94,8 @@ public:
     particle genNewParticle(particle particle_root, int id);
 
     void filter();
+
+    void realtf_subfunc(tf2_msgs::TFMessage realtf);
 };
 
 particle_filter::~particle_filter()
@@ -116,6 +122,7 @@ particle_filter::particle_filter(ros::NodeHandle& n):
     map_sub = n.subscribe("/map", 1, &particle_filter::setMap, this);
     laser_sub = n.subscribe("/course_agv/laser/scan", 1, &particle_filter::doObservation, this);
     odom_sub = n.subscribe("/icp_odom", 1, &particle_filter::doMotion, this);
+    realtf_sub = n.subscribe("/tf", 1, &particle_filter::realtf_subfunc, this);
 }
 
 void particle_filter::setMap(nav_msgs::OccupancyGrid input)
@@ -515,7 +522,26 @@ void particle_filter::publishAll()
     tf_broadcaster.sendTransform(pf_trans);
 
     // OR publish others you want
+    FILE *fp;
+    fp = fopen("/home/zailu/icp_err_data_normal.dat", "a+");
+    if(fp == NULL){
+        cout << "tf open wrong!" << endl;
+    }else{
+        fprintf(fp, "%.3f,%.3f,%.3f\n", state(0)-realstatus(0), state(1)-realstatus(1), state(2)-realstatus(2));
+    }
+    fclose(fp);
+}
 
+void particle_filter::realtf_subfunc(tf2_msgs::TFMessage realtf)
+{
+    double roll, pitch, yaw;
+    tf::Quaternion quat;
+    tf::quaternionMsgToTF(realtf.transforms.at(0).transform.rotation, quat);
+    tf::Matrix3x3(quat).getRPY(roll, pitch, yaw);
+
+    realstatus <<   realtf.transforms.at(0).transform.translation.x, 
+                    realtf.transforms.at(0).transform.translation.y,
+                    yaw;
 }
 
 int main(int argc, char **argv)

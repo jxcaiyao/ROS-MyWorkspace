@@ -547,8 +547,6 @@ moveit_msgs/MoveItErrorCodes.h
 -
 moveit/macros/class_forward.h
 -
-moveit/macros/deprecation.h
--
 ros/node_handle.h
 -
 boost/function.hpp
@@ -563,8 +561,6 @@ moveit/macros/declare_ptr.h
 /opt/ros/melodic/include/moveit/macros/declare_ptr.h
 memory
 -
-
-/opt/ros/melodic/include/moveit/macros/deprecation.h
 
 /opt/ros/melodic/include/moveit_msgs/MoveItErrorCodes.h
 string

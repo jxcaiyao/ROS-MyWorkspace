@@ -57,8 +57,8 @@ struct DataType< ::course_agv_nav::Plan > {
 };
 
 
-// service_traits::MD5Sum< ::course_agv_nav::PlanRequest> should match 
-// service_traits::MD5Sum< ::course_agv_nav::Plan > 
+// service_traits::MD5Sum< ::course_agv_nav::PlanRequest> should match
+// service_traits::MD5Sum< ::course_agv_nav::Plan >
 template<>
 struct MD5Sum< ::course_agv_nav::PlanRequest>
 {
@@ -72,8 +72,8 @@ struct MD5Sum< ::course_agv_nav::PlanRequest>
   }
 };
 
-// service_traits::DataType< ::course_agv_nav::PlanRequest> should match 
-// service_traits::DataType< ::course_agv_nav::Plan > 
+// service_traits::DataType< ::course_agv_nav::PlanRequest> should match
+// service_traits::DataType< ::course_agv_nav::Plan >
 template<>
 struct DataType< ::course_agv_nav::PlanRequest>
 {
@@ -87,8 +87,8 @@ struct DataType< ::course_agv_nav::PlanRequest>
   }
 };
 
-// service_traits::MD5Sum< ::course_agv_nav::PlanResponse> should match 
-// service_traits::MD5Sum< ::course_agv_nav::Plan > 
+// service_traits::MD5Sum< ::course_agv_nav::PlanResponse> should match
+// service_traits::MD5Sum< ::course_agv_nav::Plan >
 template<>
 struct MD5Sum< ::course_agv_nav::PlanResponse>
 {
@@ -102,8 +102,8 @@ struct MD5Sum< ::course_agv_nav::PlanResponse>
   }
 };
 
-// service_traits::DataType< ::course_agv_nav::PlanResponse> should match 
-// service_traits::DataType< ::course_agv_nav::Plan > 
+// service_traits::DataType< ::course_agv_nav::PlanResponse> should match
+// service_traits::DataType< ::course_agv_nav::Plan >
 template<>
 struct DataType< ::course_agv_nav::PlanResponse>
 {

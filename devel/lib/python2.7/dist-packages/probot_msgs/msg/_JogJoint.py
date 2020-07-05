@@ -9,7 +9,7 @@ import struct
 class JogJoint(genpy.Message):
   _md5sum = "02f6d1212f80ad72751bc065b3e3523c"
   _type = "probot_msgs/JogJoint"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """# The Jogging joint message contains control information for jogging
 # a specific joint
 # Set velocity_scale to 0 to stop jogging
@@ -61,7 +61,7 @@ int8 MOD_INCREMENT_01_DEGREE   = 3"""
     """
     if args or kwds:
       super(JogJoint, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.joint_index is None:
         self.joint_index = 0
       if self.direction is None:
@@ -106,7 +106,7 @@ int8 MOD_INCREMENT_01_DEGREE   = 3"""
       (_x.joint_index, _x.direction, _x.mode, _x.velocity_scale,) = _get_struct_3bf().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -135,7 +135,7 @@ int8 MOD_INCREMENT_01_DEGREE   = 3"""
       (_x.joint_index, _x.direction, _x.mode, _x.velocity_scale,) = _get_struct_3bf().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

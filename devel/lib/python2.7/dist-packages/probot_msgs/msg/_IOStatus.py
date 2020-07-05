@@ -9,7 +9,7 @@ import struct
 class IOStatus(genpy.Message):
   _md5sum = "b01f2a264a951d41a72a20bf487359e0"
   _type = "probot_msgs/IOStatus"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int8[] inputIOs
 int8[] outputIOs
 
@@ -38,7 +38,7 @@ int8 IO_HIGH = 1"""
     """
     if args or kwds:
       super(IOStatus, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.inputIOs is None:
         self.inputIOs = []
       if self.outputIOs is None:
@@ -93,7 +93,7 @@ int8 IO_HIGH = 1"""
       self.outputIOs = struct.unpack(pattern, str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -138,7 +138,7 @@ int8 IO_HIGH = 1"""
       self.outputIOs = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=length)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

@@ -9,7 +9,7 @@ import struct
 class ControllerCtrl(genpy.Message):
   _md5sum = "bc22a86a6761a3ebfb4241b3cec54085"
   _type = "probot_msgs/ControllerCtrl"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int8 ctrl"""
   __slots__ = ['ctrl']
   _slot_types = ['int8']
@@ -30,7 +30,7 @@ class ControllerCtrl(genpy.Message):
     """
     if args or kwds:
       super(ControllerCtrl, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.ctrl is None:
         self.ctrl = 0
     else:
@@ -48,7 +48,8 @@ class ControllerCtrl(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_b().pack(self.ctrl))
+      _x = self.ctrl
+      buff.write(_get_struct_b().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -64,7 +65,7 @@ class ControllerCtrl(genpy.Message):
       (self.ctrl,) = _get_struct_b().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -74,7 +75,8 @@ class ControllerCtrl(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_b().pack(self.ctrl))
+      _x = self.ctrl
+      buff.write(_get_struct_b().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -91,7 +93,7 @@ class ControllerCtrl(genpy.Message):
       (self.ctrl,) = _get_struct_b().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

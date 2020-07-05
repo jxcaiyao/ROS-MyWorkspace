@@ -31,7 +31,6 @@ probot_anno/probot_anno_ikfast_manipulator_plugin/CMakeFiles/probot_anno_manipul
  /opt/ros/melodic/include/moveit/kinematics_base/kinematics_base.h
  /opt/ros/melodic/include/moveit/macros/class_forward.h
  /opt/ros/melodic/include/moveit/macros/declare_ptr.h
- /opt/ros/melodic/include/moveit/macros/deprecation.h
  /opt/ros/melodic/include/moveit_msgs/MoveItErrorCodes.h
  /opt/ros/melodic/include/pluginlib/class_list_macros.hpp
  /opt/ros/melodic/include/ros/advertise_options.h

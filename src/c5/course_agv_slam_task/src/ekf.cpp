@@ -269,26 +269,6 @@ void ekf::realtf_subfunc(tf2_msgs::TFMessage realtf)
     realstatus <<   realtf.transforms.at(0).transform.translation.x, 
                     realtf.transforms.at(0).transform.translation.y,
                     yaw;
-                    
-    
-    // ofstream tfout;
-    // tfout.open("real_tf_data.dat", ios::out);
-    // if(tfout.is_open()){
-    //     cout << realstatus.transpose() << endl;
-    //     tfout << realstatus.transpose() << endl;
-    // }else{
-    //     cout << "tf open wrong!" << endl;
-    // }
-    // tfout.close();
-
-    // FILE *fp;
-    // fp = fopen("/home/zailu/real_tf_data.dat", "a+");
-    // if(fp == NULL){
-    //     cout << "tf open wrong!" << endl;
-    // }else{
-    //     fprintf(fp, "%.3f,%.3f,%.3f\n", realstatus(0), realstatus(1), realstatus(2));
-    // }
-    // fclose(fp);
 }
 
 void ekf::initAll()

@@ -9,7 +9,7 @@ import struct
 class JogPose(genpy.Message):
   _md5sum = "d193764a9f7e2d9ca8e4aaaa3600bff9"
   _type = "probot_msgs/JogPose"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """# The Jogging pose message contains control information for jogging
 # end-effector to a target pose
 # It means stopping jogging if mask is JOGGING_STOP
@@ -79,7 +79,7 @@ int8 MOD_INCREMENT_01_MM       = 3"""
     """
     if args or kwds:
       super(JogPose, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.mask is None:
         self.mask = 0
       if self.direction is None:
@@ -127,7 +127,7 @@ int8 MOD_INCREMENT_01_MM       = 3"""
       (_x.mask, _x.direction, _x.mode, _x.velocity_scale, _x.frame_id,) = _get_struct_3bfb().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -156,7 +156,7 @@ int8 MOD_INCREMENT_01_MM       = 3"""
       (_x.mask, _x.direction, _x.mode, _x.velocity_scale, _x.frame_id,) = _get_struct_3bfb().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
