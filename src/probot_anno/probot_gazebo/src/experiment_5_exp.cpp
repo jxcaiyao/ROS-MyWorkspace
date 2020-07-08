@@ -1,12 +1,11 @@
 /*
     敲铃，五次多项式插值，速度控制
-    给定六个机械臂坐标系中的空间路径点位姿，形成循环： 
+    给定五个机械臂坐标系中的空间路径点位姿，形成循环： 
     第一个点：[0.2289, 0, 0.454, 1.57, 0, 0]
     第二个点：[0.26, 0.15, 0.08, 1.57, 0, 0] 
     第三个点：[0.27, 0.05, 0.30, 1.57, 0, 0] 
     第四个点：[0.28, -0.1, 0.20, 1.57, 0, 0]
     第五个点：[0.28, -0.24,0.08, 1.57, 0, 0]
-    第六个点：[0.2289, 0, 0.454, 1.57, 0, 0]
 
 */
 
@@ -17,7 +16,6 @@
     0.183268,   -0.411348,  -0.220813,  -0.000971,  0.632016,   0.183841
     -0.342885,  -0.805852,  -0.134104,  -0.001273,  0.940224,   -0.341857
     -0.708536,  -1.44744,   0.565428,   -0.000952,  0.882532,   -0.707801
-    0,          0,          0,          0,          0,          0
 */
 
 #include <string>
@@ -36,10 +34,6 @@
 
 double factor1 = 0.60;
 double factor2 = 2.15;
-
-// double last_time;
-// Eigen::MatrixXd last_vec;
-// std::vector<double> joint_angle,joint_angle1;
 
 const static int N_waypoint = 5;
 const static double fixed_dt[N_waypoint-1] = {4.5,1.5,1.2,2};
@@ -77,60 +71,15 @@ const static double coff[6][N_waypoint-1][6] =
 },
 };
 
-// void joint_callback(const sensor_msgs::JointState::ConstPtr& joint_state)
-// {
-//     joint_angle1 = joint_state->position;
-// }
-
-// void joint_angle_simulate(Eigen::VectorXd vec, double past_time)
-// {
-//     // now_time = ros::Time::now().toSec();
-//     Eigen::VectorXd d_vec = last_vec * (past_time - last_time);
-
-//     for(int i=0; i<joint_angle.size(); i++){
-//         joint_angle.at(i) += d_vec(i);
-//         while(joint_angle.at(i) > PI)
-//             joint_angle.at(i) -= 2 * PI;
-//         while(joint_angle.at(i) < -PI)
-//             joint_angle.at(i) += 2 * PI;
-//     }
-
-//     last_vec = vec;
-//     last_time = past_time;
-// }
-
 Eigen::VectorXd vel_at_time(double time){
     Eigen::VectorXd vel_vec(6);
     vel_vec = vel_vec.Zero(6);
 
     double ot = time;
 
-    // double kp = 0.5;
-    // Eigen::VectorXd angs_vec(6);
-    // angs_vec = angs_vec.Zero(6);
-
-    // Eigen::VectorXd angm_vec(6);
-    // angm_vec = angm_vec.Zero(6);
-    // for(int i=0; i<6; i++){
-    //     angm_vec(i) = joint_angle.at(i);
-    // }
-
     int j;   
     bool flag = false;
-    
-    // while(time > fixed_time.back()){
-    //     time -= fixed_time.back();
-    // }
 
-    // if(time < 0){
-    //     return vel_vec.setZero(6);
-    // }
-    // for(j=0; j<N_waypoint-1; j++){
-    //     if(time>=fixed_time[j] && time<fixed_time[j+1]){
-    //         time -= fixed_time[j];
-    //         break;
-    //     }
-    // }
     if(time < 0){
         return vel_vec.setZero(6);
     }else if(time < fixed_dt[0] / factor1){
@@ -139,8 +88,7 @@ Eigen::VectorXd vel_at_time(double time){
     }else{
         time = time - fixed_dt[0] / factor1;
         time = time * factor2;
-        // return vel_vec.setZero(6);
-        // time -= fixed_dt[0];
+        
         double T = fixed_time.at(N_waypoint-1) - fixed_dt[0];
         // std::cout << "T: " << T << "\ttime: " << time << std::endl;
         while(time > T*2){
@@ -148,20 +96,14 @@ Eigen::VectorXd vel_at_time(double time){
         }
         if(time < T){
             flag = false;
-            for(j=1; j<N_waypoint-1; j++){
-                if(time>=fixed_time[j]-fixed_dt[0] && time<fixed_time[j+1]-fixed_dt[0]){
-                    time -= fixed_time[j]-fixed_dt[0];
-                    break;
-                }
-            }
         }else{
             flag = true;
             time = 2*T - time;
-            for(j=1; j<N_waypoint-1; j++){
-                if(time>=fixed_time[j]-fixed_dt[0] && time<fixed_time[j+1]-fixed_dt[0]){
-                    time -= fixed_time[j]-fixed_dt[0];
-                    break;
-                }
+        }
+        for(j=1; j<N_waypoint-1; j++){
+            if(time>=fixed_time[j]-fixed_dt[0] && time<fixed_time[j+1]-fixed_dt[0]){
+                time -= fixed_time[j]-fixed_dt[0];
+                break;
             }
         }
     }
@@ -198,7 +140,6 @@ Eigen::VectorXd vel_at_time(double time){
         // vel_vec(i) = ((t2 * co) - angs_vec(i))/0.05;
     }
 
-    // vel_vec = vel_vec + kp * (angs_vec - angm_vec);
     if(flag){
         vel_vec = -vel_vec;
     }
@@ -220,11 +161,6 @@ std_msgs::Float32MultiArray rot_2_msg(Eigen::VectorXd vec){
     init_pos.data.push_back(0);
     init_pos.data.push_back(0);
     init_pos.data.push_back(0);
-    // sleep(1);
-
-    // for(int i=0; i<6; i++){
-    //     init_pos.data.at(i) = vec(i,0);
-    // }
 
     init_pos.data.at(0) = vec(0) * 30 * 180 / PI;
     init_pos.data.at(1) = vec(1) * 205 * 180 / 3 / PI;
@@ -238,59 +174,18 @@ std_msgs::Float32MultiArray rot_2_msg(Eigen::VectorXd vec){
 
 int main(int argc, char** argv)
 {
-    // std::cout << "end!!!!!!!!!!!!!!" << std::endl;
-    // return 0;
-
     bool ret;
     for(int i=0; i<N_waypoint-1; i++){
         fixed_time[i+1] = fixed_time[i] + fixed_dt[i];
     }
 
     ros::init(argc, argv, "experiment_5");
-    // ros::AsyncSpinner spinner(1);
-    // spinner.start();
 
     //定义publisher和subscriber
     ros::NodeHandle node_handle;
     ROS_INFO_STREAM("start");
     ros::Publisher vel_pub = node_handle.advertise<std_msgs::Float32MultiArray>(
                              "speed_chatter", 100);
-    // ros::Subscriber joint_sub = node_handle.subscribe(
-    //                          "/probot_anno/joint_states", 100, joint_callback);
-    
-    //加载机械臂模型，便于后续计算雅可比矩阵
-    // robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
-    // robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
-    // ROS_INFO("Model frame: %s", kinematic_model->getModelFrame().c_str());
-    // robot_state::RobotStatePtr kinematic_state(new robot_state::RobotState(kinematic_model));
-    // kinematic_state->setToDefaultValues();
-    // const robot_state::JointModelGroup* joint_model_group = 
-    //                             kinematic_model->getJointModelGroup("manipulator");
-    // const std::vector<std::string>& joint_names = joint_model_group->getVariableNames();
-
-    //初始化模型角度
-    // last_time = ros::Time::now().toSec();
-    // last_vec = Eigen::MatrixXd::Zero(6,1);
-    // joint_angle.push_back(0.0);
-    // joint_angle.push_back(0.0);
-    // joint_angle.push_back(0.0);
-    // joint_angle.push_back(0.0);
-    // joint_angle.push_back(0.0);
-    // joint_angle.push_back(0.0);
-    // kinematic_state->setJointGroupPositions(joint_model_group,joint_angle);
-
-    //输出模型角度
-    // std::vector<double> joint_values;
-    // kinematic_state->copyJointGroupPositions(joint_model_group, joint_values);
-    // for (std::size_t i = 0; i < joint_names.size(); ++i)
-    // {
-    //     ROS_INFO("Joint %s: %f", joint_names[i].c_str(), joint_values[i]);
-    // }
-
-    //输出尖端Pose
-    // const Eigen::Isometry3d& end_effector_state = kinematic_state->getGlobalLinkTransform("link_6");
-    // ROS_INFO_STREAM("Translation: \n" << end_effector_state.translation() << "\n");
-    // ROS_INFO_STREAM("Rotation: \n" << end_effector_state.rotation() << "\n");
 
     std::cout << "waiting for 5s" << std::endl;
     sleep(5);
@@ -306,24 +201,20 @@ int main(int argc, char** argv)
 
     std_msgs::Float32MultiArray vel_tar_msg = rot_2_msg(rot_vec);
     vel_pub.publish(vel_tar_msg);
-    // joint_angle_simulate(rot_vec, past_time);
-
-    // sleep(2);
 
     ROS_INFO("begin:\n");
-    // ros::Time begin, end;
-    // begin = ros::Time::now();
+    
     double past_timet = 0;
     struct timeval begint, endt;
     gettimeofday(&begint, NULL);
     double dt = 0;
     while(ros::ok()){        
-        // end = ros::Time::now();
-        // past_time = end.toSec() - begin.toSec();
         gettimeofday(&endt, NULL);
         past_timet = (double)((endt.tv_sec*1000.0 + endt.tv_usec/1000.0) - (begint.tv_sec*1000.0 + begint.tv_usec/1000.0))/1000.0;
         
         // std::cout << past_timet << std::endl;
+
+        // 有时候出bug，碰到时间跳变约0.6s，需进行大致纠正
         if(past_timet - past_time > 0.5){
             // std::cout << "wrong!!!" << std::endl;
             // break;
@@ -336,34 +227,11 @@ int main(int argc, char** argv)
         // std::cout << rot_vec << "\n\n";
         vel_tar_msg = rot_2_msg(rot_vec);
         vel_pub.publish(vel_tar_msg);
-        // joint_angle_simulate(rot_vec, past_time);
 
         loop_rate.sleep();
-        // sleep(0.05);
-        // ros::spinOnce();
-
-        // kinematic_state->setJointGroupPositions(joint_model_group,joint_angle);
-
-        // for(int i=0; i<N_waypoint-1; i++){
-        //     if(fabs(fmod(past_time, fixed_time.back()) - fixed_time.at(i)) < 1e-2){
-        //         ROS_INFO_STREAM("Pose at time:" << past_time << "\n");
-        //         const Eigen::Isometry3d& end_effector_state = kinematic_state->getGlobalLinkTransform("link_6");
-        //         ROS_INFO_STREAM("Translation: \n" << end_effector_state.translation() << "\n");
-        //         ROS_INFO_STREAM("Rotation: \n" << end_effector_state.rotation() << "\n");
-        //         break;
-        //     }
-        // }
-
-        // if(past_time > fixed_time.back()){
-        //     past_time -= fixed_time.back();
-        // }
-        // std::cout << std::endl;
-        // for(int i=0; i<6; i++)
-        //     std::cout << joint_angle1.at(i) - joint_angle.at(i) << std::endl;
     }
     vel_tar_msg = rot_2_msg(rot_vec.Zero());
     vel_pub.publish(vel_tar_msg);
-    // joint_angle_simulate(rot_vec, 0);
 
     ROS_INFO("Program end");
     ros::shutdown();
